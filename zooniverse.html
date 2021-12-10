@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overview of the project: classifying British Library books by genre &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Genre Classification" href="genre_classification.html" />
+    <link rel="prev" title="Introduction" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Genre Classification
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Overview of the project: classifying British Library books by genre
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="genre_classification.html">
+   Genre Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_crude_genre.html">
+   Crude Genre Classification
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  EDA
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_i.html">
+   Sample Inspector (Part I)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_ii.html">
+   Sample Inspector (Part II)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Training our first model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_BL_fiction_non_fiction.html">
+   Training our first book genre classification model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_inference.html">
+   Model inference
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assesing our models performance
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_improving_results.html">
+   Improving our model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_error_analysis.html">
+   Assessing where our model is going wrong
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Improving our model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_snorkel.html">
+   How to create more training data without more annotating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_using_our_new_data.html">
+   Using our newly expanded data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04a_fastai.html">
+   Fine tuning our fastai model with new data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04b_transformer.html">
+   Using a transformer based model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sharing our results and final inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05_share_outputs.html">
+   Sharing our work
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06_pipeline_inference.html">
+   Using our new Hugging Face model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Further resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/zooniverse.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crowdsourcing-metadata-from-british-library-staff">
+   Crowdsourcing metadata from British Library staff
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zooniverse-task-setup">
+     Zooniverse task setup
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#living-with-machines-genre-needs">
+   Living with Machines Genre needs
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="overview-of-the-project-classifying-british-library-books-by-genre">
+<h1>Overview of the project: classifying British Library books by genre<a class="headerlink" href="#overview-of-the-project-classifying-british-library-books-by-genre" title="Permalink to this headline">¶</a></h1>
+<p>Starting in 2005, the British Library (BL) worked in partnership with Microsoft to digitise a selection of out-of-copyright 18th and 19th century texts. This collection was subsequently made openly available in a number of formats, across a number of platforms. Throughout this document, the collection will be referred to as “<a class="reference internal" href="glossary.html#term-Microsoft-Digitised-Books"><span class="xref std std-term">Microsoft Digitised Books</span></a>”.</p>
+<p>The collection covers ~49,455 titles (~65,227 volumes) published between 1789 and 1914.</p>
+<p>The metadata for these books is of variable quality and is not comprehensive. <a class="reference external" href="https://www.bl.uk/projects/british-library-labs">British Library Labs</a> would like to be able to release subsets of the collection – all poetry, or all publications from a particular country, for example – as datasets for research. However, lack of good quality metadata means that this is not yet possible.</p>
+<div class="section" id="crowdsourcing-metadata-from-british-library-staff">
+<h2>Crowdsourcing metadata from British Library staff<a class="headerlink" href="#crowdsourcing-metadata-from-british-library-staff" title="Permalink to this headline">¶</a></h2>
+<p>In order to revise and enrich existing metadata, a <a class="reference internal" href="glossary.html#term-crowdsourcing"><span class="xref std std-term">crowdsourcing</span></a> project was setup on the <a class="reference external" href="https://www.zooniverse.org/">Zooniverse</a> platform by Victoria Morris (a member of the BL’s <a class="reference external" href="https://www.bl.uk/collection-metadata/strategy-and-standards">Metadata Standards</a>). The aim of this project was to enhance records for Microsoft Digitised Books by providing information about:</p>
+<ul class="simple">
+<li><p>Country and place of publication</p></li>
+<li><p>Date of publication</p></li>
+<li><p>Edition</p></li>
+<li><p>Language(s) of content</p></li>
+<li><p>Literary form (fiction or non-fiction)</p></li>
+<li><p>Genre (for fiction items)</p></li>
+<li><p>Subject</p></li>
+</ul>
+<p>The scope of the term “literary form” was specific to this project: “fiction” was interpreted broadly as “creative writing”, thus would include poetry and drama. This might not be the same definition of “fiction” as would be appropriate in other context, particularly if identifying narrower or ‘micro’ genres.</p>
+<div class="section" id="zooniverse-task-setup">
+<h3>Zooniverse task setup<a class="headerlink" href="#zooniverse-task-setup" title="Permalink to this headline">¶</a></h3>
+<p>Title pages for Microsoft Digitised Books were loaded to an interface built using the Zooniverse platform. The interface allowed users to view the title page, and to record bibliographic metadata for the fields specified above. For practical expediency, books were separated into the following batches:</p>
+<ul class="simple">
+<li><p>Books written in the English language</p></li>
+<li><p>Books written in French and German</p></li>
+<li><p>Books written in other languages</p></li>
+<li><p>Books for which the language of content is not known</p></li>
+</ul>
+<p>We will return to this language breakdown in later sections of the book.</p>
+<p>When a user accessed the Zooniverse project, they were able to select the language of the books that they would like to annotate. Once a language had been selected, they were presented with the title page of a book, and  were asked to provide the following metadata elements for that book:</p>
+<ul class="simple">
+<li><p>Language; language of summaries/abstracts; language of original (for translations)</p></li>
+<li><p>Publisher</p></li>
+<li><p>Place and country of publication</p></li>
+<li><p>Date of publication</p></li>
+<li><p>Edition</p></li>
+<li><p>Form/genre (choice of FAST headings)</p></li>
+<li><p>Subject (choice FAST headings)</p></li>
+</ul>
+<p>These metadata elements were chosen because: (a) they were often missing from the records, and (b) it should be possible for participant to either transcribe or infer the relevant information from the title page. Participants were also provided with a link to the full text in case they felt it neccessary to refer to the complete resource.</p>
+<p>The annotations were exported from the Zooniverse platform. Some processing was done to make this exported format easier to work with. We don’t provide the ‘raw’ Zooniverse export data since it contains personal data but you can find the notebook for processing the zooniverse data here #TODO add link once repository moved.</p>
+</div>
+</div>
+<div class="section" id="living-with-machines-genre-needs">
+<h2>Living with Machines Genre needs<a class="headerlink" href="#living-with-machines-genre-needs" title="Permalink to this headline">¶</a></h2>
+<p>The Living with Machines project has been working with the Microsoft Digitised Books. In order to faciliate computational analysis of this collection ‘at scale’, it was felt it would be useful to be able to facet the collection by genre.</p>
+<p>Whilst a detailed breakdown by genre (see for example the <a class="reference external" href="https://www.loc.gov/standards/valuelist/marcgt.html">MARC Genre Term List</a>) might be desirable, even a high-level binary classification of texts as  being either <em>fiction</em> or <em>non-fiction</em> would allow for a more nuanced ability to work with books at scale, especially since we might expect both the content and language of these two broad genres to be quite different.</p>
+<p>Although the Zooniverse crowdsourcing data was not originally collected with this task in mind, it did include genre classifications which we believed could be useful for developing a machine learning model to break down the full collection into genre-based subsets. The majority of this Jupyter Book outlines the steps taken in more detail. If you want to skip ahead to this you can jump to the next chapter. Alternatively, the next section gives a bit of background to this interest in genre from the perspectives of GLAM and History/Digital Humanities.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Introduction</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="genre_classification.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Genre Classification</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

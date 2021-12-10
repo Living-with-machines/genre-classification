@@ -1,0 +1,2263 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fine tuning our fastai model with new data &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using a transformer based model" href="04b_transformer.html" />
+    <link rel="prev" title="Using our newly expanded data" href="04_using_our_new_data.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Genre Classification
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="zooniverse.html">
+   Overview of the project: classifying British Library books by genre
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="genre_classification.html">
+   Genre Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_crude_genre.html">
+   Crude Genre Classification
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  EDA
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_i.html">
+   Sample Inspector (Part I)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_ii.html">
+   Sample Inspector (Part II)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Training our first model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_BL_fiction_non_fiction.html">
+   Training our first book genre classification model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_inference.html">
+   Model inference
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assesing our models performance
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_improving_results.html">
+   Improving our model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_error_analysis.html">
+   Assessing where our model is going wrong
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Improving our model
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_snorkel.html">
+   How to create more training data without more annotating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_using_our_new_data.html">
+   Using our newly expanded data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Fine tuning our fastai model with new data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04b_transformer.html">
+   Using a transformer based model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sharing our results and final inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05_share_outputs.html">
+   Sharing our work
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06_pipeline_inference.html">
+   Using our new Hugging Face model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Further resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/04a_fastai.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04a_fastai.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/04a_fastai.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-fine-tune-our-model">
+   Why fine tune our model?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-our-snorkel-generated-data">
+   Loading our snorkel generated data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#downloading-our-previous-model">
+     Downloading our previous model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-model-performance">
+     Checking model performance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#next-steps">
+   Next steps
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="fine-tuning-our-fastai-model-with-new-data">
+<h1>Fine tuning our fastai model with new data<a class="headerlink" href="#fine-tuning-our-fastai-model-with-new-data" title="Permalink to this headline">¶</a></h1>
+<p>We have now created an expanded version of our training data using <code class="docutils literal notranslate"><span class="pre">Snorkel</span></code>. We can see if this improves the performance of our model compared to our <a class="reference internal" href="01_BL_fiction_non_fiction.html"><span class="doc std std-doc">previous attempt</span></a>.</p>
+<p>We could do this by creating a new model and training from scratch. However, our previous model was already doing quite well so it might make sense to try and benefit from what the model has already learned and fine-tune our previous model instead.</p>
+<div class="section" id="why-fine-tune-our-model">
+<h2>Why fine tune our model?<a class="headerlink" href="#why-fine-tune-our-model" title="Permalink to this headline">¶</a></h2>
+<p>Updating our previous model may also allow us to train for less time since the model isn’t starting from ‘scratch’. In particular, we saw previously that training a language model for our data was time consuming so we may want to limit how much we repeat this step. In some contexts it is likely that you will often want to train a model and update it with new data. This new data may, for example, we arriving as part of a crowdsourcing task. Instead of waiting for all of the data to arrive before training a model you will often want to train as you get new data. In other settings you may have data that is temporal. For example a predictive model that tries to predict some outcome for the next month will at some point have the next’s months training data available.</p>
+<p>We’ll start by installing the same version of <code class="docutils literal notranslate"><span class="pre">fastai</span></code> we used previously.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install <span class="nv">fastai</span><span class="o">==</span><span class="m">2</span>.5.2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting fastai==2.5.2
+  Downloading fastai-2.5.2-py3-none-any.whl (186 kB)
+     |████████████████████████████████| 186 kB 8.2 MB/s eta 0:00:01
+?25hRequirement already satisfied: torchvision&gt;=0.8.2 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (0.11.1+cu111)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (2.23.0)
+Requirement already satisfied: spacy&lt;4 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (2.2.4)
+Collecting torch&lt;1.10,&gt;=1.7.0
+  Downloading torch-1.9.1-cp37-cp37m-manylinux1_x86_64.whl (831.4 MB)
+     |████████████████████████████████| 831.4 MB 2.3 kB/s 
+?25hRequirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (21.2)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.0.1)
+Requirement already satisfied: pandas in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.1.5)
+Requirement already satisfied: fastprogress&gt;=0.2.4 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.0.0)
+Requirement already satisfied: scipy in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.4.1)
+Requirement already satisfied: pip in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (21.1.3)
+Collecting fastcore&lt;1.4,&gt;=1.3.8
+  Downloading fastcore-1.3.27-py3-none-any.whl (56 kB)
+     |████████████████████████████████| 56 kB 6.1 MB/s 
+?25hCollecting fastdownload&lt;2,&gt;=0.0.5
+  Downloading fastdownload-0.0.5-py3-none-any.whl (13 kB)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (3.13)
+Requirement already satisfied: pillow&gt;6.0.0 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (7.1.2)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (3.2.2)
+Requirement already satisfied: numpy in /usr/local/lib/python3.7/dist-packages (from fastprogress&gt;=0.2.4-&gt;fastai==2.5.2) (1.19.5)
+Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (2.0.6)
+Requirement already satisfied: plac&lt;1.2.0,&gt;=0.9.6 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.1.3)
+Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.0.6)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (57.4.0)
+Requirement already satisfied: blis&lt;0.5.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (0.4.1)
+Requirement already satisfied: thinc==7.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (7.4.0)
+Requirement already satisfied: srsly&lt;1.1.0,&gt;=1.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.0.5)
+Requirement already satisfied: tqdm&lt;5.0.0,&gt;=4.38.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (4.62.3)
+Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (3.0.6)
+Requirement already satisfied: catalogue&lt;1.1.0,&gt;=0.0.7 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.0.0)
+Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (0.8.2)
+Requirement already satisfied: importlib-metadata&gt;=0.20 in /usr/local/lib/python3.7/dist-packages (from catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai==2.5.2) (4.8.2)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai==2.5.2) (3.6.0)
+Requirement already satisfied: typing-extensions&gt;=3.6.4 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai==2.5.2) (3.10.0.2)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (2021.10.8)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (3.0.4)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (1.24.3)
+Collecting torchvision&gt;=0.8.2
+  Downloading torchvision-0.11.1-cp37-cp37m-manylinux1_x86_64.whl (23.3 MB)
+     |████████████████████████████████| 23.3 MB 1.3 MB/s 
+?25h  Downloading torchvision-0.10.1-cp37-cp37m-manylinux1_x86_64.whl (22.1 MB)
+     |████████████████████████████████| 22.1 MB 1.2 MB/s 
+?25hRequirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (0.11.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (2.8.2)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (1.3.2)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (2.4.7)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil&gt;=2.1-&gt;matplotlib-&gt;fastai==2.5.2) (1.15.0)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas-&gt;fastai==2.5.2) (2018.9)
+Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-packages (from scikit-learn-&gt;fastai==2.5.2) (1.1.0)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.7/dist-packages (from scikit-learn-&gt;fastai==2.5.2) (3.0.0)
+Installing collected packages: torch, fastcore, torchvision, fastdownload, fastai
+  Attempting uninstall: torch
+    Found existing installation: torch 1.10.0+cu111
+    Uninstalling torch-1.10.0+cu111:
+      Successfully uninstalled torch-1.10.0+cu111
+  Attempting uninstall: torchvision
+    Found existing installation: torchvision 0.11.1+cu111
+    Uninstalling torchvision-0.11.1+cu111:
+      Successfully uninstalled torchvision-0.11.1+cu111
+  Attempting uninstall: fastai
+    Found existing installation: fastai 1.0.61
+    Uninstalling fastai-1.0.61:
+      Successfully uninstalled fastai-1.0.61
+<span class=" -Color -Color-Red">ERROR: pip&#39;s dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.</span>
+<span class=" -Color -Color-Red">torchtext 0.11.0 requires torch==1.10.0, but you have torch 1.9.1 which is incompatible.</span>
+Successfully installed fastai-2.5.2 fastcore-1.3.27 fastdownload-0.0.5 torch-1.9.1 torchvision-0.10.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>We then import the necessary packages</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">fastai.text.all</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="loading-our-snorkel-generated-data">
+<h2>Loading our snorkel generated data<a class="headerlink" href="#loading-our-snorkel-generated-data" title="Permalink to this headline">¶</a></h2>
+<p>We’ll define <em>some</em> of the <code class="docutils literal notranslate"><span class="pre">dtypes</span></code> for the data we generated using <code class="docutils literal notranslate"><span class="pre">Snorkel</span></code> previously.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;BL record ID&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Type of resource&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Type of name&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Country of publication&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Place of publication&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Genre&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dewey classification&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BL record ID for physical resource&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;annotator_main_language&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;annotator_summaries_language&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now grab the new Snorkel data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget https://transfer.sh/H3zJcc/snorkel_train.csv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2021-11-15 18:18:25--  https://transfer.sh/H3zJcc/snorkel_train.csv
+Resolving transfer.sh (transfer.sh)... 144.76.136.153
+Connecting to transfer.sh (transfer.sh)|144.76.136.153|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 10211140 (9.7M) [text/csv]
+Saving to: ‘snorkel_train.csv’
+
+snorkel_train.csv   100%[===================&gt;]   9.74M  4.22MB/s    in 2.3s    
+
+2021-11-15 18:18:29 (4.22 MB/s) - ‘snorkel_train.csv’ saved [10211140/10211140]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;snorkel_train.csv&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BL record ID</th>
+      <th>Type of resource</th>
+      <th>Name</th>
+      <th>Dates associated with name</th>
+      <th>Type of name</th>
+      <th>Role</th>
+      <th>All names</th>
+      <th>Title</th>
+      <th>Variant titles</th>
+      <th>Series title</th>
+      <th>Number within series</th>
+      <th>Country of publication</th>
+      <th>Place of publication</th>
+      <th>Publisher</th>
+      <th>Date of publication</th>
+      <th>Edition</th>
+      <th>Physical description</th>
+      <th>Dewey classification</th>
+      <th>BL shelfmark</th>
+      <th>Topics</th>
+      <th>Genre</th>
+      <th>Languages</th>
+      <th>Notes</th>
+      <th>BL record ID for physical resource</th>
+      <th>classification_id</th>
+      <th>user_id</th>
+      <th>created_at</th>
+      <th>subject_ids</th>
+      <th>annotator_date_pub</th>
+      <th>annotator_normalised_date_pub</th>
+      <th>annotator_edition_statement</th>
+      <th>annotator_genre</th>
+      <th>annotator_FAST_genre_terms</th>
+      <th>annotator_FAST_subject_terms</th>
+      <th>annotator_comments</th>
+      <th>annotator_main_language</th>
+      <th>annotator_other_languages_summaries</th>
+      <th>annotator_summaries_language</th>
+      <th>annotator_translation</th>
+      <th>annotator_original_language</th>
+      <th>annotator_publisher</th>
+      <th>annotator_place_pub</th>
+      <th>annotator_country</th>
+      <th>annotator_title</th>
+      <th>Link to digitised book</th>
+      <th>annotated</th>
+      <th>is_valid</th>
+      <th>text_len</th>
+      <th>fiction_prob</th>
+      <th>non_fiction_prob</th>
+      <th>snorkel_genre</th>
+      <th>snorkel_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>014616539</td>
+      <td>Monograph</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Hazlitt, William Carew, 1834-1913 [person]</td>
+      <td>The Baron's Daughter. A ballad by the author of Poetical Recreations [i.e. William C. Hazlitt] . F.P</td>
+      <td>Single Works</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Scotland</td>
+      <td>Edinburgh</td>
+      <td>Ballantyne, Hanson</td>
+      <td>1877</td>
+      <td>NaN</td>
+      <td>20 pages (4°)</td>
+      <td>&lt;NA&gt;</td>
+      <td>Digital Store 11651.h.6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>000206670</td>
+      <td>263940444.0</td>
+      <td>3.0</td>
+      <td>2020-07-27 07:35:13 UTC</td>
+      <td>44330917.0</td>
+      <td>1877</td>
+      <td>1877</td>
+      <td>NONE</td>
+      <td>Fiction</td>
+      <td>655 7 $aPoetry$2fast$0(OCoLC)fst01423828</td>
+      <td>NONE</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>&lt;NA&gt;</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>Ballantyne Hanson &amp; Co.</td>
+      <td>Edinburgh</td>
+      <td>stk</td>
+      <td>The Baron's Daughter. A ballad by the author of Poetical Recreations [i.e. William C. Hazlitt] . F.P</td>
+      <td>http://access.bl.uk/item/viewer/ark:/81055/vdc_00000002F718</td>
+      <td>True</td>
+      <td>False</td>
+      <td>100</td>
+      <td>0.999940</td>
+      <td>0.000060</td>
+      <td>Fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>014616686</td>
+      <td>Monograph</td>
+      <td>Earle, John Charles</td>
+      <td>NaN</td>
+      <td>person</td>
+      <td>NaN</td>
+      <td>Earle, John Charles [person]</td>
+      <td>Maximilian, and other poems, etc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>England</td>
+      <td>London</td>
+      <td>NaN</td>
+      <td>1868</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>Digital Store 11648.i.8</td>
+      <td>NaN</td>
+      <td>Poetry or verse</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>001025896</td>
+      <td>265570129.0</td>
+      <td>3.0</td>
+      <td>2020-08-03 07:25:30 UTC</td>
+      <td>44331725.0</td>
+      <td>1868</td>
+      <td>1868</td>
+      <td>NONE</td>
+      <td>Fiction</td>
+      <td>655 7 $aPoetry$2fast$0(OCoLC)fst01423828</td>
+      <td>NONE</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>No</td>
+      <td>&lt;NA&gt;</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>Burns, Oates, &amp; Co.</td>
+      <td>London</td>
+      <td>enk</td>
+      <td>Maximilian, and other poems, etc</td>
+      <td>http://access.bl.uk/item/viewer/ark:/81055/vdc_00000002F2AA</td>
+      <td>True</td>
+      <td>False</td>
+      <td>32</td>
+      <td>0.982546</td>
+      <td>0.017454</td>
+      <td>Fiction</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="downloading-our-previous-model">
+<h3>Downloading our previous model<a class="headerlink" href="#downloading-our-previous-model" title="Permalink to this headline">¶</a></h3>
+<p>Since we’re going to try and fine tune the model we created previously we need to have it available. We can grab it using <a class="reference external" href="https://www.gnu.org/software/wget/"><code class="docutils literal notranslate"><span class="pre">wget</span></code></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget -O <span class="m">20210928</span>-model.pkl https://zenodo.org/record/5245175/files/20210928-model.pkl?download<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2021-11-15 18:18:30--  https://zenodo.org/record/5245175/files/20210928-model.pkl?download=1
+Resolving zenodo.org (zenodo.org)... 137.138.76.77
+Connecting to zenodo.org (zenodo.org)|137.138.76.77|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 158529715 (151M) [application/octet-stream]
+Saving to: ‘20210928-model.pkl’
+
+20210928-model.pkl  100%[===================&gt;] 151.19M  15.1MB/s    in 9.7s    
+
+2021-11-15 18:18:41 (15.6 MB/s) - ‘20210928-model.pkl’ saved [158529715/158529715]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">fastai</span></code>’s <code class="docutils literal notranslate"><span class="pre">load_learner</span></code> function to load our model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s2">&quot;20210928-model.pkl&quot;</span><span class="p">,</span> <span class="n">cpu</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can make sure our model is using the GPU</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SequentialRNN(
+  (0): SentenceEncoder(
+    (module): AWD_LSTM(
+      (encoder): Embedding(17392, 400, padding_idx=1)
+      (encoder_dp): EmbeddingDropout(
+        (emb): Embedding(17392, 400, padding_idx=1)
+      )
+      (rnns): ModuleList(
+        (0): WeightDropout(
+          (module): LSTM(400, 1152, batch_first=True)
+        )
+        (1): WeightDropout(
+          (module): LSTM(1152, 1152, batch_first=True)
+        )
+        (2): WeightDropout(
+          (module): LSTM(1152, 400, batch_first=True)
+        )
+      )
+      (input_dp): RNNDropout()
+      (hidden_dps): ModuleList(
+        (0): RNNDropout()
+        (1): RNNDropout()
+        (2): RNNDropout()
+      )
+    )
+  )
+  (1): PoolingLinearClassifier(
+    (layers): Sequential(
+      (0): LinBnDrop(
+        (0): BatchNorm1d(1200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (1): Dropout(p=0.2, inplace=False)
+        (2): Linear(in_features=1200, out_features=50, bias=False)
+        (3): ReLU(inplace=True)
+      )
+      (1): LinBnDrop(
+        (0): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (1): Dropout(p=0.1, inplace=False)
+        (2): Linear(in_features=50, out_features=2, bias=False)
+      )
+    )
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we export our <code class="docutils literal notranslate"><span class="pre">fastai</span></code> <code class="docutils literal notranslate"><span class="pre">learner</span></code> it includes the vocab for the model. This is made up of two vocabs, the first of which includes the vocab for the language model.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;xxunk&#39;,
+ &#39;xxpad&#39;,
+ &#39;xxbos&#39;,
+ &#39;xxeos&#39;,
+ &#39;xxfld&#39;,
+ &#39;xxrep&#39;,
+ &#39;xxwrep&#39;,
+ &#39;xxup&#39;,
+ &#39;xxmaj&#39;,
+ &#39;,&#39;,
+ &#39;the&#39;,
+ &#39;.&#39;,
+ &#39;of&#39;,
+ &#39;a&#39;,
+ &#39;and&#39;,
+ &#39;…&#39;,
+ &#39;in&#39;,
+ &#39;[&#39;,
+ &#39;]&#39;,
+ &#39;by&#39;,
+ &#39;with&#39;,
+ &#39;etc&#39;,
+ &#39;-&#39;,
+ &#39;de&#39;,
+ &#39;to&#39;,
+ &quot;&#39;&quot;,
+ &#39;:&#39;,
+ &#39;;&#39;,
+ &#39;from&#39;,
+ &quot;&#39;s&quot;,
+ &#39;an&#39;,
+ &#39;on&#39;,
+ &#39;or&#39;,
+ &#39;history&#39;,
+ &#39;la&#39;,
+ &#39;novel&#39;,
+ &#39;poems&#39;,
+ &#39;et&#39;,
+ &#39;edition&#39;,
+ &#39;illustrations&#39;,
+ &#39;(&#39;,
+ &#39;)&#39;,
+ &#39;j.&#39;,
+ &#39;und&#39;,
+ &#39;der&#39;,
+ &#39;other&#39;,
+ &#39;des&#39;,
+ &#39;for&#39;,
+ &#39;illustrated&#39;,
+ &#39;new&#39;,
+ &#39;verse&#39;,
+ &#39;notes&#39;,
+ &#39;edited&#39;,
+ &#39;life&#39;,
+ &#39;author&#39;,
+ &#39;w.&#39;,
+ &#39;h.&#39;,
+ &#39;von&#39;,
+ &#39;its&#39;,
+ &#39;a.&#39;,
+ &#39;poem&#39;,
+ &#39;c.&#39;,
+ &#39;second&#39;,
+ &#39;tale&#39;,
+ &#39;les&#39;,
+ &#39;at&#39;,
+ &#39;en&#39;,
+ &#39;story&#39;,
+ &#39;i&#39;,
+ &#39;e.&#39;,
+ &#39;i.e.&#39;,
+ &#39;m.&#39;,
+ &#39;acts&#39;,
+ &#39;historical&#39;,
+ &#39;account&#39;,
+ &#39;g.&#39;,
+ &#39;his&#39;,
+ &#39;le&#39;,
+ &#39;du&#39;,
+ &#39;die&#39;,
+ &#39;f.&#39;,
+ &#39;being&#39;,
+ &#39;map&#39;,
+ &#39;par&#39;,
+ &#39;plates&#39;,
+ &#39;two&#39;,
+ &#39;which&#39;,
+ &#39;&amp;&#39;,
+ &#39;geschichte&#39;,
+ &#39;r.&#39;,
+ &#39;maps&#39;,
+ &#39;five&#39;,
+ &#39;sketches&#39;,
+ &#39;sur&#39;,
+ &#39;england&#39;,
+ &#39;translated&#39;,
+ &#39;s.&#39;,
+ &#39;mit&#39;,
+ &#39;1&#39;,
+ &#39;histoire&#39;,
+ &#39;john&#39;,
+ &#39;3&#39;,
+ &#39;years&#39;,
+ &#39;guide&#39;,
+ &#39;t.&#39;,
+ &#39;is&#39;,
+ &#39;book&#39;,
+ &#39;first&#39;,
+ &#39;à&#39;,
+ &#39;as&#39;,
+ &#39;three&#39;,
+ &#39;works&#39;,
+ &#39;romance&#39;,
+ &#39;some&#39;,
+ &#39;prose&#39;,
+ &#39;war&#39;,
+ &#39;old&#39;,
+ &#39;present&#39;,
+ &#39;english&#39;,
+ &#39;france&#39;,
+ &#39;songs&#39;,
+ &#39;den&#39;,
+ &#39;original&#39;,
+ &#39;l.&#39;,
+ &#39;containing&#39;,
+ &#39;county&#39;,
+ &#39;narrative&#39;,
+ &#39;sir&#39;,
+ &#39;b.&#39;,
+ &#39;including&#39;,
+ &#39;south&#39;,
+ &#39;during&#39;,
+ &#39;verses&#39;,
+ &#39;e&#39;,
+ &#39;great&#39;,
+ &#39;through&#39;,
+ &#39;van&#39;,
+ &#39;introduction&#39;,
+ &#39;london&#39;,
+ &#39;america&#39;,
+ &#39;written&#39;,
+ &#39;p.&#39;,
+ &#39;letters&#39;,
+ &#39;st&#39;,
+ &#39;north&#39;,
+ &#39;d.&#39;,
+ &#39;their&#39;,
+ &#39;del&#39;,
+ &#39;voyage&#39;,
+ &#39;di&#39;,
+ &#39;description&#39;,
+ &#39;states&#39;,
+ &#39;mr&#39;,
+ &#39;land&#39;,
+ &#39;that&#39;,
+ &#39;sketch&#39;,
+ &#39;aus&#39;,
+ &#39;travels&#39;,
+ &#39;journal&#39;,
+ &#39;french&#39;,
+ &#39;world&#39;,
+ &#39;comedy&#39;,
+ &#39;y&#39;,
+ &#39;tales&#39;,
+ &#39;west&#39;,
+ &#39;reprinted&#39;,
+ &#39;british&#39;,
+ &#39;third&#39;,
+ &#39;m&#39;,
+ &#39;city&#39;,
+ &#39;love&#39;,
+ &#39;state&#39;,
+ &#39;lord&#39;,
+ &#39;portrait&#39;,
+ &#39;tragedy&#39;,
+ &#39;country&#39;,
+ &#39;zur&#39;,
+ &#39;compiled&#39;,
+ &#39;united&#39;,
+ &#39;ancient&#39;,
+ &#39;sea&#39;,
+ &#39;society&#39;,
+ &#39;general&#39;,
+ &#39;lady&#39;,
+ &#39;series&#39;,
+ &#39;year&#39;,
+ &#39;tour&#39;,
+ &#39;under&#39;,
+ &#39;descriptive&#39;,
+ &#39;added&#39;,
+ &#39;stories&#39;,
+ &#39;africa&#39;,
+ &#39;india&#39;,
+ &#39;modern&#39;,
+ &#39;documents&#39;,
+ &#39;william&#39;,
+ &#39;american&#39;,
+ &#39;poetical&#39;,
+ &#39;dr&#39;,
+ &#39;george&#39;,
+ &#39;king&#39;,
+ &#39;time&#39;,
+ &#39;ireland&#39;,
+ &#39;her&#39;,
+ &#39;preface&#39;,
+ &#39;appendix&#39;,
+ &#39;i.&#39;,
+ &#39;revised&#39;,
+ &#39;royal&#39;,
+ &#39;town&#39;,
+ &#39;man&#39;,
+ &#39;paris&#39;,
+ &#39;journey&#39;,
+ &#39;adventures&#39;,
+ &#39;avec&#39;,
+ &#39;geography&#39;,
+ &#39;engravings&#39;,
+ &#39;nach&#39;,
+ &#39;one&#39;,
+ &#39;it&#39;,
+ &#39;mrs&#39;,
+ &#39;east&#39;,
+ &#39;dem&#39;,
+ &#39;upon&#39;,
+ &#39;death&#39;,
+ &#39;?&#39;,
+ &#39;signed&#39;,
+ &#39;dans&#39;,
+ &#39;biographical&#39;,
+ &#39;notices&#39;,
+ &#39;au&#39;,
+ &#39;thomas&#39;,
+ &#39;charles&#39;,
+ &#39;day&#39;,
+ &#39;parish&#39;,
+ &#39;church&#39;,
+ &#39;our&#39;,
+ &#39;various&#39;,
+ &#39;report&#39;,
+ &#39;all&#39;,
+ &#39;ii&#39;,
+ &#39;vol&#39;,
+ &#39;2&#39;,
+ &#39;historia&#39;,
+ &#39;late&#39;,
+ &#39;part&#39;,
+ &#39;james&#39;,
+ &#39;my&#39;,
+ &#39;и&#39;,
+ &#39;islands&#39;,
+ &#39;last&#39;,
+ &#39;century&#39;,
+ &#39;collection&#39;,
+ &#39;house&#39;,
+ &#39;observations&#39;,
+ &#39;historique&#39;,
+ &#39;are&#39;,
+ &#39;bis&#39;,
+ &#39;into&#39;,
+ &#39;york&#39;,
+ &#39;scotland&#39;,
+ &#39;queen&#39;,
+ &#39;antiquities&#39;,
+ &#39;herausgegeben&#39;,
+ &#39;coast&#39;,
+ &#39;memoir&#39;,
+ &#39;island&#39;,
+ &#39;four&#39;,
+ &#39;italy&#39;,
+ &#39;home&#39;,
+ &#39;times&#39;,
+ &#39;political&#39;,
+ &#39;remarks&#39;,
+ &#39;!&#39;,
+ &#39;before&#39;,
+ &#39;letter&#39;,
+ &#39;henry&#39;,
+ &#39;days&#39;,
+ &#39;son&#39;,
+ &#39;together&#39;,
+ &#39;geology&#39;,
+ &#39;visit&#39;,
+ &#39;people&#39;,
+ &#39;das&#39;,
+ &#39;western&#39;,
+ &#39;also&#39;,
+ &#39;egypt&#39;,
+ &#39;wales&#39;,
+ &#39;china&#39;,
+ &#39;short&#39;,
+ &#39;castle&#39;,
+ &#39;drama&#39;,
+ &#39;published&#39;,
+ &#39;ville&#39;,
+ &#39;édition&#39;,
+ &#39;rev&#39;,
+ &#39;between&#39;,
+ &#39;revolution&#39;,
+ &#39;robert&#39;,
+ &#39;enlarged&#39;,
+ &#39;early&#39;,
+ &#39;c&#39;,
+ &#39;young&#39;,
+ &#39;un&#39;,
+ &#39;k.&#39;,
+ &#39;spain&#39;,
+ &#39;europe&#39;,
+ &#39;ms&#39;,
+ &#39;saint&#39;,
+ &#39;comprising&#39;,
+ &#39;af&#39;,
+ &quot;l&#39;histoire&quot;,
+ &#39;mary&#39;,
+ &#39;indian&#39;,
+ &#39;einer&#39;,
+ &#39;ses&#39;,
+ &#39;additions&#39;,
+ &#39;v.&#39;,
+ &#39;stadt&#39;,
+ &#39;essay&#39;,
+ &#39;portraits&#39;,
+ &#39;fourth&#39;,
+ &#39;german&#39;,
+ &#39;several&#39;,
+ &#39;parts&#39;,
+ &#39;empire&#39;,
+ &quot;d&#39;après&quot;,
+ &#39;canada&#39;,
+ &#39;notice&#39;,
+ &#39;miss&#39;,
+ &#39;poetry&#39;,
+ &#39;made&#39;,
+ &#39;por&#39;,
+ &#39;ballads&#39;,
+ &#39;gold&#39;,
+ &#39;el&#39;,
+ &#39;ein&#39;,
+ &#39;most&#39;,
+ &#39;woman&#39;,
+ &#39;irish&#39;,
+ &#39;handbook&#39;,
+ &#39;directions&#39;,
+ &#39;river&#39;,
+ &#39;auf&#39;,
+ &#39;selected&#39;,
+ &#39;court&#39;,
+ &#39;progress&#39;,
+ &#39;esq&#39;,
+ &#39;het&#39;,
+ &#39;opera&#39;,
+ &#39;collected&#39;,
+ &#39;government&#39;,
+ &#39;manners&#39;,
+ &#39;expedition&#39;,
+ &#39;brief&#39;,
+ &#39;britain&#39;,
+ &#39;ouvrage&#39;,
+ &#39;travel&#39;,
+ &#39;sailing&#39;,
+ &#39;view&#39;,
+ &#39;address&#39;,
+ &#39;captain&#39;,
+ &#39;round&#39;,
+ &#39;della&#39;,
+ &#39;delivered&#39;,
+ &#39;n.&#39;,
+ &#39;complete&#39;,
+ &#39;past&#39;,
+ &#39;little&#39;,
+ &#39;rome&#39;,
+ &#39;others&#39;,
+ &#39;ode&#39;,
+ &#39;summer&#39;,
+ &#39;l.p&#39;,
+ &#39;prince&#39;,
+ &#39;wife&#39;,
+ &#39;residence&#39;,
+ &#39;twenty&#39;,
+ &#39;natural&#39;,
+ &#39;miscellaneous&#39;,
+ &#39;ou&#39;,
+ &#39;1848&#39;,
+ &#39;events&#39;,
+ &#39;social&#39;,
+ &#39;play&#39;,
+ &#39;six&#39;,
+ &#39;révolution&#39;,
+ &#39;records&#39;,
+ &#39;no&#39;,
+ &#39;historiques&#39;,
+ &#39;chiefly&#39;,
+ &#39;discovery&#39;,
+ &#39;papers&#39;,
+ &#39;depuis&#39;,
+ &#39;who&#39;,
+ &#39;relating&#39;,
+ &#39;views&#39;,
+ &#39;review&#39;,
+ &#39;da&#39;,
+ &#39;earliest&#39;,
+ &#39;plans&#39;,
+ &#39;con&#39;,
+ &#39;geological&#39;,
+ &#39;los&#39;,
+ &#39;civil&#39;,
+ &#39;une&#39;,
+ &#39;men&#39;,
+ &#39;satire&#39;,
+ &#39;geographical&#39;,
+ &#39;russia&#39;,
+ &#39;neighbourhood&#39;,
+ &#39;scenes&#39;,
+ &#39;w&#39;,
+ &#39;numerous&#39;,
+ &#39;hundred&#39;,
+ &#39;pictures&#39;,
+ &#39;jahre&#39;,
+ &#39;memoirs&#39;,
+ &#39;edward&#39;,
+ &#39;settlement&#39;,
+ &quot;d&#39;un&quot;,
+ &#39;greece&#39;,
+ &#39;essays&#39;,
+ &#39;daughter&#39;,
+ &#39;now&#39;,
+ &#39;white&#39;,
+ &#39;southern&#39;,
+ &#39;period&#39;,
+ &#39;hall&#39;,
+ &#39;battle&#39;,
+ &#39;family&#39;,
+ &#39;въ&#39;,
+ &#39;4&#39;,
+ &#39;arranged&#39;,
+ &#39;secret&#39;,
+ &#39;scenery&#39;,
+ &#39;cape&#39;,
+ &#39;may&#39;,
+ &#39;duke&#39;,
+ &#39;drawings&#39;,
+ &#39;über&#39;,
+ &#39;fifth&#39;,
+ &#39;introductory&#39;,
+ &#39;australia&#39;,
+ &#39;song&#39;,
+ &#39;1789&#39;,
+ &#39;eastern&#39;,
+ &#39;dramatic&#39;,
+ &#39;customs&#39;,
+ &#39;critical&#39;,
+ &#39;siècle&#39;,
+ &#39;für&#39;,
+ &#39;after&#39;,
+ &#39;over&#39;,
+ &#39;statistical&#39;,
+ &#39;louis&#39;,
+ &#39;central&#39;,
+ &#39;northern&#39;,
+ &#39;district&#39;,
+ &#39;record&#39;,
+ &#39;public&#39;,
+ &#39;true&#39;,
+ &#39;pieces&#39;,
+ &quot;d&#39;une&quot;,
+ &#39;was&#39;,
+ &#39;plan&#39;,
+ &#39;physical&#39;,
+ &#39;og&#39;,
+ &#39;door&#39;,
+ &#39;among&#39;,
+ &#39;personal&#39;,
+ &#39;lecture&#39;,
+ &#39;topographical&#39;,
+ &#39;popular&#39;,
+ &#39;authors&#39;,
+ &#39;military&#39;,
+ &#39;translation&#39;,
+ &#39;way&#39;,
+ &#39;nature&#39;,
+ &#39;voyages&#39;,
+ &#39;cantos&#39;,
+ &#39;comic&#39;,
+ &#39;origin&#39;,
+ &#39;peter&#39;,
+ &#39;corrected&#39;,
+ &#39;eine&#39;,
+ &#39;be&#39;,
+ &#39;books&#39;,
+ &#39;school&#39;,
+ &#39;work&#39;,
+ &#39;lyrics&#39;,
+ &#39;character&#39;,
+ &#39;places&#39;,
+ &#39;zum&#39;,
+ &#39;epistle&#39;,
+ &#39;hand&#39;,
+ &#39;resources&#39;,
+ &#39;months&#39;,
+ &#39;einem&#39;,
+ &#39;souvenirs&#39;,
+ &#39;las&#39;,
+ &#39;how&#39;,
+ &#39;black&#39;,
+ &#39;note&#39;,
+ &#39;diary&#39;,
+ &#39;deutschen&#39;,
+ &#39;recollections&#39;,
+ &#39;up&#39;,
+ &#39;rambles&#39;,
+ &#39;sous&#39;,
+ &#39;holy&#39;,
+ &#39;text&#39;,
+ &#39;study&#39;,
+ &#39;annals&#39;,
+ &#39;afterwards&#39;,
+ &#39;writings&#39;,
+ &#39;proceedings&#39;,
+ &#39;principal&#39;,
+ &#39;8&#39;,
+ &#39;poets&#39;,
+ &#39;tom&#39;,
+ &#39;thousand&#39;,
+ &#39;sonnets&#39;,
+ &#39;edinburgh&#39;,
+ &#39;gazetteer&#39;,
+ &#39;children&#39;,
+ &#39;earl&#39;,
+ &#39;literary&#39;,
+ &#39;auflage&#39;,
+ &#39;addressed&#39;,
+ &#39;o.&#39;,
+ &#39;switzerland&#39;,
+ &#39;army&#39;,
+ &#39;zu&#39;,
+ &#39;a.d&#39;,
+ &#39;yorkshire&#39;,
+ &#39;pt&#39;,
+ &#39;illustrative&#39;,
+ &#39;rhymes&#39;,
+ &#39;reminiscences&#39;,
+ &#39;o&#39;,
+ &#39;mexico&#39;,
+ &#39;gravures&#39;,
+ &#39;och&#39;,
+ &#39;geschiedenis&#39;,
+ &#39;taken&#39;,
+ &#39;village&#39;,
+ &#39;environs&#39;,
+ &#39;subjects&#39;,
+ &#39;extracts&#39;,
+ &#39;lectures&#39;,
+ &#39;palestine&#39;,
+ &#39;roman&#39;,
+ &#39;pays&#39;,
+ &#39;richard&#39;,
+ &#39;s&#39;,
+ &#39;david&#39;,
+ &#39;pour&#39;,
+ &#39;lands&#39;,
+ &#39;reise&#39;,
+ &#39;h&#39;,
+ &#39;princess&#39;,
+ &#39;condition&#39;,
+ &#39;moral&#39;,
+ &#39;wood&#39;,
+ &#39;walter&#39;,
+ &#39;scott&#39;,
+ &#39;theatre&#39;,
+ &#39;do&#39;,
+ &#39;company&#39;,
+ &#39;colony&#39;,
+ &#39;survey&#39;,
+ &#39;countries&#39;,
+ &#39;française&#39;,
+ &#39;campaign&#39;,
+ &#39;illustré&#39;,
+ &#39;g&#39;,
+ &#39;scottish&#39;,
+ &#39;1814&#39;,
+ &#39;winter&#39;,
+ &#39;spanish&#39;,
+ &#39;friend&#39;,
+ &#39;gentleman&#39;,
+ &#39;editor&#39;,
+ &#39;nebst&#39;,
+ &#39;seine&#39;,
+ &#39;victoria&#39;,
+ &#39;reign&#39;,
+ &#39;hon&#39;,
+ &#39;inhabitants&#39;,
+ &#39;1866&#39;,
+ &#39;met&#39;,
+ &#39;zealand&#39;,
+ &#39;founded&#39;,
+ &#39;alexander&#39;,
+ &#39;étude&#39;,
+ &quot;jusqu&#39;à&quot;,
+ &#39;many&#39;,
+ &#39;entitled&#39;,
+ &#39;musical&#39;,
+ &#39;what&#39;,
+ &#39;about&#39;,
+ &#39;good&#39;,
+ &#39;germany&#39;,
+ &#39;extrait&#39;,
+ &#39;picturesque&#39;,
+ &#39;és&#39;,
+ &#39;garden&#39;,
+ &#39;sacred&#39;,
+ &#39;oxford&#39;,
+ &#39;ten&#39;,
+ &#39;province&#39;,
+ &#39;rather&#39;,
+ &#39;pacific&#39;,
+ &#39;against&#39;,
+ &#39;abbey&#39;,
+ &#39;lost&#39;,
+ &#39;lake&#39;,
+ &#39;smith&#39;,
+ &#39;durch&#39;,
+ &#39;few&#39;,
+ &#39;directory&#39;,
+ &#39;bay&#39;,
+ &#39;pendant&#39;,
+ &#39;quellen&#39;,
+ &#39;paul&#39;,
+ &#39;valley&#39;,
+ &#39;ocean&#39;,
+ &#39;provinces&#39;,
+ &#39;jahren&#39;,
+ &#39;1815&#39;,
+ &#39;national&#39;,
+ &#39;trip&#39;,
+ &#39;list&#39;,
+ &#39;red&#39;,
+ &#39;act&#39;,
+ &#39;al&#39;,
+ &#39;down&#39;,
+ &#39;selections&#39;,
+ &#39;archives&#39;,
+ &#39;impressions&#39;,
+ &#39;majesty&#39;,
+ &#39;hill&#39;,
+ &#39;recent&#39;,
+ &#39;pilot&#39;,
+ &#39;literature&#39;,
+ &#39;inédits&#39;,
+ &#39;géographie&#39;,
+ &#39;farce&#39;,
+ &#39;out&#39;,
+ &#39;iv&#39;,
+ &#39;5&#39;,
+ &#39;elizabeth&#39;,
+ &#39;wild&#39;,
+ &#39;christian&#39;,
+ &#39;massachusetts&#39;,
+ &#39;have&#39;,
+ &#39;japan&#39;,
+ &#39;california&#39;,
+ &#39;carte&#39;,
+ &#39;que&#39;,
+ &#39;more&#39;,
+ &#39;words&#39;,
+ &#39;union&#39;,
+ &#39;storia&#39;,
+ &#39;joseph&#39;,
+ &#39;girl&#39;,
+ &#39;byron&#39;,
+ &#39;not&#39;,
+ &#39;right&#39;,
+ &#39;those&#39;,
+ &#39;magazine&#39;,
+ &#39;catalogue&#39;,
+ &#39;selection&#39;,
+ &#39;coloured&#39;,
+ &#39;beitrag&#39;,
+ &#39;memory&#39;,
+ &#39;b&#39;,
+ &#39;relative&#39;,
+ &#39;unter&#39;,
+ &#39;prefixed&#39;,
+ &#39;grand&#39;,
+ &#39;heart&#39;,
+ &#39;mining&#39;,
+ &#39;portugal&#39;,
+ &#39;use&#39;,
+ &#39;printed&#39;,
+ &#39;art&#39;,
+ &#39;margaret&#39;,
+ &#39;night&#39;,
+ &#39;russian&#39;,
+ &#39;mountains&#39;,
+ &#39;supplement&#39;,
+ &#39;colonies&#39;,
+ &#39;manual&#39;,
+ &#39;aux&#39;,
+ &#39;1870&#39;,
+ &#39;system&#39;,
+ &#39;cruise&#39;,
+ &#39;read&#39;,
+ &#39;counties&#39;,
+ &#39;adventure&#39;,
+ &#39;med&#39;,
+ &#39;drawn&#39;,
+ &#39;fall&#39;,
+ &#39;july&#39;,
+ &#39;authentic&#39;,
+ &#39;forest&#39;,
+ &#39;nos&#39;,
+ &#39;august&#39;,
+ &#39;continent&#39;,
+ &#39;descriptions&#39;,
+ &#39;1830&#39;,
+ &#39;isle&#39;,
+ &#39;practical&#39;,
+ &#39;monuments&#39;,
+ &#39;vom&#39;,
+ &#39;6&#39;,
+ &#39;this&#39;,
+ &#39;acted&#39;,
+ &#39;dictionary&#39;,
+ &#39;seven&#39;,
+ &#39;performed&#39;,
+ &#39;mystery&#39;,
+ &#39;translations&#39;,
+ &#39;members&#39;,
+ &#39;zweite&#39;,
+ &#39;mines&#39;,
+ &#39;paper&#39;,
+ &#39;local&#39;,
+ &#39;eight&#39;,
+ &#39;asia&#39;,
+ &#39;institutions&#39;,
+ &#39;l&#39;,
+ &#39;holland&#39;,
+ &#39;twelve&#39;,
+ &#39;anecdotes&#39;,
+ &#39;religion&#39;,
+ &#39;official&#39;,
+ &#39;index&#39;,
+ &#39;strange&#39;,
+ &#39;excursions&#39;,
+ &#39;photographs&#39;,
+ &#39;bearbeitet&#39;,
+ &#39;field&#39;,
+ &#39;x&#39;,
+ &#39;don&#39;,
+ &#39;fields&#39;,
+ &#39;incidents&#39;,
+ &#39;studies&#39;,
+ &#39;marriage&#39;,
+ &#39;cross&#39;,
+ &#39;cathedral&#39;,
+ &#39;pen&#39;,
+ &#39;z&#39;,
+ &#39;études&#39;,
+ &#39;su&#39;,
+ &#39;rose&#39;,
+ &#39;v&#39;,
+ &#39;committee&#39;,
+ &#39;conquest&#39;,
+ &#39;information&#39;,
+ &#39;treatise&#39;,
+ &#39;adapted&#39;,
+ &#39;thoughts&#39;,
+ &#39;african&#39;,
+ &#39;australian&#39;,
+ &#39;jours&#39;,
+ &#39;съ&#39;,
+ &#39;called&#39;,
+ &#39;il&#39;,
+ &#39;explanatory&#39;,
+ &#39;turkey&#39;,
+ &#39;sources&#39;,
+ &#39;kingdom&#39;,
+ &#39;1871&#39;,
+ &#39;deutsche&#39;,
+ &#39;virginia&#39;,
+ &#39;religious&#39;,
+ &#39;arthur&#39;,
+ &#39;sixth&#39;,
+ &#39;own&#39;,
+ &#39;manchester&#39;,
+ &#39;golden&#39;,
+ &#39;science&#39;,
+ &#39;channel&#39;,
+ &#39;1849&#39;,
+ &#39;republic&#39;,
+ &#39;officer&#39;,
+ &#39;7&#39;,
+ &#39;domestic&#39;,
+ &#39;cities&#39;,
+ &#39;á&#39;,
+ &#39;abbildungen&#39;,
+ &#39;reference&#39;,
+ &#39;d&#39;,
+ &#39;club&#39;,
+ &#39;private&#39;,
+ &#39;hope&#39;,
+ &#39;memorials&#39;,
+ &#39;correspondence&#39;,
+ &#39;borough&#39;,
+ &#39;nouvelle&#39;,
+ &#39;belgique&#39;,
+ &#39;prize&#39;,
+ &#39;peace&#39;,
+ &#39;will&#39;,
+ &#39;meeting&#39;,
+ &#39;wanderings&#39;,
+ &#39;norway&#39;,
+ &#39;dessins&#39;,
+ &#39;1812&#39;,
+ &#39;trade&#39;,
+ &#39;chronicle&#39;,
+ &#39;full&#39;,
+ &#39;publié&#39;,
+ &#39;topography&#39;,
+ &#39;rebellion&#39;,
+ &#39;facts&#39;,
+ &#39;coal&#39;,
+ &#39;société&#39;,
+ &#39;chronik&#39;,
+ &#39;june&#39;,
+ &#39;university&#39;,
+ &#39;doctor&#39;,
+ &#39;light&#39;,
+ &#39;atlantic&#39;,
+ &#39;across&#39;,
+ &#39;christmas&#39;,
+ &#39;march&#39;,
+ &#39;charlotte&#39;,
+ &#39;major&#39;,
+ &#39;characters&#39;,
+ &#39;college&#39;,
+ &#39;ed&#39;,
+ &#39;railway&#39;,
+ &#39;zeit&#39;,
+ &#39;music&#39;,
+ &#39;parliament&#39;,
+ &#39;passages&#39;,
+ &#39;legend&#39;,
+ &#39;1862&#39;,
+ &#39;route&#39;,
+ &#39;embracing&#39;,
+ &#39;département&#39;,
+ &#39;concerning&#39;,
+ &#39;jack&#39;,
+ &#39;maid&#39;,
+ &#39;real&#39;,
+ &#39;relation&#39;,
+ &#39;long&#39;,
+ &#39;rivers&#39;,
+ &#39;chronicles&#39;,
+ &#39;universal&#39;,
+ &#39;green&#39;,
+ &#39;chinese&#39;,
+ &#39;plays&#39;,
+ &#39;remarkable&#39;,
+ &#39;extracted&#39;,
+ &#39;corrections&#39;,
+ &#39;till&#39;,
+ &#39;tables&#39;,
+ &#39;cartes&#39;,
+ &#39;beiträge&#39;,
+ &#39;deuxième&#39;,
+ &#39;dream&#39;,
+ &#39;1840&#39;,
+ &#39;samuel&#39;,
+ &#39;abroad&#39;,
+ &#39;deux&#39;,
+ &#39;ballad&#39;,
+ &#39;earth&#39;,
+ &#39;traduit&#39;,
+ &#39;bishop&#39;,
+ &#39;jerusalem&#39;,
+ &#39;waterloo&#39;,
+ &#39;lays&#39;,
+ &#39;fair&#39;,
+ &#39;traveller&#39;,
+ &#39;italian&#39;,
+ &#39;transactions&#39;,
+ &#39;holiday&#39;,
+ &#39;1850&#39;,
+ &#39;publiés&#39;,
+ &#39;karte&#39;,
+ &#39;tot&#39;,
+ &#39;remains&#39;,
+ &#39;bristol&#39;,
+ &#39;legends&#39;,
+ &#39;engraved&#39;,
+ &#39;place&#39;,
+ &#39;best&#39;,
+ &#39;coasts&#39;,
+ &#39;qui&#39;,
+ &#39;lines&#39;,
+ &#39;elegy&#39;,
+ &#39;only&#39;,
+ &#39;anne&#39;,
+ &#39;ward&#39;,
+ &#39;thirty&#39;,
+ &#39;battles&#39;,
+ &#39;association&#39;,
+ &#39;border&#39;,
+ &#39;mission&#39;,
+ &#39;greek&#39;,
+ &#39;archæological&#39;,
+ &#39;по&#39;,
+ &#39;shakespeare&#39;,
+ &#39;latin&#39;,
+ &#39;picture&#39;,
+ &#39;anniversary&#39;,
+ &#39;invasion&#39;,
+ &#39;rise&#39;,
+ &#39;upper&#39;,
+ &#39;commercial&#39;,
+ &#39;bd&#39;,
+ &#39;historie&#39;,
+ &#39;indians&#39;,
+ &#39;seiner&#39;,
+ &#39;persons&#39;,
+ &#39;professor&#39;,
+ &#39;towns&#39;,
+ &#39;temps&#39;,
+ &#39;francis&#39;,
+ &#39;accompanied&#39;,
+ &#39;park&#39;,
+ &#39;robinson&#39;,
+ &#39;pilgrimage&#39;,
+ &#39;dissertation&#39;,
+ &#39;human&#39;,
+ &#39;commerce&#39;,
+ &#39;fifty&#39;,
+ &#39;1793&#39;,
+ &#39;til&#39;,
+ &#39;sobre&#39;,
+ &#39;исторіи&#39;,
+ &#39;occasions&#39;,
+ &#39;friends&#39;,
+ &#39;oder&#39;,
+ &#39;vicinity&#39;,
+ &#39;wars&#39;,
+ &#39;uit&#39;,
+ &#39;servir&#39;,
+ &#39;città&#39;,
+ &#39;essai&#39;,
+ &#39;volume&#39;,
+ &#39;am&#39;,
+ &#39;historic&#39;,
+ &#39;september&#39;,
+ &#39;pictorial&#39;,
+ &#39;syria&#39;,
+ &#39;ceylon&#39;,
+ &#39;1863&#39;,
+ &#39;dargestellt&#39;,
+ &#39;nord&#39;,
+ &#39;dedication&#39;,
+ &#39;1887&#39;,
+ &#39;pindar&#39;,
+ &#39;search&#39;,
+ &#39;autumn&#39;,
+ &#39;excursion&#39;,
+ &#39;baron&#39;,
+ &#39;ship&#39;,
+ &#39;alfred&#39;,
+ &#39;rio&#39;,
+ &#39;port&#39;,
+ &#39;boston&#39;,
+ &#39;norfolk&#39;,
+ &#39;researches&#39;,
+ &#39;xv&#39;,
+ &#39;mémoires&#39;,
+ &#39;revue&#39;,
+ &#39;service&#39;,
+ &#39;r&#39;,
+ &#39;pope&#39;,
+ &#39;eminent&#39;,
+ &#39;sermon&#39;,
+ &#39;temple&#39;,
+ &#39;high&#39;,
+ &#39;them&#39;,
+ &#39;schools&#39;,
+ &#39;water&#39;,
+ &#39;constantinople&#39;,
+ &#39;chapter&#39;,
+ &#39;1861&#39;,
+ &#39;manor&#39;,
+ &#39;politique&#39;,
+ &#39;bilder&#39;,
+ &#39;siege&#39;,
+ &#39;near&#39;,
+ &#39;annual&#39;,
+ &#39;poet&#39;,
+ &#39;child&#39;,
+ &#39;april&#39;,
+ &#39;palace&#39;,
+ &#39;additional&#39;,
+ &#39;1813&#39;,
+ &#39;chapters&#39;,
+ &#39;experiences&#39;,
+ &#39;accounts&#39;,
+ ...]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can quickly check what our columns are:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;BL record ID&#39;, &#39;Type of resource&#39;, &#39;Name&#39;,
+       &#39;Dates associated with name&#39;, &#39;Type of name&#39;, &#39;Role&#39;, &#39;All names&#39;,
+       &#39;Title&#39;, &#39;Variant titles&#39;, &#39;Series title&#39;, &#39;Number within series&#39;,
+       &#39;Country of publication&#39;, &#39;Place of publication&#39;, &#39;Publisher&#39;,
+       &#39;Date of publication&#39;, &#39;Edition&#39;, &#39;Physical description&#39;,
+       &#39;Dewey classification&#39;, &#39;BL shelfmark&#39;, &#39;Topics&#39;, &#39;Genre&#39;, &#39;Languages&#39;,
+       &#39;Notes&#39;, &#39;BL record ID for physical resource&#39;, &#39;classification_id&#39;,
+       &#39;user_id&#39;, &#39;created_at&#39;, &#39;subject_ids&#39;, &#39;annotator_date_pub&#39;,
+       &#39;annotator_normalised_date_pub&#39;, &#39;annotator_edition_statement&#39;,
+       &#39;annotator_genre&#39;, &#39;annotator_FAST_genre_terms&#39;,
+       &#39;annotator_FAST_subject_terms&#39;, &#39;annotator_comments&#39;,
+       &#39;annotator_main_language&#39;, &#39;annotator_other_languages_summaries&#39;,
+       &#39;annotator_summaries_language&#39;, &#39;annotator_translation&#39;,
+       &#39;annotator_original_language&#39;, &#39;annotator_publisher&#39;,
+       &#39;annotator_place_pub&#39;, &#39;annotator_country&#39;, &#39;annotator_title&#39;,
+       &#39;Link to digitised book&#39;, &#39;annotated&#39;, &#39;is_valid&#39;, &#39;text_len&#39;,
+       &#39;fiction_prob&#39;, &#39;non_fiction_prob&#39;, &#39;snorkel_genre&#39;, &#39;snorkel_label&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll create a <code class="docutils literal notranslate"><span class="pre">dataloaders</span></code> object which will contain the new data we’ll use to update our previous model. This will probably look familiar from our previous notebook. The main difference here is that we pass in the vocab for our previous language model data to the <code class="docutils literal notranslate"><span class="pre">text_vocab</span></code> parameter. This makes sure that we have a consistent vocab.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dls</span> <span class="o">=</span> <span class="n">TextDataLoaders</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">text_col</span><span class="o">=</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;snorkel_genre&quot;</span><span class="p">,</span>
+    <span class="n">valid_col</span><span class="o">=</span><span class="s2">&quot;is_valid&quot;</span><span class="p">,</span>
+    <span class="n">text_vocab</span><span class="o">=</span><span class="n">learn</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/numpy/core/_asarray.py:83: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray
+  return array(a, dtype, copy=False, order=order)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dls</span><span class="o">.</span><span class="n">show_batch</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>xxbos xxmaj los xxmaj xxunk y las xxmaj maravillas del xxmaj mundo . … xxmaj anales del mundo desde los tiempos xxunk hasta nuestros dias . … xxmaj gran xxmaj memorandum histórico … que comprende xxunk las obras xxunk . xxmaj la xxmaj xxunk … xxmaj historia xxmaj universal , escrita por el xxunk xxmaj xxunk xxmaj xxunk y su xxunk celebrado xxmaj arte de xxunk los datos de las xxunk históricas , xxunk y otros antiguos documentos ; … continuada hasta hoy dia por xxup m. de xxmaj saint xxmaj xxunk ; la xxmaj historia de xxmaj xxunk el xxmaj grande , escrita por xxmaj xxunk xxmaj xxunk , la de xxmaj xxunk y xxmaj roma , xxmaj xxunk y los xxmaj xxunk , xxmaj xxunk y xxmaj xxunk , xxunk los xxunk xxmaj xxunk de este último ; la de la guerra de xxmaj xxunk y xxmaj xxunk</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>xxbos xxmaj platonis , et quæ vel xxmaj platonis xxunk xxunk , vel xxmaj xxunk solent xxunk xxunk , xxmaj xxunk omnia . xxmaj ad xxunk xxunk recensuit xxunk inde xxunk xxunk xxunk xxup i. xxmaj xxunk . xxmaj annotationibus xxunk xxmaj xxunk , xxmaj xxunk , xxmaj xxunk , xxmaj wyttenbachii , xxmaj xxunk , xxmaj xxunk , xxunk xxunk non xxunk xxmaj xxunk , xxmaj xxunk , xxmaj xxunk , xxmaj xxunk , xxmaj xxunk , xxmaj xxunk , xxmaj xxunk et xxmaj xxunk , xxunk ex commentariis xxunk xxunk excerpta . ( xxunk xxmaj xxunk vita xxunk xxmaj xxunk vita xxunk vita xxunk et xxunk xxunk xxunk veterum xxunk xxunk de xxmaj xxunk ejusque xxunk et xxunk xxmaj xxunk et xxunk scriptis atque xxunk dissertatio xxup j. xxup a. xxunk codicum xxup mss . xxmaj platonis ejusque xxunk e xxmaj xxunk xxmaj xxunk . xxmaj xxunk codicum</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>xxbos xxmaj narrative of xxmaj travels and xxmaj discoveries in xxmaj northern and xxmaj central xxmaj africa , in the years 1822 , 1823 , and 1824 , by xxmaj major xxmaj denham , xxmaj captain xxmaj clapperton and the late xxmaj doctor xxmaj xxunk … xxmaj with an appendix … by xxmaj major xxup d. xxmaj denham … and xxmaj captain xxup h. xxmaj clapperton [ including ' translations from the xxmaj arabic , of various letters and documents , brought from xxmaj xxunk and xxmaj soudan by xxmaj major xxmaj denham and xxmaj captain xxmaj clapperton . xxmaj by xxup a. xxmaj xxunk , ' ' botanical xxmaj appendix . xxmaj by xxmaj robert xxmaj brown , ' and ' letter to xxmaj major xxmaj denham , on the rock specimens brought from xxmaj africa . xxmaj by xxmaj charles xxmaj xxunk ' ] [ with plates and</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>xxbos xxmaj the xxmaj history of xxmaj england ; from the invasion of xxmaj julius xxmaj caesar to the xxmaj revolution in 1688 : by xxup d. xxmaj hume … xxmaj with a continuation , from that period to the death of xxmaj george the xxmaj second , by xxmaj tobias xxmaj smollett … and xxmaj chronological xxmaj records to the coronation of his present xxmaj majesty , xxmaj george the xxmaj fourth , by xxmaj john xxmaj burke … xxmaj with numerous engravings . ( historical xxmaj questions comprising a series of studies upon the most important passages in xxmaj xxunk 's xxmaj universal xxmaj histories ; commencing with xxmaj hume and xxmaj xxunk 's xxmaj history of xxmaj england . xxmaj by xxmaj robert xxmaj xxunk . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>xxbos xxmaj additional xxmaj reasons , for our immediately xxunk xxmaj spanish xxmaj america , deduced from the … present crisis : and containing valuable information , respecting the late important events , both at xxmaj buenos xxmaj ayres , and in the xxmaj xxunk : as well as with respect to the present disposition and views of the xxmaj spanish xxmaj americans : being intended as a supplement to ' south xxmaj american xxmaj independence ' … xxmaj second edition , enlarged . ( letter to the xxmaj spanish xxmaj americans , by xxup d. xxmaj juan xxmaj xxunk xxmaj xxunk y xxmaj guzman , xxunk and proclamations by xxmaj general xxmaj miranda . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>xxbos xxmaj new xxmaj englands xxmaj xxunk xxmaj cast up at xxmaj london : or , a xxmaj relation of the xxmaj proceedings of the xxmaj court at xxmaj boston in new - england against divers xxunk and godly persons , for xxunk for government in the common - wealth , according to the xxunk of xxmaj england , and for xxunk of themselves and children to the xxunk in their churches … xxmaj as also a xxunk xxmaj answer to some passages in a late book , entituled xxmaj xxunk unmasked , set out by xxmaj mr . xxmaj xxunk , concerning the xxmaj independent xxmaj churches holding communion with the xxmaj reformed xxmaj churches</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>xxbos xxmaj some xxmaj account of the xxmaj barony and xxmaj town of xxmaj xxunk … xxmaj including the journals kept by xxmaj messrs . xxmaj xxunk and xxmaj xxunk … from the 21 xxmaj james xxup i , to the death of xxmaj william xxrep 3 i . ; with notes genealogical , descriptive , and explanatory … xxmaj edited and enlarged from the collections made by xxup w. xxup b. xxmaj bridges , the xxmaj rev . xxup c. xxmaj thomas and the xxmaj rev . xxup h. xxup g. xxmaj fothergill … a new edition , with additional chapters , edited by xxup w. xxup h. xxup k. xxmaj wright</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>xxbos xxmaj xxunk xxunk ? xxmaj amici : or , a xxmaj true and diverting account of a late battle between a priest and a porter . xxmaj in xxmaj hudibrastick verse . xxmaj address'd to the xxmaj orator of clare - market [ by xxmaj henry xxmaj price . ] xxmaj to which is added , the xxmaj fat vicar 's race : or , a merry new song of a wager between xxmaj parson xxmaj v - gh - n [ i.e. xxmaj vaughan ] … and a gentleman in xxmaj staffordshire which was won by the former . xxmaj wrote by a gentleman , who saw the race performed</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>xxbos xxmaj memorias sobre el estado rural del xxmaj rio de la xxmaj plata en 1801 ; xxunk de límites entre el xxmaj brasil y el xxmaj paraguay á últimos del siglo xxup xv xxrep 3 i , é xxunk sobre varios xxunk de la xxmaj america xxunk española . xxmaj escritos xxunk de xxmaj don xxmaj felix de xxmaj azara … los publica … xxmaj don xxmaj xxunk de xxmaj azara … bajo la direccion de xxmaj don xxup b. xxup s. xxmaj xxunk de xxmaj xxunk … autor de las notas … a xxunk escritos , etc [ with a portrait of xxup f. de xxmaj azara . ]</td>
+      <td>Non-fiction</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>We can now assign a new dataloader to our learner object. This will then be used to train our model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">dls</span> <span class="o">=</span> <span class="n">dls</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we’ve done previously we’ll use the learning rate finder to try and find a sensible learning rate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">suggested</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">lr_find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><img alt="_images/04a_fastai_30_1.png" src="_images/04a_fastai_30_1.png" />
+</div>
+</div>
+<p>As before we now want to train our model, again we go a little bit wild with the number of epochs but use a callback to make sure our model stops training if we don’t see any improvements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span>
+    <span class="mi">100</span><span class="p">,</span>
+    <span class="n">lr_max</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
+    <span class="n">cbs</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">ShowGraphCallback</span><span class="p">(),</span>
+        <span class="n">SaveModelCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">),</span>
+        <span class="n">EarlyStoppingCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>f1_score</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.407947</td>
+      <td>0.172334</td>
+      <td>0.932061</td>
+      <td>0.932026</td>
+      <td>04:12</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.401191</td>
+      <td>0.122557</td>
+      <td>0.951139</td>
+      <td>0.951041</td>
+      <td>04:14</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.437112</td>
+      <td>0.148886</td>
+      <td>0.940238</td>
+      <td>0.940177</td>
+      <td>04:14</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.451716</td>
+      <td>0.109705</td>
+      <td>0.956395</td>
+      <td>0.956275</td>
+      <td>04:13</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.455507</td>
+      <td>0.189706</td>
+      <td>0.926222</td>
+      <td>0.926204</td>
+      <td>04:14</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.421345</td>
+      <td>0.123881</td>
+      <td>0.950944</td>
+      <td>0.950846</td>
+      <td>04:14</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.416993</td>
+      <td>0.115451</td>
+      <td>0.954448</td>
+      <td>0.954336</td>
+      <td>04:12</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.393227</td>
+      <td>0.226075</td>
+      <td>0.912206</td>
+      <td>0.912206</td>
+      <td>04:17</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.398733</td>
+      <td>0.113009</td>
+      <td>0.955811</td>
+      <td>0.955692</td>
+      <td>04:12</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.417066</td>
+      <td>0.117806</td>
+      <td>0.953475</td>
+      <td>0.953368</td>
+      <td>04:12</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>0.423782</td>
+      <td>0.113344</td>
+      <td>0.954837</td>
+      <td>0.954719</td>
+      <td>04:15</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>0.452844</td>
+      <td>0.172289</td>
+      <td>0.931867</td>
+      <td>0.931830</td>
+      <td>04:12</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>0.398562</td>
+      <td>0.139598</td>
+      <td>0.945688</td>
+      <td>0.945607</td>
+      <td>04:12</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>0.442877</td>
+      <td>0.149645</td>
+      <td>0.939848</td>
+      <td>0.939788</td>
+      <td>04:12</td>
+    </tr>
+  </tbody>
+</table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.9320256479232389.
+</pre></div>
+</div>
+<img alt="_images/04a_fastai_32_2.png" src="_images/04a_fastai_32_2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 1 with f1_score value: 0.9510406510603469.
+Better model found at epoch 3 with f1_score value: 0.9562748837151331.
+No improvement since epoch 3: early stopping
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="checking-model-performance">
+<h3>Checking model performance<a class="headerlink" href="#checking-model-performance" title="Permalink to this headline">¶</a></h3>
+<p>We can check our best model by calling <code class="docutils literal notranslate"><span class="pre">validate</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(#3) [0.10970497131347656,0.9563947916030884,0.9562748837151331]
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, as we have done previously we always want to go back to our test data to see how our model is doing there.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;test_errors.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">]]</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;true_label&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">isin</span><span class="p">({</span><span class="s2">&quot;non_fiction&quot;</span><span class="p">,</span> <span class="s2">&quot;fiction&quot;</span><span class="p">})]</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">test_dl</span><span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;title&quot;</span><span class="p">])</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">get_preds</span><span class="p">(</span><span class="n">dl</span><span class="o">=</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">true_labels</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can start with an overall f1score</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1_score</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9557522123893805
+</pre></div>
+</div>
+</div>
+</div>
+<p>But we probably want to use the classifcation report again to get a more detailed view on our model performance</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="n">classification_report</span><span class="p">(</span>
+        <span class="n">true_labels</span><span class="p">,</span>
+        <span class="n">predictions</span><span class="p">,</span>
+        <span class="n">target_names</span><span class="o">=</span><span class="n">learn</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+     Fiction       0.95      0.88      0.91       296
+ Non-fiction       0.94      0.97      0.96       554
+
+    accuracy                           0.94       850
+   macro avg       0.94      0.93      0.93       850
+weighted avg       0.94      0.94      0.94       850
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you go back to our previous <a class="reference internal" href="01_BL_fiction_non_fiction.html"><span class="doc std std-doc">fastai notebook</span></a> you will see that we do a get some small improvements in our model. These small improvements can add up, or be significant so we should be pleased to get this performance boost as a result of creating some more data.</p>
+<p>We’ll save this new version of the model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;20211115-model.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>There is still quite a bit of playing around we could do here to eek out some more performance from our model. We haven’t really done anything to improve our model training except look for a sensible learning rate. There are a whole bunch of other parameters we could try tweaking. For now we’ll move on and see if using a transformer model will help.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="04_using_our_new_data.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Using our newly expanded data</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="04b_transformer.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Using a transformer based model</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

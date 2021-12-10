@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bibliography &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Other resources" href="other_resources.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Genre Classification
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="zooniverse.html">
+   Overview of the project: classifying British Library books by genre
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="genre_classification.html">
+   Genre Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_crude_genre.html">
+   Crude Genre Classification
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  EDA
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_i.html">
+   Sample Inspector (Part I)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_ii.html">
+   Sample Inspector (Part II)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Training our first model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_BL_fiction_non_fiction.html">
+   Training our first book genre classification model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_inference.html">
+   Model inference
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assesing our models performance
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_improving_results.html">
+   Improving our model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_error_analysis.html">
+   Assessing where our model is going wrong
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Improving our model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_snorkel.html">
+   How to create more training data without more annotating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_using_our_new_data.html">
+   Using our newly expanded data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04a_fastai.html">
+   Fine tuning our fastai model with new data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04b_transformer.html">
+   Using a transformer based model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sharing our results and final inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05_share_outputs.html">
+   Sharing our work
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06_pipeline_inference.html">
+   Using our new Hugging Face model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Further resources
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other resources
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/references.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="bibliography">
+<h1>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h1>
+<p id="id1"><dl class="citation">
+<dt class="label" id="id17"><span class="brackets">1</span></dt>
+<dd><p>Osma Suominen, Juho Inkinen, Tuomo Virolainen, Moritz Fürneisen, Bruno P. Kinoshita, Sara Veldhoen, Mats Sjöberg, Philipp Zumstein, Robin Neatherway, and monalehtinen. Natlibfi/annif: annif 0.55. November 2021. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.5654173">https://doi.org/10.5281/zenodo.5654173</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.5654173">doi:10.5281/zenodo.5654173</a>.</p>
+</dd>
+<dt class="label" id="id18"><span class="brackets">2</span></dt>
+<dd><p>Karl Marx. Theses on feuerbach. 2021. URL: <a class="reference external" href="https://www.marxists.org/archive/marx/works/1845/theses/theses.htm">https://www.marxists.org/archive/marx/works/1845/theses/theses.htm</a>.</p>
+</dd>
+<dt class="label" id="id19"><span class="brackets">3</span></dt>
+<dd><p>Matteo Lorenzini, Marco Rospocher, and Sara Tonelli. Automatically evaluating the quality of textual descriptions in cultural heritage records. <em>International Journal on Digital Libraries</em>, 22(2):217–231, 2021. <a class="reference external" href="https://doi.org/10.1007/s00799-021-00302-1">doi:10.1007/s00799-021-00302-1</a>.</p>
+</dd>
+<dt class="label" id="id20"><span class="brackets">4</span></dt>
+<dd><p>Victoria Morris. Automated language identification of bibliographic resources. <em>Cataloging &amp; Classification Quarterly</em>, 58(1):1–27, 2020. URL: <a class="reference external" href="https://doi.org/10.1080/01639374.2019.1700201">https://doi.org/10.1080/01639374.2019.1700201</a>, <a class="reference external" href="https://arxiv.org/abs/https://doi.org/10.1080/01639374.2019.1700201">arXiv:https://doi.org/10.1080/01639374.2019.1700201</a>, <a class="reference external" href="https://doi.org/10.1080/01639374.2019.1700201">doi:10.1080/01639374.2019.1700201</a>.</p>
+</dd>
+<dt class="label" id="id5"><span class="brackets">5</span></dt>
+<dd><p>Jeremy Howard and Sylvain Gugger. Fastai: A Layered API for Deep Learning. <em>Information</em>, 11(2):108, February 2020. <a class="reference external" href="https://arxiv.org/abs/2002.04688">arXiv:2002.04688</a>, <a class="reference external" href="https://doi.org/10.3390/info11020108">doi:10.3390/info11020108</a>.</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets">6</span></dt>
+<dd><p>Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: pre-training of deep bidirectional transformers for language understanding. 2019. <a class="reference external" href="https://arxiv.org/abs/1810.04805">arXiv:1810.04805</a>.</p>
+</dd>
+<dt class="label" id="id12"><span class="brackets">7</span></dt>
+<dd><p>Rachel Thomas. How (and why) to create a good validation set · fast.ai. https://www.fast.ai/2017/11/13/validation-sets/.</p>
+</dd>
+<dt class="label" id="id21"><span class="brackets">8</span></dt>
+<dd><p>Alexander J Ratner, Christopher M De Sa, Sen Wu, Daniel Selsam, and Christopher Ré. Data programming: creating large training sets, quickly. In D. Lee, M. Sugiyama, U. Luxburg, I. Guyon, and R. Garnett, editors, <em>Advances in Neural Information Processing Systems</em>, volume 29. Curran Associates, Inc., 2016. URL: <a class="reference external" href="https://proceedings.neurips.cc/paper/2016/file/6709e8d64a5f47269ed5cea9f625f7ab-Paper.pdf">https://proceedings.neurips.cc/paper/2016/file/6709e8d64a5f47269ed5cea9f625f7ab-Paper.pdf</a>.</p>
+</dd>
+<dt class="label" id="id16"><span class="brackets">9</span></dt>
+<dd><p>Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. 2017. <a class="reference external" href="https://arxiv.org/abs/1706.03762">arXiv:1706.03762</a>.</p>
+</dd>
+<dt class="label" id="id13"><span class="brackets">10</span></dt>
+<dd><p>Margaret Mitchell, Simone Wu, Andrew Zaldivar, Parker Barnes, Lucy Vasserman, Ben Hutchinson, Elena Spitzer, Inioluwa Deborah Raji, and Timnit Gebru. Model cards for model reporting. <em>Proceedings of the Conference on Fairness, Accountability, and Transparency</em>, Jan 2019. URL: <a class="reference external" href="http://dx.doi.org/10.1145/3287560.3287596">http://dx.doi.org/10.1145/3287560.3287596</a>, <a class="reference external" href="https://doi.org/10.1145/3287560.3287596">doi:10.1145/3287560.3287596</a>.</p>
+</dd>
+<dt class="label" id="id14"><span class="brackets">11</span></dt>
+<dd><p>Timnit Gebru, Jamie Morgenstern, Briana Vecchione, Jennifer Wortman Vaughan, Hanna Wallach, Hal Daumé III au2, and Kate Crawford. Datasheets for datasets. 2020. <a class="reference external" href="https://arxiv.org/abs/1803.09010">arXiv:1803.09010</a>.</p>
+</dd>
+</dl>
+</p>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="other_resources.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Other resources</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="glossary.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Glossary</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

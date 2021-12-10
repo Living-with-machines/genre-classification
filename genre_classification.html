@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genre Classification &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Crude Genre Classification" href="00_crude_genre.html" />
+    <link rel="prev" title="Overview of the project: classifying British Library books by genre" href="zooniverse.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Genre Classification
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="zooniverse.html">
+   Overview of the project: classifying British Library books by genre
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Genre Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_crude_genre.html">
+   Crude Genre Classification
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  EDA
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_i.html">
+   Sample Inspector (Part I)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_ii.html">
+   Sample Inspector (Part II)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Training our first model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_BL_fiction_non_fiction.html">
+   Training our first book genre classification model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_inference.html">
+   Model inference
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assesing our models performance
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_improving_results.html">
+   Improving our model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_error_analysis.html">
+   Assessing where our model is going wrong
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Improving our model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_snorkel.html">
+   How to create more training data without more annotating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_using_our_new_data.html">
+   Using our newly expanded data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04a_fastai.html">
+   Fine tuning our fastai model with new data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04b_transformer.html">
+   Using a transformer based model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sharing our results and final inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05_share_outputs.html">
+   Sharing our work
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06_pipeline_inference.html">
+   Using our new Hugging Face model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Further resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/genre_classification.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-and-genre-classification-from-a-glam-perspective">
+   Machine learning and genre classification from a GLAM perspective
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#brief-reminder-machine-learning">
+     Brief reminder: machine learning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-is-machine-learning-being-used-in-relation-to-metadata">
+   How is machine learning being used in relation to metadata?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#automated-subject-indexing">
+     Automated subject indexing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#machine-learning-supported-metadata-evaluation">
+     Machine learning supported metadata evaluation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#machine-learning-to-fill-metadata-gaps">
+     Machine learning to fill metadata gaps
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crude-genre-classification">
+     Crude genre classification?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="genre-classification">
+<h1>Genre Classification<a class="headerlink" href="#genre-classification" title="Permalink to this headline">¶</a></h1>
+<p>What we mean by ‘genre’ is complex, open to question, and subject to temporal change. This work will largely ignore such complexity; this is one reason why we refer to the task as ‘crude’ genre detection.</p>
+<p>However, by way of background context, in this section we provide a brief overview of genre classification and how it has been approached/understood within GLAM and Digital Humanities research.</p>
+<div class="section" id="machine-learning-and-genre-classification-from-a-glam-perspective">
+<h2>Machine learning and genre classification from a GLAM perspective<a class="headerlink" href="#machine-learning-and-genre-classification-from-a-glam-perspective" title="Permalink to this headline">¶</a></h2>
+<p>The collections of many GLAM institutions are growing rapidly owing to digitisation of physical collections and ingest of new ‘born digital’ materials. This is happening at a time of significant development of machine learning across a number of domains. Machine learning models are increasingly able to perform well on a range of tasks, including working with images (computer vision), tabular data, and written text (natural language processing). As a result, there is a growing interest in the possibility of using machine learning to create, or help create, metadata for these collections.</p>
+<p>The desire to use computational methods to work with textual data is not new, and there are many pre-existing non-machine learning-based approaches that can be useful for working with collection items. For instance, one common approach to information retrieval uses term frequency–inverse document frequency <a class="reference external" href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf-idf</a> to determine which words within a document are particularly important: the words ‘and’ or ‘not’ are far less likely to be useful for finding information about medieval religious practice than the word ‘monastery’, for example.</p>
+<div class="section" id="brief-reminder-machine-learning">
+<h3>Brief reminder: machine learning<a class="headerlink" href="#brief-reminder-machine-learning" title="Permalink to this headline">¶</a></h3>
+<p>For most of this tutorial we assume you have some familiarity with machine learning, but the following gives a short overview of machine learning as a reminder.</p>
+<p>Whilst approaches like <a class="reference external" href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf-idf</a> work well for many tasks, there are some tasks for which machine learning may be more appropriate. A common example of such a task might be spam detection; this involves labelling a set of text strings as being ‘spam’ or ‘not spam’. There are various ways in which we could try and tackle this. As a starting point we could try writing some rules to help us decide if a message contains spam:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spam_words</span> <span class="o">=</span> <span class="s2">&quot;Blockchain&quot;</span><span class="p">,</span> <span class="s2">&quot;Bitcoin&quot;</span><span class="p">,</span> <span class="o">...</span>
+
+<span class="k">if</span> <span class="n">spam_word</span> <span class="n">appears</span> <span class="ow">in</span> <span class="n">email</span><span class="p">:</span>
+    <span class="n">email_type</span> <span class="o">=</span> <span class="n">spam</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">email_type</span> <span class="o">=</span> <span class="n">not_spam</span>
+</pre></div>
+</div>
+<p>We can immediately see some of the challenge and limitations of this kind of approach. For a start, some people may not share the same withering opinion of “Blockchain” and “Bitcoin” and may want to receive emails on these topics - in this case the words we have chosen for spam are incorrect.</p>
+<p>We will also need to maintain this list of spam words, which could get very time consuming. We might also need to rely on more complex rules to refine this crude approach by setting some kind of threshold for the number of times a spam word appears within the text, or by looking at combinations of words - but again this can quickly become quite complicated.</p>
+<p>One other major limitation with this approach (which is something we need to consider with machine learning too) is that the world changes all the time. The types of words that appear in spam emails will change. The people who create these spam emails will likely change their approach to try and get around your spam filter. The machine learning approach, on the other hand, uses examples of ‘spam’ and ‘not spam’ to ‘learn’ how to predict these labels for new unseen examples. We train some type of machine learning model on a set of training data - in this case, the training data will be a set of emails containing examples of ‘spam’ and ‘not spam’. The model will then ‘learn’ from this data which patterns indicate spam. These patterns may end up being quite complex, but, because we are using a machine learning approach we don’t need to worry about what these patterns actually look like; if everything goes to plan the machine learning model will learn these patterns for itself.</p>
+</div>
+</div>
+<div class="section" id="how-is-machine-learning-being-used-in-relation-to-metadata">
+<h2>How is machine learning being used in relation to metadata?<a class="headerlink" href="#how-is-machine-learning-being-used-in-relation-to-metadata" title="Permalink to this headline">¶</a></h2>
+<p>There are a wide range of ways in which machine learning can be utilised as part of metadata processes. We won’t cover all of these in this chapter but will highlight some key tasks and briefly mention how the same machine learning task can be used in very different ways.</p>
+<div class="section" id="automated-subject-indexing">
+<h3>Automated subject indexing<a class="headerlink" href="#automated-subject-indexing" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>“Choose a controlled subject vocabulary and train Annif on already indexed documents – it can then suggest subjects for new documents!” - <a class="reference external" href="https://annif.org/">https://annif.org/</a></p>
+</div></blockquote>
+<p>Annif <span id="id1">[<a class="reference internal" href="references.html#id17">1</a>]</span> is a tool which aims to provide automated subject indexing for documents. The website includes a demo showing the results from different models. As an example we can see the subjects suggested when we put in a relatively short document - Theses On Feuerbach <span id="id2">[<a class="reference internal" href="references.html#id18">2</a>]</span>. The 15 suggested terms generated from the “YSO NN Ensemble English” model:</p>
+<ul class="simple">
+<li><p>philosophy</p></li>
+<li><p>religiousness</p></li>
+<li><p>religion and religions</p></li>
+<li><p>mysticism</p></li>
+<li><p>philosophy of religion</p></li>
+<li><p>theories of truth</p></li>
+<li><p>secularisation</p></li>
+<li><p>society</p></li>
+<li><p>secularism</p></li>
+<li><p>religious processions</p></li>
+</ul>
+<p>Based on the input text many of these seem reasonable, but of course how useful they are depends on where and how these subject terms will be used. For example, if we were using the subject term ‘philosophy’ in a broad digital collection it would be very useful to have this subject term.  If however, we’re building a corpus of digitised texts on the topic of philosophy then this subject term is not particularly helpful. This points to the importance of making sure we understand what our goal is when using a model, as this will shape what is useful or not.</p>
+</div>
+<div class="section" id="machine-learning-supported-metadata-evaluation">
+<h3>Machine learning supported metadata evaluation<a class="headerlink" href="#machine-learning-supported-metadata-evaluation" title="Permalink to this headline">¶</a></h3>
+<p>Another approach where machine learning has been used is to evaluate the quality of existing metadata records. “Automatically evaluating the quality of textual descriptions in cultural heritage records” is an example of this kind of approach <span id="id3">[<a class="reference internal" href="references.html#id19">3</a>]</span></p>
+<p>In this paper the authors intended to classify the quality of metadata by treating it as a ‘binary classification’ task i.e. labelling the data as either high quality or not. The authors of this paper achieved an <a class="reference external" href="https://en.wikipedia.org/wiki/F-score">F1 Score</a> of 0.85 with their approach.</p>
+</div>
+<div class="section" id="machine-learning-to-fill-metadata-gaps">
+<h3>Machine learning to fill metadata gaps<a class="headerlink" href="#machine-learning-to-fill-metadata-gaps" title="Permalink to this headline">¶</a></h3>
+<p>Another example of using a computational model to create metadata where it doesn’t, or only partially, exists. An example of this is “Automated Language Identification of Bibliographic Resources” <span id="id4">[<a class="reference internal" href="references.html#id20">4</a>]</span></p>
+<p>This work sought to address a problem of missing language codes in British Library Catalogue records: “An analysis of the British Library catalog in October 2018 revealed that this language code was not populated in nearly 4.7 million records.”<span id="id5">[<a class="reference internal" href="references.html#id20">4</a>]</span>
+Machine learning was applied to automate the identification of languages in the catalogue.
+This work demonstrates an example of using machine learning to address a relatively narrow but important task - language identification - which needed to be done at a scale in which manual intervention would be difficult.</p>
+</div>
+<div class="section" id="crude-genre-classification">
+<h3>Crude genre classification?<a class="headerlink" href="#crude-genre-classification" title="Permalink to this headline">¶</a></h3>
+<p>We will outline our approach briefly in the next chapter.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="zooniverse.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Overview of the project: classifying British Library books by genre</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="00_crude_genre.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Crude Genre Classification</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

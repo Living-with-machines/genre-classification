@@ -1,0 +1,1514 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Using a transformer based model &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sharing our work" href="05_share_outputs.html" />
+    <link rel="prev" title="Fine tuning our fastai model with new data" href="04a_fastai.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Genre Classification
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="zooniverse.html">
+   Overview of the project: classifying British Library books by genre
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="genre_classification.html">
+   Genre Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_crude_genre.html">
+   Crude Genre Classification
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  EDA
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_i.html">
+   Sample Inspector (Part I)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_ii.html">
+   Sample Inspector (Part II)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Training our first model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_BL_fiction_non_fiction.html">
+   Training our first book genre classification model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_inference.html">
+   Model inference
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assesing our models performance
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_improving_results.html">
+   Improving our model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_error_analysis.html">
+   Assessing where our model is going wrong
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Improving our model
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_snorkel.html">
+   How to create more training data without more annotating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_using_our_new_data.html">
+   Using our newly expanded data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04a_fastai.html">
+   Fine tuning our fastai model with new data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Using a transformer based model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sharing our results and final inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05_share_outputs.html">
+   Sharing our work
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06_pipeline_inference.html">
+   Using our new Hugging Face model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Further resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/04b_transformer.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04b_transformer.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/04b_transformer.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transformers">
+   Transformers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-ecosystem">
+   The 🤗 ecosystem
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-model-hub">
+   The 🤗 model hub
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#blurr">
+   blurr
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-requirements">
+   Install requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-our-snorkel-training-data">
+   Loading our snorkel training data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-our-data">
+   Preparing our data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-our-learner">
+   Creating our learner
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training-our-model">
+   Training our model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-our-model">
+     Testing our model
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sharing-our-model-stage-1">
+   Sharing our model (stage 1)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#push-to-the-hub">
+   Push to the 🤗 hub
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="using-a-transformer-based-model">
+<h1>Using a transformer based model<a class="headerlink" href="#using-a-transformer-based-model" title="Permalink to this headline">¶</a></h1>
+<p>We now have a larger dataset to work with. We previously said we wouldn’t immediately jump to changing the model architecture we’re using to improve our results but now we have some work on exploring our previous models errors and increasing the size of our training data we might want to see if working with a different type of model architecture improves our performance.</p>
+<div class="section" id="transformers">
+<h2>Transformers<a class="headerlink" href="#transformers" title="Permalink to this headline">¶</a></h2>
+<p>Transformer based models have made a massive impact on the Natural Language Processing world. <span id="id1">[<a class="reference internal" href="references.html#id16">9</a>]</span></p>
+<p>We won’t dig into the deep details of how these architectures work here. If you want to learn more about how these models work there are lots of useful resources available including a free huggingface <a class="reference external" href="https://huggingface.co/course">course</a>. If you have a humanities background or interest you may also find the <a class="reference external" href="https://melaniewalsh.github.io/BERT-for-Humanists">Bert for Humanists</a> project useful.</p>
+<p>One of the reasons we held of jumping straight to transformers is because of a more general concern with making sure we don’t see machine learning as a process of optimising a model architecture but rather a process of trying to think about, and potentially improve our data in combination with choosing a model and improving the training process.</p>
+<p>The other slightly more practical reason we waited is that Transformer models are (in general) quite computationally expensive. If we are able to get sufficiently good performance using less computationally intensive methods then we might prefer to use those. With this said this can be overstated - again here we are not going to be training a model ‘from scratch’ (more on this shortly) but instead we will be fine-tuning an existing model. We can often do this with a single GPU and still get very good results.</p>
+</div>
+<div class="section" id="the-ecosystem">
+<h2>The 🤗 ecosystem<a class="headerlink" href="#the-ecosystem" title="Permalink to this headline">¶</a></h2>
+<p>Hugging Face is a company which has made a massive impact on the NLP landscape over the past couple of years. It is focused on helping <a class="reference external" href="https://huggingface.co/">“Build, train and deploy state of the art models powered by the reference open source in natural language”</a>. One of the tools developed by Hugging Face is the <a class="reference external" href="https://huggingface.co/transformers/">transformers</a> library. This library provides implementations of many transformer based models. This already provides us an easier way to access state of the art models without needing to implement and maintain them ourselves, however, one of the real benefits for us it the ability to use transformers in combination with models from the huggingface <span class="xref myst">‘model hub’</span>.</p>
+</div>
+<div class="section" id="the-model-hub">
+<h2>The 🤗 model hub<a class="headerlink" href="#the-model-hub" title="Permalink to this headline">¶</a></h2>
+<p>We saw in previous notebooks how fine-tuning can be useful to reduce the amount of training data and compute resources  we need to build a useful model. This, arguably, becomes even more important for transformer based models which can be expensive to train. The Hugging Face <span class="xref myst">‘model hub’</span> gives us access to a huge number of pre-trained models ranging trained for a large number of tasks on a growing number of languages.</p>
+<img alt="screenshot of hugginface hub" class="bg-primary mb-1 align-center" src="_images/hub.png" />
+<p>This means we can potentially find a model that already does something we want, or close to what we want. If we aren’t lucky enough to find the exact model we need we can often find a model which will still work well on our task.</p>
+<p>We’ll shortly see how we can also contribute to this model hub.</p>
+</div>
+<div class="section" id="blurr">
+<h2>blurr<a class="headerlink" href="#blurr" title="Permalink to this headline">¶</a></h2>
+<p>There are different ways we could use the <a class="reference external" href="https://huggingface.co/transformers/">transformers</a> library. Since we already used fastai library in earlier parts of this notebook it might be nice to stick to this an API which is close to the fastai library. Fortunately for us <a class="reference external" href="https://github.com/ohmeow/blurr">blurr</a> gives us exactly this blurr is a</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/ohmeow/blurr">library that integrates huggingface transformers with version 2 of the fastai framework</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="install-requirements">
+<h2>Install requirements<a class="headerlink" href="#install-requirements" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install git+https://github.com/ohmeow/blurr.git
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting git+https://github.com/ohmeow/blurr.git
+  Cloning https://github.com/ohmeow/blurr.git to /tmp/pip-req-build-r8_9rr9w
+  Running command git clone -q https://github.com/ohmeow/blurr.git /tmp/pip-req-build-r8_9rr9w
+Requirement already satisfied: torch&lt;2.0.0,&gt;=1.7.0 in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (1.10.0+cu111)
+Requirement already satisfied: fastai&gt;=2.4 in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (2.5.3)
+Requirement already satisfied: transformers&gt;=4.6 in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (4.12.5)
+Requirement already satisfied: datasets in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (1.16.1)
+Requirement already satisfied: sentencepiece in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (0.1.96)
+Requirement already satisfied: seqeval in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (1.2.2)
+Requirement already satisfied: rouge-score in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (0.0.4)
+Requirement already satisfied: nbdev&lt;2.0.0,&gt;=1.1.0 in /usr/local/lib/python3.7/dist-packages (from ohmeow-blurr==0.1.2) (1.1.23)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (21.3)
+Requirement already satisfied: pandas in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.1.5)
+Requirement already satisfied: fastcore&lt;1.4,&gt;=1.3.22 in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.3.27)
+Requirement already satisfied: torchvision&gt;=0.8.2 in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (0.11.1+cu111)
+Requirement already satisfied: fastprogress&gt;=0.2.4 in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.0.0)
+Requirement already satisfied: scipy in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.4.1)
+Requirement already satisfied: pip in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (21.1.3)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (6.0)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (2.23.0)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.0.1)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.2.2)
+Requirement already satisfied: pillow&gt;6.0.0 in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (7.1.2)
+Requirement already satisfied: fastdownload&lt;2,&gt;=0.0.5 in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (0.0.5)
+Requirement already satisfied: spacy&lt;4 in /usr/local/lib/python3.7/dist-packages (from fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (2.2.4)
+Requirement already satisfied: numpy in /usr/local/lib/python3.7/dist-packages (from fastprogress&gt;=0.2.4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.19.5)
+Requirement already satisfied: jupyter in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.0.0)
+Requirement already satisfied: nbformat&gt;=4.4.0 in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.1.3)
+Requirement already satisfied: nbconvert&lt;6 in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.6.1)
+Requirement already satisfied: jupyter-client&lt;7.0 in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.3.5)
+Requirement already satisfied: fastrelease in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.1.12)
+Requirement already satisfied: ipykernel in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (4.10.1)
+Requirement already satisfied: ghapi in /usr/local/lib/python3.7/dist-packages (from nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.1.19)
+Requirement already satisfied: traitlets in /usr/local/lib/python3.7/dist-packages (from jupyter-client&lt;7.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.1.1)
+Requirement already satisfied: tornado&gt;=4.1 in /usr/local/lib/python3.7/dist-packages (from jupyter-client&lt;7.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.1.1)
+Requirement already satisfied: jupyter-core&gt;=4.6.0 in /usr/local/lib/python3.7/dist-packages (from jupyter-client&lt;7.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (4.9.1)
+Requirement already satisfied: pyzmq&gt;=13 in /usr/local/lib/python3.7/dist-packages (from jupyter-client&lt;7.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (22.3.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from jupyter-client&lt;7.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (2.8.2)
+Requirement already satisfied: pandocfilters&gt;=1.4.1 in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.5.0)
+Requirement already satisfied: testpath in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.5.0)
+Requirement already satisfied: bleach in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (4.1.0)
+Requirement already satisfied: mistune&lt;2,&gt;=0.8.1 in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.8.4)
+Requirement already satisfied: defusedxml in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.7.1)
+Requirement already satisfied: pygments in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (2.6.1)
+Requirement already satisfied: entrypoints&gt;=0.2.2 in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.3)
+Requirement already satisfied: jinja2&gt;=2.4 in /usr/local/lib/python3.7/dist-packages (from nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (2.11.3)
+Requirement already satisfied: MarkupSafe&gt;=0.23 in /usr/local/lib/python3.7/dist-packages (from jinja2&gt;=2.4-&gt;nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (2.0.1)
+Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.7/dist-packages (from nbformat&gt;=4.4.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.2.0)
+Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in /usr/local/lib/python3.7/dist-packages (from nbformat&gt;=4.4.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (2.6.0)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil&gt;=2.1-&gt;jupyter-client&lt;7.0-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.15.0)
+Requirement already satisfied: blis&lt;0.5.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (0.4.1)
+Requirement already satisfied: catalogue&lt;1.1.0,&gt;=0.0.7 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.0.0)
+Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.0.6)
+Requirement already satisfied: plac&lt;1.2.0,&gt;=0.9.6 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.1.3)
+Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (2.0.6)
+Requirement already satisfied: tqdm&lt;5.0.0,&gt;=4.38.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (4.62.3)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (57.4.0)
+Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (0.8.2)
+Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.0.6)
+Requirement already satisfied: srsly&lt;1.1.0,&gt;=1.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.0.5)
+Requirement already satisfied: thinc==7.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (7.4.0)
+Requirement already satisfied: importlib-metadata&gt;=0.20 in /usr/local/lib/python3.7/dist-packages (from catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (4.8.2)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.6.0)
+Requirement already satisfied: typing-extensions&gt;=3.6.4 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.10.0.2)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (2.10)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.24.3)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (2021.10.8)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.0.4)
+Requirement already satisfied: sacremoses in /usr/local/lib/python3.7/dist-packages (from transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (0.0.46)
+Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (3.4.0)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.7/dist-packages (from transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (2019.12.20)
+Requirement already satisfied: tokenizers&lt;0.11,&gt;=0.10.1 in /usr/local/lib/python3.7/dist-packages (from transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (0.10.3)
+Requirement already satisfied: huggingface-hub&lt;1.0,&gt;=0.1.0 in /usr/local/lib/python3.7/dist-packages (from transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (0.2.0)
+Requirement already satisfied: pyparsing!=3.0.5,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.0.6)
+Requirement already satisfied: webencodings in /usr/local/lib/python3.7/dist-packages (from bleach-&gt;nbconvert&lt;6-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.5.1)
+Requirement already satisfied: xxhash in /usr/local/lib/python3.7/dist-packages (from datasets-&gt;ohmeow-blurr==0.1.2) (2.0.2)
+Requirement already satisfied: aiohttp in /usr/local/lib/python3.7/dist-packages (from datasets-&gt;ohmeow-blurr==0.1.2) (3.8.1)
+Requirement already satisfied: fsspec[http]&gt;=2021.05.0 in /usr/local/lib/python3.7/dist-packages (from datasets-&gt;ohmeow-blurr==0.1.2) (2021.11.1)
+Requirement already satisfied: dill in /usr/local/lib/python3.7/dist-packages (from datasets-&gt;ohmeow-blurr==0.1.2) (0.3.4)
+Requirement already satisfied: pyarrow!=4.0.0,&gt;=3.0.0 in /usr/local/lib/python3.7/dist-packages (from datasets-&gt;ohmeow-blurr==0.1.2) (3.0.0)
+Requirement already satisfied: multiprocess in /usr/local/lib/python3.7/dist-packages (from datasets-&gt;ohmeow-blurr==0.1.2) (0.70.12.2)
+Requirement already satisfied: asynctest==0.13.0 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (0.13.0)
+Requirement already satisfied: frozenlist&gt;=1.1.1 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (1.2.0)
+Requirement already satisfied: async-timeout&lt;5.0,&gt;=4.0.0a3 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (4.0.1)
+Requirement already satisfied: yarl&lt;2.0,&gt;=1.0 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (1.7.2)
+Requirement already satisfied: multidict&lt;7.0,&gt;=4.5 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (5.2.0)
+Requirement already satisfied: aiosignal&gt;=1.1.2 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (1.2.0)
+Requirement already satisfied: charset-normalizer&lt;3.0,&gt;=2.0 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (2.0.8)
+Requirement already satisfied: attrs&gt;=17.3.0 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets-&gt;ohmeow-blurr==0.1.2) (21.2.0)
+Requirement already satisfied: ipython&gt;=4.0.0 in /usr/local/lib/python3.7/dist-packages (from ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.5.0)
+Requirement already satisfied: pexpect in /usr/local/lib/python3.7/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (4.8.0)
+Requirement already satisfied: simplegeneric&gt;0.8 in /usr/local/lib/python3.7/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.8.1)
+Requirement already satisfied: decorator in /usr/local/lib/python3.7/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (4.4.2)
+Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.4 in /usr/local/lib/python3.7/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.0.18)
+Requirement already satisfied: pickleshare in /usr/local/lib/python3.7/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.7.5)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.7/dist-packages (from prompt-toolkit&lt;2.0.0,&gt;=1.0.4-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.2.5)
+Requirement already satisfied: ipywidgets in /usr/local/lib/python3.7/dist-packages (from jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (7.6.5)
+Requirement already satisfied: qtconsole in /usr/local/lib/python3.7/dist-packages (from jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.2.1)
+Requirement already satisfied: notebook in /usr/local/lib/python3.7/dist-packages (from jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.3.1)
+Requirement already satisfied: jupyter-console in /usr/local/lib/python3.7/dist-packages (from jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (5.2.0)
+Requirement already satisfied: jupyterlab-widgets&gt;=1.0.0 in /usr/local/lib/python3.7/dist-packages (from ipywidgets-&gt;jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.0.2)
+Requirement already satisfied: widgetsnbextension~=3.5.0 in /usr/local/lib/python3.7/dist-packages (from ipywidgets-&gt;jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (3.5.2)
+Requirement already satisfied: Send2Trash in /usr/local/lib/python3.7/dist-packages (from notebook-&gt;jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.8.0)
+Requirement already satisfied: terminado&gt;=0.8.1 in /usr/local/lib/python3.7/dist-packages (from notebook-&gt;jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.12.1)
+Requirement already satisfied: ptyprocess in /usr/local/lib/python3.7/dist-packages (from terminado&gt;=0.8.1-&gt;notebook-&gt;jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (0.7.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (1.3.2)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (0.11.0)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (2018.9)
+Requirement already satisfied: qtpy in /usr/local/lib/python3.7/dist-packages (from qtconsole-&gt;jupyter-&gt;nbdev&lt;2.0.0,&gt;=1.1.0-&gt;ohmeow-blurr==0.1.2) (1.11.2)
+Requirement already satisfied: absl-py in /usr/local/lib/python3.7/dist-packages (from rouge-score-&gt;ohmeow-blurr==0.1.2) (0.12.0)
+Requirement already satisfied: nltk in /usr/local/lib/python3.7/dist-packages (from rouge-score-&gt;ohmeow-blurr==0.1.2) (3.2.5)
+Requirement already satisfied: joblib in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (1.1.0)
+Requirement already satisfied: click in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers&gt;=4.6-&gt;ohmeow-blurr==0.1.2) (7.1.2)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.7/dist-packages (from scikit-learn-&gt;fastai&gt;=2.4-&gt;ohmeow-blurr==0.1.2) (3.0.0)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fastai.text.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">blurr.data.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">blurr.modeling.all</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="loading-our-snorkel-training-data">
+<h2>Loading our snorkel training data<a class="headerlink" href="#loading-our-snorkel-training-data" title="Permalink to this headline">¶</a></h2>
+<p>We’ll load the data we created previously using our labelling functions/snorkel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;snorkel_train.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/IPython/core/interactiveshell.py:2718: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="preparing-our-data">
+<h2>Preparing our data<a class="headerlink" href="#preparing-our-data" title="Permalink to this headline">¶</a></h2>
+<p>Some of this will look fairly familiar from the previous but there is a little bit more ‘housekeeping’ to do now. We’ll briefly explain what is happening in this different stages.</p>
+<p>First we create a variable which just stores the number of labels we could have. This is a bit redundant here since we know it’s two but we might not always remember how many labels we have.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_labels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;snorkel_genre&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">n_labels</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now need to specify the type of model we want to use. We want to do text classification, which is also known as ‘sequence classification’. We use the Transformers libraries <a class="reference external" href="https://huggingface.co/transformers/model_doc/auto.html"><code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Classes</span></code></a> to do a lot of the setup work of creating a model for the task we want to do (text classifcation) using a particular model architecture. This makes it very easy to swap the model we use without having to change our code.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_cls</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now pass in the name of the model we want to use as our initial pre-trained model. We could choose from many of the models in the huggingface hub to serve as the starting point for our new transformer based model. In this case we choose ‘distilbert-base-cased’, this is a lighter version of Bert which is slightly less computationally expensive to train, we also use a ‘cased’ model. This means that “Dog” is different to “dog”, since we have relatively short sequences of text and capitalisation is often important in a book title our intuition was that this model might work a little better than an uncased model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pretrained_model_name</span> <span class="o">=</span> <span class="s2">&quot;distilbert-base-cased&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">pretrained_model_name</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">num_labels</span> <span class="o">=</span> <span class="n">n_labels</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now use a blur method <code class="docutils literal notranslate"><span class="pre">get_hf_objects</span></code> to get all of the various components of our model (tokenizer, etc.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_config</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">hf_model</span> <span class="o">=</span> <span class="n">BLURR</span><span class="o">.</span><span class="n">get_hf_objects</span><span class="p">(</span>
+    <span class="n">pretrained_model_name</span><span class="p">,</span> <span class="n">model_cls</span><span class="o">=</span><span class="n">model_cls</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now load our data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blocks</span> <span class="o">=</span> <span class="p">(</span><span class="n">HF_TextBlock</span><span class="p">(</span><span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_config</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">hf_model</span><span class="p">),</span> <span class="n">CategoryBlock</span><span class="p">)</span>
+<span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">(</span>
+    <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+    <span class="n">get_x</span><span class="o">=</span><span class="n">ColReader</span><span class="p">(</span><span class="s2">&quot;Title&quot;</span><span class="p">),</span>
+    <span class="n">get_y</span><span class="o">=</span><span class="n">ColReader</span><span class="p">(</span><span class="s2">&quot;snorkel_genre&quot;</span><span class="p">),</span>
+    <span class="n">splitter</span><span class="o">=</span><span class="n">ColSplitter</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="n">dls</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">dataloaders</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can take a look at our data as we saw before</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dls</span><span class="o">.</span><span class="n">show_batch</span><span class="p">(</span><span class="n">dataloaders</span><span class="o">=</span><span class="n">dls</span><span class="p">,</span> <span class="n">max_n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Los Héroes y las Maravillas del Mundo.... Anales del mundo desde los tiempos bíblicos hasta nuestros dias.... Gran Memorandum histórico... que comprende íntegras las obras siguientes. La Imparcial... Historia Universal, escrita por el sabio Benedictino Clemente y su tan celebrado Arte de comprobar los datos de las fechas históricas, crónicas y otros antiguos documentos ;... continuada hasta hoy dia por M. de Saint Allais ; la Historia de Alejandro el Grande, escrita por Quinto Curcio, la de Cártago y Roma, Anibal y los Escipiones, Pompeyo y Cesar, continuados los famosos Comentarios de este último ; la de la guerra de Yugurta y Catilina, trasladado íntegro todo el Salustio. La Historia de la guerra de los Judios contra los Romanos.... Descripcion del Capitolio, destruccion de Jerusalen, Martirio de los Macabeos, etc. escrita por Flavio Josefo, traducida del original Griego... acompañadas dichas historias con las fideles tablas cronológicas de la citada obra de Clemente.... Seguido todo de los tan celebrados cuadros de la pintura del hombre y de las maravillas que le rodean por... Buffon, Cuvier, Lacepede,... precedido del discurso sobre la Historia Universal por... Bossuet.... Dispuesto, ordenado, y completado el cuerpo general de la obra hasta el dia que termine por D. de Mora y Casarusa. Revisada la parte religiosa que comprende por I. Sayol y E</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Les Corte - Real et leurs voyages au Nouveau - Monde, d'après des documents nouveaux... tirés des archives de Lisbonne et de Modène. Suivi du texte inédit d'un récit de la troisième expédition de Gaspar Corte - Real et d'une importante carte nautique portugaise de l'année 1502 reproduite ici pour la première fois. Mémoire lu à l'Académie des inscriptions et belles - lettres, etc</td>
+      <td>Non-fiction</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="creating-our-learner">
+<h2>Creating our learner<a class="headerlink" href="#creating-our-learner" title="Permalink to this headline">¶</a></h2>
+<p>We now create a fastai learner. This is a bit more verbose than previously because we specify an optimizer and don’t use the <code class="docutils literal notranslate"><span class="pre">text_classifier_learner</span></code> convenience function but directly use a fastai <code class="docutils literal notranslate"><span class="pre">Learner</span></code> class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">HF_BaseModelWrapper</span><span class="p">(</span><span class="n">hf_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span>
+    <span class="n">dls</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">opt_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">Adam</span><span class="p">,</span> <span class="n">decouple_wd</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">loss_func</span><span class="o">=</span><span class="n">CrossEntropyLossFlat</span><span class="p">(),</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">F1Score</span><span class="p">(</span><span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)],</span>
+    <span class="n">cbs</span><span class="o">=</span><span class="p">[</span><span class="n">HF_BaseModelCallback</span><span class="p">],</span>
+    <span class="n">splitter</span><span class="o">=</span><span class="n">hf_splitter</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to_fp16</span><span class="p">()</span>
+<span class="n">learn</span><span class="o">.</span><span class="n">unfreeze</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we saw before we can use the learning rate finder to help find a suitable learning rate</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">suggested</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">lr_find</span><span class="p">(</span><span class="n">suggest_funcs</span><span class="o">=</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">steep</span><span class="p">,</span> <span class="n">valley</span><span class="p">,</span> <span class="n">slide</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><img alt="_images/04b_transformer_26_1.png" src="_images/04b_transformer_26_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="training-our-model">
+<h2>Training our model<a class="headerlink" href="#training-our-model" title="Permalink to this headline">¶</a></h2>
+<p>We are now ready to train our model. We again set a high number of epochs but as we did before we set a callback to stop training if we don’t see any improvement. We are fairly ‘aggressive’ here with how long we accept for the model to not improve since transformers can take some time to converge and we might stop too early if we set our ‘patience’ value too low.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span>
+    <span class="mi">200</span><span class="p">,</span>
+    <span class="n">lr_max</span><span class="o">=</span><span class="n">suggested</span><span class="o">.</span><span class="n">valley</span><span class="p">,</span>
+    <span class="n">cbs</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">ShowGraphCallback</span><span class="p">(),</span>
+        <span class="n">SaveModelCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">),</span>
+        <span class="n">EarlyStoppingCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">40</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>f1_score</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.060123</td>
+      <td>0.051887</td>
+      <td>0.983149</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.039713</td>
+      <td>0.042197</td>
+      <td>0.985315</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.027020</td>
+      <td>0.041089</td>
+      <td>0.986084</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.029702</td>
+      <td>0.038905</td>
+      <td>0.988239</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.018178</td>
+      <td>0.049402</td>
+      <td>0.986665</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.009065</td>
+      <td>0.049319</td>
+      <td>0.988239</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.020446</td>
+      <td>0.060483</td>
+      <td>0.979554</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.002944</td>
+      <td>0.063162</td>
+      <td>0.987050</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.011935</td>
+      <td>0.062683</td>
+      <td>0.984502</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.004221</td>
+      <td>0.060780</td>
+      <td>0.986274</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>0.004522</td>
+      <td>0.062091</td>
+      <td>0.987845</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>0.007166</td>
+      <td>0.076208</td>
+      <td>0.986271</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>0.005970</td>
+      <td>0.079016</td>
+      <td>0.983505</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>0.003643</td>
+      <td>0.086152</td>
+      <td>0.987058</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>0.003472</td>
+      <td>0.067530</td>
+      <td>0.987650</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>0.004275</td>
+      <td>0.079636</td>
+      <td>0.984690</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>0.002333</td>
+      <td>0.097226</td>
+      <td>0.987835</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>0.012736</td>
+      <td>0.105738</td>
+      <td>0.980152</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>0.009452</td>
+      <td>0.075489</td>
+      <td>0.987058</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>0.010471</td>
+      <td>0.075243</td>
+      <td>0.985091</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>0.004342</td>
+      <td>0.080865</td>
+      <td>0.987256</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td>0.004818</td>
+      <td>0.065917</td>
+      <td>0.986469</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td>0.003990</td>
+      <td>0.063894</td>
+      <td>0.989813</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td>0.001782</td>
+      <td>0.068293</td>
+      <td>0.985486</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>0.002841</td>
+      <td>0.087124</td>
+      <td>0.985504</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>0.001891</td>
+      <td>0.114441</td>
+      <td>0.981345</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>0.000964</td>
+      <td>0.076350</td>
+      <td>0.986268</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td>0.016404</td>
+      <td>0.064211</td>
+      <td>0.986668</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td>0.007761</td>
+      <td>0.098833</td>
+      <td>0.981928</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>0.002238</td>
+      <td>0.086547</td>
+      <td>0.987844</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td>0.001297</td>
+      <td>0.104954</td>
+      <td>0.986680</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>31</td>
+      <td>0.008544</td>
+      <td>0.090013</td>
+      <td>0.987068</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td>0.021495</td>
+      <td>0.073693</td>
+      <td>0.986865</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>33</td>
+      <td>0.010735</td>
+      <td>0.076588</td>
+      <td>0.985287</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>0.019394</td>
+      <td>0.082637</td>
+      <td>0.985502</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>35</td>
+      <td>0.024986</td>
+      <td>0.095525</td>
+      <td>0.982754</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>36</td>
+      <td>0.007694</td>
+      <td>0.094301</td>
+      <td>0.983169</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>37</td>
+      <td>0.012463</td>
+      <td>0.119983</td>
+      <td>0.977004</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>38</td>
+      <td>0.001733</td>
+      <td>0.106687</td>
+      <td>0.983328</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>39</td>
+      <td>0.009871</td>
+      <td>0.135160</td>
+      <td>0.983547</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>0.015142</td>
+      <td>0.100540</td>
+      <td>0.982729</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>41</td>
+      <td>0.001927</td>
+      <td>0.117343</td>
+      <td>0.986471</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>42</td>
+      <td>0.007925</td>
+      <td>0.117450</td>
+      <td>0.986677</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>0.008723</td>
+      <td>0.116880</td>
+      <td>0.982732</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>44</td>
+      <td>0.012559</td>
+      <td>0.094407</td>
+      <td>0.984513</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>45</td>
+      <td>0.016927</td>
+      <td>0.093906</td>
+      <td>0.984899</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>46</td>
+      <td>0.010378</td>
+      <td>0.104164</td>
+      <td>0.982724</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>47</td>
+      <td>0.014394</td>
+      <td>0.108287</td>
+      <td>0.981355</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>48</td>
+      <td>0.020906</td>
+      <td>0.081940</td>
+      <td>0.985282</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>49</td>
+      <td>0.003692</td>
+      <td>0.117217</td>
+      <td>0.981788</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td>0.012168</td>
+      <td>0.094801</td>
+      <td>0.987057</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>51</td>
+      <td>0.001132</td>
+      <td>0.139414</td>
+      <td>0.980965</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>52</td>
+      <td>0.003774</td>
+      <td>0.107085</td>
+      <td>0.984914</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>53</td>
+      <td>0.020428</td>
+      <td>0.109873</td>
+      <td>0.983160</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>54</td>
+      <td>0.004329</td>
+      <td>0.150685</td>
+      <td>0.981409</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>55</td>
+      <td>0.018772</td>
+      <td>0.112568</td>
+      <td>0.981369</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>56</td>
+      <td>0.021617</td>
+      <td>0.104197</td>
+      <td>0.980429</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>57</td>
+      <td>0.002843</td>
+      <td>0.170612</td>
+      <td>0.980787</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>58</td>
+      <td>0.019212</td>
+      <td>0.085586</td>
+      <td>0.981965</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>59</td>
+      <td>0.004333</td>
+      <td>0.117783</td>
+      <td>0.984307</td>
+      <td>01:12</td>
+    </tr>
+    <tr>
+      <td>60</td>
+      <td>0.015321</td>
+      <td>0.098634</td>
+      <td>0.983136</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>61</td>
+      <td>0.000560</td>
+      <td>0.129529</td>
+      <td>0.983737</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>62</td>
+      <td>0.002459</td>
+      <td>0.115576</td>
+      <td>0.976807</td>
+      <td>01:13</td>
+    </tr>
+  </tbody>
+</table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.9831487323424476.
+</pre></div>
+</div>
+<img alt="_images/04b_transformer_28_2.png" src="_images/04b_transformer_28_2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 1 with f1_score value: 0.9853153996035091.
+Better model found at epoch 2 with f1_score value: 0.9860838987594831.
+Better model found at epoch 3 with f1_score value: 0.9882387687911827.
+Better model found at epoch 22 with f1_score value: 0.9898127825545218.
+No improvement since epoch 22: early stopping
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stage-1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Path(&#39;models/stage-1.pth&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="testing-our-model">
+<h3>Testing our model<a class="headerlink" href="#testing-our-model" title="Permalink to this headline">¶</a></h3>
+<p>As before we want to see how our model does on unseen test data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;test_errors.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">]]</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;true_label&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">isin</span><span class="p">({</span><span class="s2">&quot;non_fiction&quot;</span><span class="p">,</span> <span class="s2">&quot;fiction&quot;</span><span class="p">})]</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">test_dl</span><span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;title&quot;</span><span class="p">])</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">get_preds</span><span class="p">(</span><span class="n">dl</span><span class="o">=</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">true_labels</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="n">classification_report</span><span class="p">(</span>
+        <span class="n">true_labels</span><span class="p">,</span>
+        <span class="n">predictions</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.91      0.94      0.93       296
+           1       0.97      0.95      0.96       554
+
+    accuracy                           0.95       850
+   macro avg       0.94      0.95      0.94       850
+weighted avg       0.95      0.95      0.95       850
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that we do get some improvements compared to our previous model 🤗!</p>
+</div>
+</div>
+<div class="section" id="sharing-our-model-stage-1">
+<h2>Sharing our model (stage 1)<a class="headerlink" href="#sharing-our-model-stage-1" title="Permalink to this headline">¶</a></h2>
+<p>We now have a model that is doing fairly well. Although we constructed this model for our particular task and data, it’s still possible that others will benefit from this model so we might want to consider uploading it to the 🤗 model hub. Let’s start by poking around inside the <code class="docutils literal notranslate"><span class="pre">model</span></code> object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">hf_model</span><span class="o">.</span><span class="n">config</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DistilBertConfig {
+  &quot;_name_or_path&quot;: &quot;distilbert-base-cased&quot;,
+  &quot;activation&quot;: &quot;gelu&quot;,
+  &quot;attention_dropout&quot;: 0.1,
+  &quot;dim&quot;: 768,
+  &quot;dropout&quot;: 0.1,
+  &quot;hidden_dim&quot;: 3072,
+  &quot;initializer_range&quot;: 0.02,
+  &quot;max_position_embeddings&quot;: 512,
+  &quot;model_type&quot;: &quot;distilbert&quot;,
+  &quot;n_heads&quot;: 12,
+  &quot;n_layers&quot;: 6,
+  &quot;output_past&quot;: true,
+  &quot;pad_token_id&quot;: 0,
+  &quot;qa_dropout&quot;: 0.1,
+  &quot;seq_classif_dropout&quot;: 0.2,
+  &quot;sinusoidal_pos_embds&quot;: false,
+  &quot;tie_weights_&quot;: true,
+  &quot;transformers_version&quot;: &quot;4.12.5&quot;,
+  &quot;vocab_size&quot;: 28996
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that this includes a bunch of information about our model. One thing which we haven’t got here is our labels. At the moment when we make predictions we get <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> back. To fix this we can quickly assign a dictionary to the <code class="docutils literal notranslate"><span class="pre">model.config</span></code> <code class="docutils literal notranslate"><span class="pre">id2label</span></code> attribute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: &#39;Fiction&#39;, 1: &#39;Non-fiction&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">hf_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">id2label</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now upload to the hub. There are various ways in which we can do this, here we’ll use the command line interface. First we login:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>transformers-cli login
+</pre></div>
+</div>
+</div>
+</div>
+<p>For Colab we also need to install <a class="reference external" href="https://git-lfs.github.com/">git lfs</a>. If you haven’t come accross this before <a class="reference external" href="https://git-lfs.github.com/">git lfs</a> is a tool for working with large files using Git. It can be very useful for versioning files, in this case our model, which are too big for GitHub to accept otherwise. In particular it can be very helpful in keeping track of versions of models.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>sudo apt install git-lfs
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  git-lfs
+0 upgraded, 1 newly installed, 0 to remove and 40 not upgraded.
+Need to get 2,129 kB of archives.
+After this operation, 7,662 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic/universe amd64 git-lfs amd64 2.3.4-1 [2,129 kB]
+Fetched 2,129 kB in 1s (1,682 kB/s)
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76, &lt;&gt; line 1.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+Selecting previously unselected package git-lfs.
+(Reading database ... 148492 files and directories currently installed.)
+Preparing to unpack .../git-lfs_2.3.4-1_amd64.deb ...
+Unpacking git-lfs (2.3.4-1) ...
+Setting up git-lfs (2.3.4-1) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+</pre></div>
+</div>
+</div>
+</div>
+<p>We initialize a git repo and install git lfs</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>git init
+<span class="o">!</span>git lfs install
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialized empty Git repository in /content/.git/
+Updated git hooks.
+Git LFS initialized.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also put in some basic data for Git</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>git config --global user.email EMAIL
+<span class="o">!</span>git config --global user.name NAME
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="push-to-the-hub">
+<h2>Push to the 🤗 hub<a class="headerlink" href="#push-to-the-hub" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">hf_model</span><span class="o">.</span><span class="n">push_to_hub</span><span class="p">(</span><span class="s2">&quot;bl-books-genre&quot;</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cloning https://huggingface.co/davanstrien/bl-books-genre into local empty directory.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "74511a0880dc42259be42c9898acba62", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>To https://huggingface.co/davanstrien/bl-books-genre
+   784ae4b..b063856  main -&gt; main
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://huggingface.co/davanstrien/bl-books-genre/commit/b0638563b8155fa1699beda323a0a3cfbccf4731&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hf_tokenizer</span><span class="o">.</span><span class="n">push_to_hub</span><span class="p">(</span><span class="s2">&quot;bl-books-genre&quot;</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For now we keep our model ‘private’, in a subsequent section we’ll look at a few things which we probably want to do before we unleash our model into the wild.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this notebook we finally got to play with a transformer model, and we do benefit from slightly improved performance. However, much of this performance came from having built a better training set, and having already built a model and begun to understand the errors of this model. We originally trained a transformer model (an even bigger one) on this data and got worse results than in our fastai model. It is almost always worth a bit of effort improving our data rather than reaching straight for the biggest model we can fit on our GPU.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="04a_fastai.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Fine tuning our fastai model with new data</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="05_share_outputs.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Sharing our work</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

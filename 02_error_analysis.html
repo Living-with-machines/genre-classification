@@ -1,0 +1,1319 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assessing where our model is going wrong &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to create more training data without more annotating" href="04_snorkel.html" />
+    <link rel="prev" title="Improving our model" href="01b_improving_results.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Genre Classification
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="zooniverse.html">
+   Overview of the project: classifying British Library books by genre
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="genre_classification.html">
+   Genre Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_crude_genre.html">
+   Crude Genre Classification
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  EDA
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_i.html">
+   Sample Inspector (Part I)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample_inspector_ii.html">
+   Sample Inspector (Part II)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Training our first model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_BL_fiction_non_fiction.html">
+   Training our first book genre classification model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_inference.html">
+   Model inference
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assesing our models performance
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b_improving_results.html">
+   Improving our model
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Assessing where our model is going wrong
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Improving our model
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_snorkel.html">
+   How to create more training data without more annotating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_using_our_new_data.html">
+   Using our newly expanded data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04a_fastai.html">
+   Fine tuning our fastai model with new data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04b_transformer.html">
+   Using a transformer based model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sharing our results and final inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05_share_outputs.html">
+   Sharing our work
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06_pipeline_inference.html">
+   Using our new Hugging Face model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Further resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/02_error_analysis.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/02_error_analysis.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/02_error_analysis.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#addressing-our-worries-about-domain-shift-creating-a-new-test-set">
+   Addressing our worries about domain shift: creating a new test set
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#potential-areas-of-difference">
+     Potential areas of difference
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#language">
+       Language
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#dates">
+       Dates
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#difficult-titles-skipped">
+       Difficult titles skipped
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-a-new-randomly-sampled-test-dataset">
+   Creating a new randomly sampled test dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#our-new-test-data">
+     Our new test data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metrics-on-our-test-data">
+     Metrics on our test data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#where-and-why-our-model-sucks">
+   🤡 Where (and why?) our model sucks?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-does-confidence-vary">
+     How does confidence vary?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#looking-at-the-confidence-of-our-predictions">
+   Looking at the confidence of our predictions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-factors-that-impact-model-performance">
+   Other factors that impact model performance?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#looking-at-some-examples">
+   Looking at some examples
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#things-we-might-notice">
+     Things we might notice
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="assessing-where-our-model-is-going-wrong">
+<h1>Assessing where our model is going wrong<a class="headerlink" href="#assessing-where-our-model-is-going-wrong" title="Permalink to this headline">¶</a></h1>
+<p>The model we trained in the previous notebooks had a fairly high f1 score when we tested the model on our validation set, however when we tested it on a new ‘test’ dataset our performance was lower. In this notebook we’ll dig into this is a little more detail.</p>
+<div class="section" id="addressing-our-worries-about-domain-shift-creating-a-new-test-set">
+<h2>Addressing our worries about domain shift: creating a new test set<a class="headerlink" href="#addressing-our-worries-about-domain-shift-creating-a-new-test-set" title="Permalink to this headline">¶</a></h2>
+<p>We have previously discussed domain drift but as a reminder this is broadly when the data we make predictions against is different from, or becomes different from the training data. As an example, a model which is used to predict ice-cream sales which had training data from the summer months is likely to do less well (or badly) at predicting ice-cream sales in the winter.</p>
+<p>In our case the divergence might be more subtle. One potential issue is in the sampling used to generate our initial training data might not be completely random. This could lead to subtle differences in our training data compared to the data we will be predicting against.</p>
+<div class="section" id="potential-areas-of-difference">
+<h3>Potential areas of difference<a class="headerlink" href="#potential-areas-of-difference" title="Permalink to this headline">¶</a></h3>
+<p>There are a bunch of ways in which the training data we have doesn’t match the target full dataset we want to predict on including:</p>
+<div class="section" id="language">
+<h4>Language<a class="headerlink" href="#language" title="Permalink to this headline">¶</a></h4>
+<p>The full British Library Microsoft Books corpus contains a range of different languages. As the Zooniverse annotation task was done by speakers of a subset of languages there might be an over or under-representation of languages in the training data compared to the full data.</p>
+</div>
+<div class="section" id="dates">
+<h4>Dates<a class="headerlink" href="#dates" title="Permalink to this headline">¶</a></h4>
+<p>The full dataset covers a broad time period with the tiles likely varying quite a bit from the beginning of this period 1500s, compared to the later period 1800s. If the training data is over-represented by one period we might expect the model to struggle with titles from different time period.</p>
+</div>
+<div class="section" id="difficult-titles-skipped">
+<h4>Difficult titles skipped<a class="headerlink" href="#difficult-titles-skipped" title="Permalink to this headline">¶</a></h4>
+<p>Genre is not always clear cut and it can be difficult to tell in some cases, or the book contains a mixture that could be reasonably labeled as either fiction or non-fiction for example, a book of poems with significant commentary about the poems. If annotators skipped these examples the training data won’t include as many ‘hard’ examples for the model to learn from. We could also be generous and say if a human expert annotator is struggling to classify the books genre then a machine learning model might also struggle.</p>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-new-randomly-sampled-test-dataset">
+<h2>Creating a new randomly sampled test dataset<a class="headerlink" href="#creating-a-new-randomly-sampled-test-dataset" title="Permalink to this headline">¶</a></h2>
+<p>After developing a model we wanted to test out how well it performed on completely unseen data that was randomly sampled from the full BL books corpus. To do this we decided to internally do some verification of the results of the model previously trained. We did this by:</p>
+<ul class="simple">
+<li><p>sampling <em>randomly</em> from the full books corpus</p></li>
+<li><p>verifying the models predictions</p></li>
+</ul>
+<p>All of this was done using a crude Google sheet with a couple of people working through this data. Since the aim was to cover as many titles as possible there was sometimes some work required to translate titles, or look at the digitized copy of the book in the BL catalogue for verification. This results in a new ‘test’ dataset which we used to evaluate our model against.</p>
+<p>This section will explore the results with this test data. First we import some packages</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We load our initial input data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_training</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/annotations.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>and our new test dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/test_errors.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>999
+</pre></div>
+</div>
+</div>
+</div>
+<p>We do a bit of tidying to make sure the format of the labels matches…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Non-fiction&#39;, &#39;Fiction&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;non_fiction&#39;, &#39;fiction&#39;, &#39;both&#39;, nan], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;true_label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;non_fiction&quot;</span><span class="p">,</span> <span class="s2">&quot;fiction&quot;</span><span class="p">])]</span>
+<span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="our-new-test-data">
+<h3>Our new test data<a class="headerlink" href="#our-new-test-data" title="Permalink to this headline">¶</a></h3>
+<p>Our new test dataframe includes the following columns which are relevant here:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;predicted_label&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fiction_probs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;non_fiction_probs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;true_label&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;free text comment&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>predicted_label</th>
+      <th>fiction_probs</th>
+      <th>non_fiction_probs</th>
+      <th>true_label</th>
+      <th>free text comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>non_fiction</td>
+      <td>0.020685</td>
+      <td>0.979315</td>
+      <td>non_fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>non_fiction</td>
+      <td>0.037538</td>
+      <td>0.962462</td>
+      <td>non_fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>non_fiction</td>
+      <td>0.389111</td>
+      <td>0.610889</td>
+      <td>fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>non_fiction</td>
+      <td>0.050611</td>
+      <td>0.949388</td>
+      <td>non_fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>non_fiction</td>
+      <td>0.087175</td>
+      <td>0.912825</td>
+      <td>non_fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>fiction</td>
+      <td>0.927855</td>
+      <td>0.072145</td>
+      <td>fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>non_fiction</td>
+      <td>0.354936</td>
+      <td>0.645064</td>
+      <td>fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>fiction</td>
+      <td>0.537227</td>
+      <td>0.462773</td>
+      <td>non_fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>non_fiction</td>
+      <td>0.087564</td>
+      <td>0.912436</td>
+      <td>fiction</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>non_fiction</td>
+      <td>0.068475</td>
+      <td>0.931525</td>
+      <td>non_fiction</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>850 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>We see above the <code class="docutils literal notranslate"><span class="pre">predicted_label</span></code> this is the label predicted by our previously trained mode, we also have the probabilities for these predictions. The <code class="docutils literal notranslate"><span class="pre">true_label</span></code> is a <em>new</em> human annotation of the correct label.</p>
+</div>
+<div class="section" id="metrics-on-our-test-data">
+<h3>Metrics on our test data<a class="headerlink" href="#metrics-on-our-test-data" title="Permalink to this headline">¶</a></h3>
+<p>As a start let’s see how our model performed on our new test data i.e. how often it’s predictions matched the human annotation for that title.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="n">classification_report</span><span class="p">(</span>
+        <span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span>
+        <span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span>
+        <span class="n">target_names</span><span class="o">=</span><span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+ non_fiction       0.96      0.72      0.82       296
+     fiction       0.87      0.98      0.92       554
+
+    accuracy                           0.89       850
+   macro avg       0.91      0.85      0.87       850
+weighted avg       0.90      0.89      0.89       850
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can notice a few different things here:</p>
+<ul class="simple">
+<li><p>the f1-score is lower than it was in our previous notebook when we looked at the validation data score.</p></li>
+<li><p>there is a fairly big difference in performance between fiction and non-fiction</p></li>
+<li><p>the distribution of our labels is still uneven</p></li>
+</ul>
+<p>This is already useful for us. We might decide to try and annotate more fiction examples to try and improve the performance or to train our model differently to account for the uneven distribution of labels. Before we jump to doing any of these things let’s see if we can understand where our models is going wrong.</p>
+</div>
+</div>
+<div class="section" id="where-and-why-our-model-sucks">
+<h2>🤡 Where (and why?) our model sucks?<a class="headerlink" href="#where-and-why-our-model-sucks" title="Permalink to this headline">¶</a></h2>
+<p>Our single number metrics can be useful for getting an overview of performance on our data as a whole but we sometimes want to also dig into subsets of our data to see whether there are particular facets the model struggles on.</p>
+<div class="section" id="how-does-confidence-vary">
+<h3>How does confidence vary?<a class="headerlink" href="#how-does-confidence-vary" title="Permalink to this headline">¶</a></h3>
+<p>One thing we might want to look at is whether the confidence of the predictions has any impact on errors i.e. if the model is confident is it less often wrong compared to when it is less confident?</p>
+<p>Let’s create a new column <code class="docutils literal notranslate"><span class="pre">argmax</span></code> which stores the probability of the predicted label (as a reminder this is the <code class="docutils literal notranslate"><span class="pre">max</span></code> prediction of the two possible labels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;argmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;fiction_probs&quot;</span><span class="p">,</span> <span class="s2">&quot;non_fiction_probs&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can quickly take a look at the distribution of the confidence for the predicted label</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;argmax&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    850.000000
+mean       0.912980
+std        0.116743
+min        0.502686
+25%        0.904535
+50%        0.966442
+75%        0.982130
+max        0.997301
+Name: argmax, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see here that most of the predictions have above 90% confidence, and 50% of our predictions have above 96% confidence. This is expected because we are using a softmax function when we use cross entropy loss. The lowest predicted confidence is just above 50% suggesting the model was pretty unsure in this example. To make this a bit easier to assess we’ll create a new column <code class="docutils literal notranslate"><span class="pre">correct</span></code> which contains whether our models prediction matched the human prediction in our test data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span> <span class="o">==</span> <span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     True
+1     True
+2    False
+Name: correct, dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can quickly grab some examples where the model was not correct</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">][[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>true_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>['Colville of the Guards']</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>['Metempsychosis. A poem, in two parts. By A. ...</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>['The Cunning-Man ... Originally written and c...</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>['Sheilah McLeod, etc']</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>['Poppæa']</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>989</th>
+      <td>['Poems and Imitations of the British Poets, w...</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>993</th>
+      <td>['Ralph Royster Doyster, a comedy [in five act...</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>['Helga: a poem in seven Cantos. [With notes a...</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>['The Geological Observer']</td>
+      <td>non_fiction</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>['Lays of Far Cathay and others. A collection ...</td>
+      <td>fiction</td>
+    </tr>
+  </tbody>
+</table>
+<p>91 rows × 2 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="looking-at-the-confidence-of-our-predictions">
+<h2>Looking at the confidence of our predictions<a class="headerlink" href="#looking-at-the-confidence-of-our-predictions" title="Permalink to this headline">¶</a></h2>
+<p>Our model (and most machine learning models) give as output “logits” these are the ‘raw’ prediction. Often we then use a softmax or similar funciton to turn these into a probabiliy distribution. We often just take the argmax of this probabiliy to choose a label i.e. pick the label which the model is most ‘confident’ about.</p>
+<p>We might want to use the values associated with these probabilites in some way to determine whether to accept a label. For example if our model gives the following confidences:</p>
+<ul class="simple">
+<li><p>fiction: 51%</p></li>
+<li><p>non_fiction: 49%</p></li>
+</ul>
+<p>We could take the argmax value and use ‘fiction’ as our label. It seems likely however that the model isn’t very sure here. In practice we tend to not get very close values like this so often because of the properties of the softmax function but we may still have some labels predicted much more confidently than others.</p>
+<p>We’ll group our date by whether the prediction was correct or not, and the type of label, and then look at the distribution of the <code class="docutils literal notranslate"><span class="pre">argmax</span></code> value (i.e. the probabily of the label which was predicted).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">])[</span><span class="s2">&quot;argmax&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>correct</th>
+      <th>true_label</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">False</th>
+      <th>fiction</th>
+      <td>82.0</td>
+      <td>0.755182</td>
+      <td>0.148684</td>
+      <td>0.506073</td>
+      <td>0.612328</td>
+      <td>0.794254</td>
+      <td>0.891587</td>
+      <td>0.970296</td>
+    </tr>
+    <tr>
+      <th>non_fiction</th>
+      <td>9.0</td>
+      <td>0.747011</td>
+      <td>0.172843</td>
+      <td>0.537227</td>
+      <td>0.624419</td>
+      <td>0.707089</td>
+      <td>0.899563</td>
+      <td>0.989327</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">True</th>
+      <th>fiction</th>
+      <td>214.0</td>
+      <td>0.869542</td>
+      <td>0.134010</td>
+      <td>0.502686</td>
+      <td>0.808385</td>
+      <td>0.924449</td>
+      <td>0.974263</td>
+      <td>0.996350</td>
+    </tr>
+    <tr>
+      <th>non_fiction</th>
+      <td>545.0</td>
+      <td>0.956519</td>
+      <td>0.060473</td>
+      <td>0.541530</td>
+      <td>0.957278</td>
+      <td>0.974239</td>
+      <td>0.983971</td>
+      <td>0.997301</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Let’s start with the ‘mean’ <code class="docutils literal notranslate"><span class="pre">argmax</span></code> value. We can see that the when the prediction was correct for fiction, the mean argmax value was <code class="docutils literal notranslate"><span class="pre">0.95</span></code>. When the model incorectly predicted ‘fiction’ the mean argmax value was <code class="docutils literal notranslate"><span class="pre">0.75</span></code>.</p>
+<p>When the model correctly predicted ‘non_fiction’ it had a mean <code class="docutils literal notranslate"><span class="pre">argmax</span></code> value of <code class="docutils literal notranslate"><span class="pre">0.95</span></code>. When the model incorrectly predicted the label ‘non_fiction’ it had a mean <code class="docutils literal notranslate"><span class="pre">argmax</span></code> value of <code class="docutils literal notranslate"><span class="pre">0.74</span></code>.</p>
+<p>This possibly suggests that we might want to set a ‘threshold’ for when we accept the model’s predictions for each label. There is a trade off here. If we increase the threshold higher there will be more labels where the model’s suggestions are ignored. If we set the threshold too low we might get more mistakes. Let’s see what happens to our models performance if we set some thresholds based on the above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_subset</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">((</span><span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">==</span> <span class="s2">&quot;fiction&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">fiction_probs</span> <span class="o">&gt;</span> <span class="mf">0.90</span><span class="p">))</span>
+    <span class="o">|</span> <span class="p">((</span><span class="n">df_test</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">==</span> <span class="s2">&quot;non_fiction&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">non_fiction_probs</span> <span class="o">&gt;</span> <span class="mf">0.97</span><span class="p">))</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="n">classification_report</span><span class="p">(</span>
+        <span class="n">df_subset</span><span class="o">.</span><span class="n">true_label</span><span class="p">,</span>
+        <span class="n">df_subset</span><span class="o">.</span><span class="n">predicted_label</span><span class="p">,</span>
+        <span class="n">target_names</span><span class="o">=</span><span class="n">df_subset</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+ non_fiction       0.98      0.99      0.99       125
+     fiction       1.00      0.99      1.00       326
+
+    accuracy                           0.99       451
+   macro avg       0.99      0.99      0.99       451
+weighted avg       0.99      0.99      0.99       451
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see if we pick these higher thresholds, our model does much better. This comes at the expense of coverage. Working out whether you prefer an accurate model or a model that labels all of your data depends in a large part to how you are using your models predictions. You may decide for example to get humans to annotate the examples your model struggled with. If you are working at a very large scale and the alternative is no labels for genre you might still prefer a noisy label compared to no label at all.</p>
+</div>
+<div class="section" id="other-factors-that-impact-model-performance">
+<h2>Other factors that impact model performance?<a class="headerlink" href="#other-factors-that-impact-model-performance" title="Permalink to this headline">¶</a></h2>
+<p>There may be other types of title where our model is wrong more often. We can draw on our intuitions to some extent here but one things that can be very helpful is to have annotated some of the data yourself. If you completely outsource the process of creating training you might not have seen enough examples of the data to have any sense of what it looks like. In the process of creating the test data we noticed some titles are very short and others very long. If a title is very short it has less information and it’s possible our model will struggle. Let’s see if this is the case</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;title_length&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">])[</span><span class="s2">&quot;title_length&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>correct</th>
+      <th>true_label</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">False</th>
+      <th>fiction</th>
+      <td>82.0</td>
+      <td>92.865854</td>
+      <td>59.902341</td>
+      <td>10.0</td>
+      <td>54.75</td>
+      <td>80.5</td>
+      <td>119.0</td>
+      <td>301.0</td>
+    </tr>
+    <tr>
+      <th>non_fiction</th>
+      <td>9.0</td>
+      <td>50.111111</td>
+      <td>22.273552</td>
+      <td>27.0</td>
+      <td>29.00</td>
+      <td>44.0</td>
+      <td>64.0</td>
+      <td>93.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">True</th>
+      <th>fiction</th>
+      <td>214.0</td>
+      <td>50.714953</td>
+      <td>29.242680</td>
+      <td>15.0</td>
+      <td>31.00</td>
+      <td>41.0</td>
+      <td>61.0</td>
+      <td>179.0</td>
+    </tr>
+    <tr>
+      <th>non_fiction</th>
+      <td>545.0</td>
+      <td>118.253211</td>
+      <td>73.611723</td>
+      <td>9.0</td>
+      <td>66.00</td>
+      <td>102.0</td>
+      <td>144.0</td>
+      <td>499.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can see here that when the model predicts fiction the mean length of the title when the model was incorrect is <code class="docutils literal notranslate"><span class="pre">~92</span></code>, when a fiction prediction is correct the man length of the title <code class="docutils literal notranslate"><span class="pre">~50</span></code>. This suggests that maybe our model actually gets thrown off by longer fiction book titles. We see the opposite with non-fiction where our model seems to correctly prediction non-fiction titles when these titles are longer.</p>
+</div>
+<div class="section" id="looking-at-some-examples">
+<h2>Looking at some examples<a class="headerlink" href="#looking-at-some-examples" title="Permalink to this headline">¶</a></h2>
+<p>We can look at some examples of titles to get a better intuition for how our model is behaving. Let’s start with incorrect predictions, where the model was confident. We’ll look at 10 of the most confident wrong examples:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+    <span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;argmax&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">predicted_label</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">argmax</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----&quot;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fiction 0.98932695
+[&#39;Janet Delille. [A novel.]&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.97029626
+[&#39;Royston Winter Recreations in the days of Queen Anne: translated into Spenserian stanza by the Rev. W. W. Harvey, ... from a contemporary Latin poem [entitled “Bruma,” etc.] ... With illustrations by H. J. Thurnall, and notes on Royston Memorabilia by the Royston Publisher [J. Warren]&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.96185756
+[&#39;Legends of the Afghan Countries. In verse. With various pieces, original and translated&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.9605836
+[&#39;In Cornwall, and Across the Sea [in verse]; with poems written in Devonshire, etc&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.9512329
+[&#39;[Pierre le Grand, comédie en quatre actes, et en prose mêlée de chants, etc.]&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.9509604
+[&#39;The poetical works of Oliver Goldsmith. With remarks, attempting to ascertain ... the actual scene of the deserted village; and illustrative engravings, by Mr. Alkin, from drawings taken upon the spot. By the Rev. R. H. Newell&#39;, &#39;Collections. III. Poems&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.9478657
+[&#39;The City of Dreadful Night. And other stories. [“With the Calcutta Police” from “The City of Dreadful Night” and other selected tales. With “Character Sketch of Rudyard Kipling. By Rev. C. O. Day.”]&#39;, &#39;Selections&#39;]
+--------------------------------------------------------------------------------
+fiction 0.9427181
+[&#39;The Lost Manuscripts of a Blue Jacket&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.93851966
+[&#39;[Envy at arms! or, Caloric alarming the Church. [A satire in verse by - Thom? occasioned by the opposition of the Ministers of Edinburgh to the election of J. Leslie to the professorship of mathematics in the University of Edinburgh.]]&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.9349319
+[&#39;Select British Poets, or new elegant extracts from Chaucer to the present time, with critical remarks. By W. Hazlitt&#39;, &#39;Single Works&#39;]
+--------------------------------------------------------------------------------
+non_fiction 0.9300464
+[&#39;The Select Poetical Works of Sir Walter Scott; comprising The Lay of the Last Minstrel; Marmion; The Lady of the Lake; ballads, lyrical pieces, etc. MS. notes&#39;, &#39;Collections of Works. Smaller Collections of Poems&#39;]
+--------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can do the same for examples where our model is correct but also was not confident</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+    <span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;argmax&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">predicted_label</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">argmax</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----&quot;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fiction 0.50268555
+[&#39;A Legend of Fyvie Castle. By K. G. [i.e. Catherine J. B. Gordon.]&#39;]
+--------------------------------------------------------------------------------
+fiction 0.50299066
+[&#39;Heera, the Maid of the Dekhan. A poem, in five cantos&#39;]
+--------------------------------------------------------------------------------
+fiction 0.5074
+[&#39;Rambling Rhymes&#39;]
+--------------------------------------------------------------------------------
+fiction 0.5121436
+[&#39;The Small House at Allington. With eighteen illustrations by J. E. Millais&#39;, &#39;Single Works&#39;]
+--------------------------------------------------------------------------------
+fiction 0.5274991
+[&#39;Abd-el-Kader: a poem, in six cantos&#39;]
+--------------------------------------------------------------------------------
+fiction 0.528868
+[&#39;A Cure for the Heart-ache; a comedy, in five acts [in prose], etc&#39;]
+--------------------------------------------------------------------------------
+fiction 0.53044933
+[&quot;Auld Lang Syne. By the author of “The Wreck of the &#39;Grosvenor”&#39; [i.e. William Clark Russell]&quot;]
+--------------------------------------------------------------------------------
+non_fiction 0.5415301
+[&#39;Wreck of the “London.” [With illustrations.]&#39;]
+--------------------------------------------------------------------------------
+fiction 0.5452555
+[&#39;The State-farce: a lyrick. Written at Clermont, and inscribed to His Grace the Duke of Newcastle&#39;]
+--------------------------------------------------------------------------------
+fiction 0.5558798
+[&#39;Miscellaneous Poems&#39;]
+--------------------------------------------------------------------------------
+fiction 0.5597714
+[&quot;[The Actress&#39;s Ways and Means to industriously raise the Wind! Containing the moral and entertaining poetical effusions of Mrs. R. Beverley.]&quot;]
+--------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="things-we-might-notice">
+<h3>Things we might notice<a class="headerlink" href="#things-we-might-notice" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>There might be some examples which are incorrectly labeled or are very hard to tell</p></li>
+<li><p>There might be particular title phrases such as <code class="docutils literal notranslate"><span class="pre">[With</span> <span class="pre">Illustrations]</span></code> that might throw our model off</p></li>
+<li><p>Long titles with lots of proper nouns might confuse our model?</p></li>
+<li><p>???</p></li>
+</ul>
+<p>We would need to do some more digging to see if there are other patterns in the errors of our model.</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>We have seen that if we bump up the threshold for the models confidence it improves quite a bit. This could be one way of dealing with the outputs of this model in a pragmatic way. It’s not always possible to train a perfect model but if we have a model that does quite well and we can also use only some of its outputs we might still be able to do a lot more than we could without machine learning. This could be particularly useful when we use outputs of external models that other people have trained since we might have less ability to control the training process but can still set thresholds of when to accept predictions or not.</p>
+<p>We’ll now move on to trying to improve our model!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The main things we tried to show in this notebook:</p>
+<ul class="simple">
+<li><p>It is very helpful to have true test data to get a proper sense of how well your model will perform on unseen data</p></li>
+<li><p>The models performance was uneven across our labels</p></li>
+<li><p>There might be some types of title that our model struggles with more</p></li>
+<li><p>We can decide a threshold for when we accept our models predictions this can often improve the performance of our model</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="01b_improving_results.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Improving our model</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="04_snorkel.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to create more training data without more annotating</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
