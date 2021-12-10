@@ -1,2 +1,3 @@
-# bl-books-genre-prediction
-Predicting book genre from title and other metadata 
+# Predicting Genre with Machine Learning
+
+TODO 
