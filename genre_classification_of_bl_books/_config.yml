@@ -1,0 +1,19 @@
+#####################################################################################
+# A default configuration that will be loaded for all jupyter books
+# See the documentation for help and more options:
+# https://jupyterbook.org/customize/config.html
+
+#######################################################################################
+# Book settings
+title: Classifying 19th Century British Library books using Crowdsourcing and Machine Learning # The title of the book. Will be placed in the left navbar.
+author: Daniel van Strien
+copyright: "2021" # Copyright year to be placed in the footer
+logo: logo.jpg # A path to the book logo
+execute:
+  execute_notebooks: "off"
+bibtex_bibfiles:
+  - references.bib
+launch_buttons:
+  colab_url: "https://colab.research.google.com"
+latex:
+  latex_engine: lualatex

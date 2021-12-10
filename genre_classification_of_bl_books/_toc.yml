@@ -1,0 +1,35 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Genre Classification
+    chapters:
+      - file: zooniverse
+      - file: genre_classification
+      - file: 00_crude_genre
+  - caption: EDA
+    chapters:
+      - file: sample_inspector_i
+      - file: sample_inspector_ii
+  - caption: Training our first model
+    chapters:
+      - file: 01_BL_fiction_non_fiction
+      - file: 01b_inference
+  - caption: Assesing our models performance
+    chapters:
+      - file: 01b_improving_results
+      - file: 02_error_analysis
+  - caption: Improving our model
+    chapters:
+      - file: 04_snorkel
+      - file: 04_using_our_new_data
+      - file: 04a_fastai
+      - file: 04b_transformer
+  - caption: Sharing our results and final inference
+    chapters:
+      - file: 05_share_outputs
+      - file: 06_pipeline_inference
+  - caption: Further resources
+    chapters:
+      - file: other_resources
+      - file: references
+      - file: glossary
