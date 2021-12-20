@@ -45,9 +45,9 @@ These metadata elements were chosen because: (a) they were often missing from th
 
 The annotations were exported from the Zooniverse platform. Some processing was done to make this exported format easier to work with. We don't provide the 'raw' Zooniverse export data since it contains personal data but you can find the notebook for processing the zooniverse data here #TODO add link once repository moved.
 
-## Living with Machines Genre needs
+## Living with Machines
 
-The Living with Machines project has been working with the Microsoft Digitised Books. In order to faciliate computational analysis of this collection ‘at scale’, it was felt it would be useful to be able to facet the collection by genre.
+The Living with Machines project has been working with the Microsoft Digitised Books. In order to facilitate computational analysis of this collection ‘at scale’, it was felt it would be useful to be able to facet the collection by genre.
 
 Whilst a detailed breakdown by genre (see for example the [MARC Genre Term List](https://www.loc.gov/standards/valuelist/marcgt.html)) might be desirable, even a high-level binary classification of texts as  being either *fiction* or *non-fiction* would allow for a more nuanced ability to work with books at scale, especially since we might expect both the content and language of these two broad genres to be quite different.
 
