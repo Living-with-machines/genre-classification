@@ -1,6 +1,9 @@
 # Predicting Genre with Machine Learning
 
+
+[![Jupyter Book Badge](https://raw.githubusercontent.com/executablebooks/jupyter-book/ec23010e233013c3c2e5c35257d044664829a782/docs/images/badge.svg)](https://living-with-machines.github.io/genre-classification/)
 [![DOI](https://zenodo.org/badge/436688599.svg)](https://zenodo.org/badge/latestdoi/436688599)
+
 
 **Note** This material is a work in progress. If you have any feedback or suggestions please [open an issue](https://github.com/Living-with-machines/genre-classification/issues/new).
 
