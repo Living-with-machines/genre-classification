@@ -19,3 +19,11 @@ We use several Python machine learning libraries in the notebooks:
 - [Snorkel](https://www.snorkel.org/)
 
 While we aim to give an overview of the steps involved in training a machine learning model, we don't aim to introduce machine learning or Natural Language Processing fully.
+
+## Other outputs
+
+As part of this work we also share:
+
+- the intial training data: https://doi.org/10.23636/BKHQ-0312 
+- the baseline model: https://zenodo.org/record/5245175 
+- the improved model: https://huggingface.co/BritishLibraryLabs/bl-books-genre 
