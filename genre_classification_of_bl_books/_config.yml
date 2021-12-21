@@ -17,3 +17,6 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 latex:
   latex_engine: lualatex
+html:
+  comments:
+    hypothesis: true
