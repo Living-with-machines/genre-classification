@@ -40,6 +40,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -52,7 +53,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Crude Genre Classification" href="00_crude_genre.html" />
-    <link rel="prev" title="Overview of the project: classifying British Library books by genre" href="zooniverse.html" />
+    <link rel="prev" title="Overview of the Project: Classifying British Library Books By Genre" href="zooniverse.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -104,7 +105,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="zooniverse.html">
-   Overview of the project: classifying British Library books by genre
+   Overview of the Project: Classifying British Library Books By Genre
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -165,7 +166,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_error_analysis.html">
-   Assessing where our model is going wrong
+   Assessing Where our Model is Going Wrong
   </a>
  </li>
 </ul>
@@ -177,7 +178,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04_snorkel.html">
-   How to create more training data without more annotating
+   Creating More Training Data Without More Annotating
   </a>
  </li>
  <li class="toctree-l1">
@@ -192,7 +193,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04b_transformer.html">
-   Using a transformer based model
+   Using a Transformer Based Model
   </a>
  </li>
 </ul>
@@ -307,39 +308,39 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#machine-learning-and-genre-classification-from-a-glam-perspective">
-   Machine learning and genre classification from a GLAM perspective
+   Machine Learning and Genre Classification from a GLAM Perspective
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#brief-reminder-machine-learning">
-     Brief reminder: machine learning
+     Brief Reminder: Machine Learning
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#how-is-machine-learning-being-used-in-relation-to-metadata">
-   How is machine learning being used in relation to metadata?
+   How is Machine Learning Being Used in Relation to Metadata?
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#automated-subject-indexing">
-     Automated subject indexing
+     Automated Subject Indexing
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#machine-learning-supported-metadata-evaluation">
-     Machine learning supported metadata evaluation
+     Machine Learning Supported Metadata Evaluation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#machine-learning-to-fill-metadata-gaps">
-     Machine learning to fill metadata gaps
+     Machine Learning to Fill Metadata Gaps
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#crude-genre-classification">
-     Crude genre classification?
+     Crude Genre Classification?
     </a>
    </li>
   </ul>
@@ -360,11 +361,11 @@
 <p>What we mean by ‘genre’ is complex, open to question, and subject to temporal change. This work will largely ignore such complexity; this is one reason why we refer to the task as ‘crude’ genre detection.</p>
 <p>However, by way of background context, in this section we provide a brief overview of genre classification and how it has been approached/understood within GLAM and Digital Humanities research.</p>
 <div class="section" id="machine-learning-and-genre-classification-from-a-glam-perspective">
-<h2>Machine learning and genre classification from a GLAM perspective<a class="headerlink" href="#machine-learning-and-genre-classification-from-a-glam-perspective" title="Permalink to this headline">¶</a></h2>
+<h2>Machine Learning and Genre Classification from a GLAM Perspective<a class="headerlink" href="#machine-learning-and-genre-classification-from-a-glam-perspective" title="Permalink to this headline">¶</a></h2>
 <p>The collections of many GLAM institutions are growing rapidly owing to digitisation of physical collections and ingest of new ‘born digital’ materials. This is happening at a time of significant development of machine learning across a number of domains. Machine learning models are increasingly able to perform well on a range of tasks, including working with images (computer vision), tabular data, and written text (natural language processing). As a result, there is a growing interest in the possibility of using machine learning to create, or help create, metadata for these collections.</p>
 <p>The desire to use computational methods to work with textual data is not new, and there are many pre-existing non-machine learning-based approaches that can be useful for working with collection items. For instance, one common approach to information retrieval uses term frequency–inverse document frequency <a class="reference external" href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf-idf</a> to determine which words within a document are particularly important: the words ‘and’ or ‘not’ are far less likely to be useful for finding information about medieval religious practice than the word ‘monastery’, for example.</p>
 <div class="section" id="brief-reminder-machine-learning">
-<h3>Brief reminder: machine learning<a class="headerlink" href="#brief-reminder-machine-learning" title="Permalink to this headline">¶</a></h3>
+<h3>Brief Reminder: Machine Learning<a class="headerlink" href="#brief-reminder-machine-learning" title="Permalink to this headline">¶</a></h3>
 <p>For most of this tutorial we assume you have some familiarity with machine learning, but the following gives a short overview of machine learning as a reminder.</p>
 <p>Whilst approaches like <a class="reference external" href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf-idf</a> work well for many tasks, there are some tasks for which machine learning may be more appropriate. A common example of such a task might be spam detection; this involves labelling a set of text strings as being ‘spam’ or ‘not spam’. There are various ways in which we could try and tackle this. As a starting point we could try writing some rules to help us decide if a message contains spam:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spam_words</span> <span class="o">=</span> <span class="s2">&quot;Blockchain&quot;</span><span class="p">,</span> <span class="s2">&quot;Bitcoin&quot;</span><span class="p">,</span> <span class="o">...</span>
@@ -381,10 +382,10 @@
 </div>
 </div>
 <div class="section" id="how-is-machine-learning-being-used-in-relation-to-metadata">
-<h2>How is machine learning being used in relation to metadata?<a class="headerlink" href="#how-is-machine-learning-being-used-in-relation-to-metadata" title="Permalink to this headline">¶</a></h2>
+<h2>How is Machine Learning Being Used in Relation to Metadata?<a class="headerlink" href="#how-is-machine-learning-being-used-in-relation-to-metadata" title="Permalink to this headline">¶</a></h2>
 <p>There are a wide range of ways in which machine learning can be utilised as part of metadata processes. We won’t cover all of these in this chapter but will highlight some key tasks and briefly mention how the same machine learning task can be used in very different ways.</p>
 <div class="section" id="automated-subject-indexing">
-<h3>Automated subject indexing<a class="headerlink" href="#automated-subject-indexing" title="Permalink to this headline">¶</a></h3>
+<h3>Automated Subject Indexing<a class="headerlink" href="#automated-subject-indexing" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>“Choose a controlled subject vocabulary and train Annif on already indexed documents – it can then suggest subjects for new documents!” - <a class="reference external" href="https://annif.org/">https://annif.org/</a></p>
 </div></blockquote>
@@ -404,19 +405,19 @@
 <p>Based on the input text many of these seem reasonable, but of course how useful they are depends on where and how these subject terms will be used. For example, if we were using the subject term ‘philosophy’ in a broad digital collection it would be very useful to have this subject term.  If however, we’re building a corpus of digitised texts on the topic of philosophy then this subject term is not particularly helpful. This points to the importance of making sure we understand what our goal is when using a model, as this will shape what is useful or not.</p>
 </div>
 <div class="section" id="machine-learning-supported-metadata-evaluation">
-<h3>Machine learning supported metadata evaluation<a class="headerlink" href="#machine-learning-supported-metadata-evaluation" title="Permalink to this headline">¶</a></h3>
+<h3>Machine Learning Supported Metadata Evaluation<a class="headerlink" href="#machine-learning-supported-metadata-evaluation" title="Permalink to this headline">¶</a></h3>
 <p>Another approach where machine learning has been used is to evaluate the quality of existing metadata records. “Automatically evaluating the quality of textual descriptions in cultural heritage records” is an example of this kind of approach <span id="id3">[<a class="reference internal" href="references.html#id19">3</a>]</span></p>
-<p>In this paper the authors intended to classify the quality of metadata by treating it as a ‘binary classification’ task i.e. labelling the data as either high quality or not. The authors of this paper achieved an <a class="reference external" href="https://en.wikipedia.org/wiki/F-score">F1 Score</a> of 0.85 with their approach.</p>
+<p>In this paper the authors intended to classify the quality of metadata by treating it as a ‘binary classification’ task i.e. labelling the data as either high quality or not. The authors of this paper achieved an <a class="reference external" href="https://en.wikipedia.org/wiki/F-score">F1 Score</a> of <code class="docutils literal notranslate"><span class="pre">0.85</span></code> with their approach.</p>
 </div>
 <div class="section" id="machine-learning-to-fill-metadata-gaps">
-<h3>Machine learning to fill metadata gaps<a class="headerlink" href="#machine-learning-to-fill-metadata-gaps" title="Permalink to this headline">¶</a></h3>
+<h3>Machine Learning to Fill Metadata Gaps<a class="headerlink" href="#machine-learning-to-fill-metadata-gaps" title="Permalink to this headline">¶</a></h3>
 <p>Another example of using a computational model to create metadata where it doesn’t, or only partially, exists. An example of this is “Automated Language Identification of Bibliographic Resources” <span id="id4">[<a class="reference internal" href="references.html#id20">4</a>]</span></p>
 <p>This work sought to address a problem of missing language codes in British Library Catalogue records: “An analysis of the British Library catalog in October 2018 revealed that this language code was not populated in nearly 4.7 million records.”<span id="id5">[<a class="reference internal" href="references.html#id20">4</a>]</span>
 Machine learning was applied to automate the identification of languages in the catalogue.
 This work demonstrates an example of using machine learning to address a relatively narrow but important task - language identification - which needed to be done at a scale in which manual intervention would be difficult.</p>
 </div>
 <div class="section" id="crude-genre-classification">
-<h3>Crude genre classification?<a class="headerlink" href="#crude-genre-classification" title="Permalink to this headline">¶</a></h3>
+<h3>Crude Genre Classification?<a class="headerlink" href="#crude-genre-classification" title="Permalink to this headline">¶</a></h3>
 <p>We will outline our approach briefly in the next chapter.</p>
 </div>
 </div>
@@ -451,7 +452,7 @@ This work demonstrates an example of using machine learning to address a relativ
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Overview of the project: classifying British Library books by genre</p>
+            <p class="prev-next-title">Overview of the Project: Classifying British Library Books By Genre</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="00_crude_genre.html" title="next page">
@@ -469,9 +470,9 @@ This work demonstrates an example of using machine learning to address a relativ
     <div class="container">
       <p>
         
-          By Daniel van Strien<br/>
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
       </p>
     </div>
   </footer>

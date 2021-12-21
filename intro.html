@@ -40,6 +40,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -51,7 +52,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview of the project: classifying British Library books by genre" href="zooniverse.html" />
+    <link rel="next" title="Overview of the Project: Classifying British Library Books By Genre" href="zooniverse.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -103,7 +104,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="zooniverse.html">
-   Overview of the project: classifying British Library books by genre
+   Overview of the Project: Classifying British Library Books By Genre
   </a>
  </li>
  <li class="toctree-l1">
@@ -164,7 +165,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_error_analysis.html">
-   Assessing where our model is going wrong
+   Assessing Where our Model is Going Wrong
   </a>
  </li>
 </ul>
@@ -176,7 +177,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04_snorkel.html">
-   How to create more training data without more annotating
+   Creating More Training Data Without More Annotating
   </a>
  </li>
  <li class="toctree-l1">
@@ -191,7 +192,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04b_transformer.html">
-   Using a transformer based model
+   Using a Transformer Based Model
   </a>
  </li>
 </ul>
@@ -311,7 +312,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#what-is-covered-tl-dr">
-   What is covered (tl;dr)
+   What is Covered? (tl;dr)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -321,26 +322,26 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#non-prerequisites">
-     Non prerequisites
+     Non Prerequisites
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#how-to-run-the-code">
-   How to run the code?
+   How to Run the Code?
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-in-google-colab">
-     Running in Google Colab
+    <a class="reference internal nav-link" href="#using-google-colab">
+     Using Google Colab
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-give-us-feedback">
-   How to give us feedback?
+  <a class="reference internal nav-link" href="#how-to-give-feedback">
+   How to Give Feedback?
   </a>
  </li>
 </ul>
@@ -356,20 +357,20 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Machine Learning is of increasing interest to people working in and with, Gallery, Library, Archive and Museum (GLAM) collections.</p>
-<p>A particular area of interest for GLAM institutions is the use of machine learning to produce metadata. Growing amounts of digitised material offer both the possibility, desire, and potential necessity of using machine learning methods to create metadata.</p>
-<p>There may also be a desire to use Machine learning to produce more niche or bespoke <a class="reference external" href="https://en.wikipedia.org/wiki/Faceted_search">facets</a> for filtering collections. The metadata GLAMs currently hold for their collections don’t always match the interests of the users of collection, and machine learning may make the process of creating these new facets more feasible. Benjamin Lee in the <a class="reference external" href="https://news-navigator.labs.loc.gov/">Newspaper Navigator</a> project offers an example of this type of faceted search through Machine Learning. Ben’s <a class="reference external" href="https://news-navigator.labs.loc.gov/search">search app</a> allows users to create new facets for searching the collection using machine learning.</p>
+<p>Machine Learning is of increasing interest to people working in and with Gallery, Library, Archive and Museum (GLAM) collections.</p>
+<p>A particular area of interest for GLAM institutions is using machine learning to produce metadata. Growing amounts of digitised material offer both the possibility, desire, and potential necessity of using machine learning methods to create metadata.</p>
+<p>There may also be a desire to use Machine learning to produce more niche or bespoke <a class="reference external" href="https://en.wikipedia.org/wiki/Faceted_search">facets</a> for filtering collections. The metadata GLAMs currently hold for their collections don’t always match the interests of the users of collections, and machine learning may make the process of creating these new facets more feasible. Benjamin Lee in the <a class="reference external" href="https://news-navigator.labs.loc.gov/">Newspaper Navigator</a> project offers an example of this type of faceted search through Machine Learning. Ben’s <a class="reference external" href="https://news-navigator.labs.loc.gov/search">search app</a> allows users to create new facets for searching the collection using machine learning.</p>
 <p><img alt="Screenshot of the search app" src="_images/newspaper_search.png" /></p>
 <div class="sidebar">
 <p class="sidebar-title">Audience for the tutorial</p>
-<p>Whilst a lot of the focus of the material is on GLAM data and a machine learning workflow in the context of a GLAM institution, the material in this ‘book’ is hopefully also of interest to other audiences wanting to use machine learning to do research or help with other processes. In particular we think this content will be of interest to:</p>
+<p>Whilst a lot of the focus of the material is on GLAM data and a machine learning workflow in the context of a GLAM institution, the material in this ‘book’ is hopefully also of interest to other audiences wanting to use machine learning to do research or help with other processes. In particular, we think this content will be of interest to:</p>
 <ul class="simple">
-<li><p>digital humanities reseachers</p></li>
+<li><p>digital humanities researchers</p></li>
 <li><p>digital historians</p></li>
 <li><p>literary scholars wanting to apply computational methods</p></li>
 </ul>
 </div>
-<p>Working with large collections of digitised materials often requires new metadata to help ‘slice’ a collection. This Jupyterbook contains a series of Jupyter notebooks that show some of the possible steps in creating a machine learning model for doing what we have called crude ‘genre classification’. The ‘metadata’ our machine learning model produces is a label indicating whether a particular book title is ‘fiction’ or ‘non-fiction’.  We explain this task and the data we use in more detail in the next section.</p>
+<p>Working with extensive collections of digitised materials often requires new metadata to help ‘slice’ a collection. This Jupyterbook contains a series of Jupyter notebooks that show some of the possible steps in creating a machine learning model for doing what we have called crude ‘genre classification’. The ‘metadata’ our machine learning model produces is a label indicating whether a particular book title is ‘fiction’ or ‘non-fiction’.  In the next section, we explain this task and the data we use in more detail.</p>
 <div class="section" id="aims">
 <h2>Aims<a class="headerlink" href="#aims" title="Permalink to this headline">¶</a></h2>
 <p>This <a class="reference external" href="https://jupyterbook.org/">Jupyter Book</a> has a few main aims:</p>
@@ -378,11 +379,11 @@
 <li><p>to give some background on the motivations and the requirements machine learning model should meet</p></li>
 <li><p>to give an overview of a ‘pragmatic’ approach to this task</p></li>
 </ul>
-<p>We are keen that this ‘book’ offers a resource for others wanting to pursue similar projects. We try and focus on the broader considerations of pursuing machine learning with GLAM data beyond the process of creating a model. In particular, there is a focus on the steps before and after training the model.</p>
+<p>We are keen that this ‘book’ offers a resource for others to pursue similar projects. We try and focus on the broader considerations of using machine learning with GLAM data beyond the process of creating a model. In particular, there is a focus on the steps before and after training the model.</p>
 </div>
 <div class="section" id="what-is-covered-tl-dr">
-<h2>What is covered (tl;dr)<a class="headerlink" href="#what-is-covered-tl-dr" title="Permalink to this headline">¶</a></h2>
-<p>You can find a full content outline in the left sidebar of the Jupyterbook. We’ve pulled out some of the topics covered to help you jump into a specific section of interest.</p>
+<h2>What is Covered? (tl;dr)<a class="headerlink" href="#what-is-covered-tl-dr" title="Permalink to this headline">¶</a></h2>
+<p>You can find a complete content outline in the left sidebar of the Jupyterbook. We’ve pulled out some of the topics covered to help you jump into a specific section of interest.</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p>Chapter(s)</p></th>
@@ -393,10 +394,10 @@
 <tr class="row-even"><td class="text-align:left"><p><a class="reference internal" href="sample_inspector_i.html"><span class="doc std std-doc">Sample Inspector (Part I)</span></a> <br> <a class="reference internal" href="sample_inspector_ii.html"><span class="doc std std-doc">Sample Inspector (Part II)</span></a></p></td>
 <td class="text-align:left"><p>Looks at how well digitised books represent the wider universe of books held by the British Library. It also explores the training data compared to the full digitised collection of books.</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p><a class="reference internal" href="02_error_analysis.html"><span class="doc std std-doc">Assessing where our model is going wrong</span></a></p></td>
+<tr class="row-odd"><td class="text-align:left"><p><a class="reference internal" href="02_error_analysis.html"><span class="doc std std-doc">Assessing Where our Model is Going Wrong</span></a></p></td>
 <td class="text-align:left"><p>Explores some possible ways in which we can assess where a model is making mistakes, and in particular, where these errors might be systematic. This section also explores some possible ways you can assess whether to use a subset of a models predictions</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p><a class="reference internal" href="04_snorkel.html"><span class="doc std std-doc">How to create more training data without more annotating</span></a></p></td>
+<tr class="row-even"><td class="text-align:left"><p><a class="reference internal" href="04_snorkel.html"><span class="doc std std-doc">Creating More Training Data Without More Annotating</span></a></p></td>
 <td class="text-align:left"><p>Looks at how we can use domain knowledge and labelling functions to create training data without having to hand annotate data.</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p><a class="reference internal" href="05_share_outputs.html"><span class="doc std std-doc">Sharing our work</span></a></p></td>
@@ -417,16 +418,16 @@
 </ul>
 <p>We hope that this background isn’t required to follow the overall logic of tackling this problem.</p>
 <div class="section" id="non-prerequisites">
-<h3>Non prerequisites<a class="headerlink" href="#non-prerequisites" title="Permalink to this headline">¶</a></h3>
-<p>Machine learning has a reputation for requiring extensive computational resources, particularly for training models. There is also an unfortunate trend of some gatekeeping around the use of these methods. This gatekeeping is sometimes justified by claiming that anyone using machine learning must also be conversant with - and have access to - extensive cloud compute resources.</p>
+<h3>Non Prerequisites<a class="headerlink" href="#non-prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>Machine learning has a reputation for requiring extensive computational resources, particularly when training models. There is also an unfortunate trend of some gatekeeping around using these methods. This gatekeeping is sometimes justified by claiming that anyone using machine learning must also be conversant with - and have access to - extensive cloud compute resources.</p>
 <p>One constraint set on this work is limiting the type of resources we used for this work. Whilst the Living with Machines project is spending large amounts of money on cloud computing, this work did not leverage this and instead relied on Google Colab (more on this below). Avoiding cloud computing was done to try and demonstrate that developing practical ML models doesn’t require a large compute budget (something many GLAM institutions won’t have).</p>
 </div>
 </div>
 <div class="section" id="how-to-run-the-code">
-<h2>How to run the code?<a class="headerlink" href="#how-to-run-the-code" title="Permalink to this headline">¶</a></h2>
+<h2>How to Run the Code?<a class="headerlink" href="#how-to-run-the-code" title="Permalink to this headline">¶</a></h2>
 <p>You can choose to read through the notebook in this book via the Jupyterbook interface, or you may want to run it interactively so you can inspect the outputs and change the code. The notebooks are all intended to be ‘stand alone’, i.e. all of the input data files are downloaded for each notebook, so you don’t need to run the notebook in order on the same file system.</p>
-<div class="section" id="running-in-google-colab">
-<h3>Running in Google Colab<a class="headerlink" href="#running-in-google-colab" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="using-google-colab">
+<h3>Using Google Colab<a class="headerlink" href="#using-google-colab" title="Permalink to this headline">¶</a></h3>
 <p>Jupyterbook provides a launch button which you can choose to open a notebook in Google Colab or Binder Hub. <a class="reference external" href="https://colab.research.google.com/">Colab</a> is a hosted notebook service provided by Google.</p>
 <a class="reference internal image-reference" href="_images/launcher_icon.png"><img alt="Jupyterbook launcher icon" class="align-right" src="_images/launcher_icon.png" style="width: 400px;" /></a>
 <p>We recommend for the majority of these notebooks using Colab since Colab notebooks also offer a GPU version. Clicking on the rocket icon will show you two launch options, one for Binder and one for Colab. Once you have clicked on the Colab notebook, you should have a version of the notebook section you are looking at opened inside Colab.</p>
@@ -442,10 +443,10 @@
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/inN8seMm7UI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 </div>
-<div class="section" id="how-to-give-us-feedback">
-<h2>How to give us feedback?<a class="headerlink" href="#how-to-give-us-feedback" title="Permalink to this headline">¶</a></h2>
-<p>This series of notebooks is a WIP, and we will update and add to this material over time. As discussed earlier, we aim to share the steps we took in this project. Although we have tried to keep an external audience in mind, we may have taken things for granted that might be obvious to us but not to someone coming to this material/project with fresh eyes.</p>
-<p>We would love feedback on areas where things are unclear (or where we could do better). The easiest way to provide this feedback is to open an issue on the GitHub repository for this book TODO add new link when repository moved.</p>
+<div class="section" id="how-to-give-feedback">
+<h2>How to Give Feedback?<a class="headerlink" href="#how-to-give-feedback" title="Permalink to this headline">¶</a></h2>
+<p>This series of notebooks is a work in progress, and we will update and add to this material over time. As discussed earlier, we aim to share the steps we took in this project. Although we have tried to keep an external audience in mind, we may have taken things for granted that might be obvious to us but not to someone coming to this material/project with fresh eyes.</p>
+<p>We would love feedback on areas where things are unclear (or where we could do better). The easiest way to provide this feedback is to <a class="reference external" href="https://github.com/Living-with-machines/genre-classification/issues/new">open an issue</a> on the GitHub repository for this book.</p>
 </div>
 <div class="toctree-wrapper compound">
 </div>
@@ -491,7 +492,7 @@
     <a class='right-next' id="next-link" href="zooniverse.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Overview of the project: classifying British Library books by genre</p>
+        <p class="prev-next-title">Overview of the Project: Classifying British Library Books By Genre</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
@@ -503,9 +504,9 @@
     <div class="container">
       <p>
         
-          By Daniel van Strien<br/>
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
       </p>
     </div>
   </footer>

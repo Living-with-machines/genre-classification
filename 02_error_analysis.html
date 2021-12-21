@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Assessing where our model is going wrong &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    <title>Assessing Where our Model is Going Wrong &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -40,6 +40,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -51,7 +52,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="How to create more training data without more annotating" href="04_snorkel.html" />
+    <link rel="next" title="Creating More Training Data Without More Annotating" href="04_snorkel.html" />
     <link rel="prev" title="Improving our model" href="01b_improving_results.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -104,7 +105,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="zooniverse.html">
-   Overview of the project: classifying British Library books by genre
+   Overview of the Project: Classifying British Library Books By Genre
   </a>
  </li>
  <li class="toctree-l1">
@@ -165,7 +166,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Assessing where our model is going wrong
+   Assessing Where our Model is Going Wrong
   </a>
  </li>
 </ul>
@@ -177,7 +178,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04_snorkel.html">
-   How to create more training data without more annotating
+   Creating More Training Data Without More Annotating
   </a>
  </li>
  <li class="toctree-l1">
@@ -192,7 +193,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04b_transformer.html">
-   Using a transformer based model
+   Using a Transformer Based Model
   </a>
  </li>
 </ul>
@@ -328,13 +329,13 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#addressing-our-worries-about-domain-shift-creating-a-new-test-set">
-   Addressing our worries about domain shift: creating a new test set
+  <a class="reference internal nav-link" href="#addressing-worries-about-domain-shift-creating-test-data">
+   Addressing Worries about Domain Shift: Creating Test Data
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#potential-areas-of-difference">
-     Potential areas of difference
+     Potential Areas of Difference
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -358,17 +359,17 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#creating-a-new-randomly-sampled-test-dataset">
-   Creating a new randomly sampled test dataset
+   Creating a New Randomly Sampled Test Dataset
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#our-new-test-data">
-     Our new test data
+    <a class="reference internal nav-link" href="#our-test-data">
+     Our Test Data
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#metrics-on-our-test-data">
-     Metrics on our test data
+     Metrics on our Test Data
     </a>
    </li>
   </ul>
@@ -380,29 +381,29 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#how-does-confidence-vary">
-     How does confidence vary?
+     How Does Confidence Vary?
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#looking-at-the-confidence-of-our-predictions">
-   Looking at the confidence of our predictions
+   Looking at the Confidence of our Predictions
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#other-factors-that-impact-model-performance">
-   Other factors that impact model performance?
+   Other Factors That Impact Model Performance?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#looking-at-some-examples">
-   Looking at some examples
+  <a class="reference internal nav-link" href="#looking-at-examples">
+   Looking at Examples
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#things-we-might-notice">
-     Things we might notice
+     Things we Might Notice
     </a>
    </li>
   </ul>
@@ -424,14 +425,14 @@
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="assessing-where-our-model-is-going-wrong">
-<h1>Assessing where our model is going wrong<a class="headerlink" href="#assessing-where-our-model-is-going-wrong" title="Permalink to this headline">¶</a></h1>
+<h1>Assessing Where our Model is Going Wrong<a class="headerlink" href="#assessing-where-our-model-is-going-wrong" title="Permalink to this headline">¶</a></h1>
 <p>The model we trained in the previous notebooks had a fairly high f1 score when we tested the model on our validation set, however when we tested it on a new ‘test’ dataset our performance was lower. In this notebook we’ll dig into this is a little more detail.</p>
-<div class="section" id="addressing-our-worries-about-domain-shift-creating-a-new-test-set">
-<h2>Addressing our worries about domain shift: creating a new test set<a class="headerlink" href="#addressing-our-worries-about-domain-shift-creating-a-new-test-set" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="addressing-worries-about-domain-shift-creating-test-data">
+<h2>Addressing Worries about Domain Shift: Creating Test Data<a class="headerlink" href="#addressing-worries-about-domain-shift-creating-test-data" title="Permalink to this headline">¶</a></h2>
 <p>We have previously discussed domain drift but as a reminder this is broadly when the data we make predictions against is different from, or becomes different from the training data. As an example, a model which is used to predict ice-cream sales which had training data from the summer months is likely to do less well (or badly) at predicting ice-cream sales in the winter.</p>
 <p>In our case the divergence might be more subtle. One potential issue is in the sampling used to generate our initial training data might not be completely random. This could lead to subtle differences in our training data compared to the data we will be predicting against.</p>
 <div class="section" id="potential-areas-of-difference">
-<h3>Potential areas of difference<a class="headerlink" href="#potential-areas-of-difference" title="Permalink to this headline">¶</a></h3>
+<h3>Potential Areas of Difference<a class="headerlink" href="#potential-areas-of-difference" title="Permalink to this headline">¶</a></h3>
 <p>There are a bunch of ways in which the training data we have doesn’t match the target full dataset we want to predict on including:</p>
 <div class="section" id="language">
 <h4>Language<a class="headerlink" href="#language" title="Permalink to this headline">¶</a></h4>
@@ -443,12 +444,12 @@
 </div>
 <div class="section" id="difficult-titles-skipped">
 <h4>Difficult titles skipped<a class="headerlink" href="#difficult-titles-skipped" title="Permalink to this headline">¶</a></h4>
-<p>Genre is not always clear cut and it can be difficult to tell in some cases, or the book contains a mixture that could be reasonably labeled as either fiction or non-fiction for example, a book of poems with significant commentary about the poems. If annotators skipped these examples the training data won’t include as many ‘hard’ examples for the model to learn from. We could also be generous and say if a human expert annotator is struggling to classify the books genre then a machine learning model might also struggle.</p>
+<p>Genre is not always clear cut and it can be difficult to tell in some cases. The book could contain a mixture that could be reasonably labeled as either fiction or non-fiction for example, a book of poems with significant commentary about the poems. If annotators skipped these examples the training data won’t include as many ‘hard’ examples for the model to learn from. We could also be generous and say if a human expert annotator is struggling to classify the books genre then a machine learning model might also struggle.</p>
 </div>
 </div>
 </div>
 <div class="section" id="creating-a-new-randomly-sampled-test-dataset">
-<h2>Creating a new randomly sampled test dataset<a class="headerlink" href="#creating-a-new-randomly-sampled-test-dataset" title="Permalink to this headline">¶</a></h2>
+<h2>Creating a New Randomly Sampled Test Dataset<a class="headerlink" href="#creating-a-new-randomly-sampled-test-dataset" title="Permalink to this headline">¶</a></h2>
 <p>After developing a model we wanted to test out how well it performed on completely unseen data that was randomly sampled from the full BL books corpus. To do this we decided to internally do some verification of the results of the model previously trained. We did this by:</p>
 <ul class="simple">
 <li><p>sampling <em>randomly</em> from the full books corpus</p></li>
@@ -529,8 +530,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="our-new-test-data">
-<h3>Our new test data<a class="headerlink" href="#our-new-test-data" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="our-test-data">
+<h3>Our Test Data<a class="headerlink" href="#our-test-data" title="Permalink to this headline">¶</a></h3>
 <p>Our new test dataframe includes the following columns which are relevant here:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -669,7 +670,7 @@
 <p>We see above the <code class="docutils literal notranslate"><span class="pre">predicted_label</span></code> this is the label predicted by our previously trained mode, we also have the probabilities for these predictions. The <code class="docutils literal notranslate"><span class="pre">true_label</span></code> is a <em>new</em> human annotation of the correct label.</p>
 </div>
 <div class="section" id="metrics-on-our-test-data">
-<h3>Metrics on our test data<a class="headerlink" href="#metrics-on-our-test-data" title="Permalink to this headline">¶</a></h3>
+<h3>Metrics on our Test Data<a class="headerlink" href="#metrics-on-our-test-data" title="Permalink to this headline">¶</a></h3>
 <p>As a start let’s see how our model performed on our new test data i.e. how often it’s predictions matched the human annotation for that title.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -709,7 +710,7 @@ weighted avg       0.90      0.89      0.89       850
 <h2>🤡 Where (and why?) our model sucks?<a class="headerlink" href="#where-and-why-our-model-sucks" title="Permalink to this headline">¶</a></h2>
 <p>Our single number metrics can be useful for getting an overview of performance on our data as a whole but we sometimes want to also dig into subsets of our data to see whether there are particular facets the model struggles on.</p>
 <div class="section" id="how-does-confidence-vary">
-<h3>How does confidence vary?<a class="headerlink" href="#how-does-confidence-vary" title="Permalink to this headline">¶</a></h3>
+<h3>How Does Confidence Vary?<a class="headerlink" href="#how-does-confidence-vary" title="Permalink to this headline">¶</a></h3>
 <p>One thing we might want to look at is whether the confidence of the predictions has any impact on errors i.e. if the model is confident is it less often wrong compared to when it is less confident?</p>
 <p>Let’s create a new column <code class="docutils literal notranslate"><span class="pre">argmax</span></code> which stores the probability of the predicted label (as a reminder this is the <code class="docutils literal notranslate"><span class="pre">max</span></code> prediction of the two possible labels.</p>
 <div class="cell docutils container">
@@ -857,7 +858,7 @@ Name: correct, dtype: bool
 </div>
 </div>
 <div class="section" id="looking-at-the-confidence-of-our-predictions">
-<h2>Looking at the confidence of our predictions<a class="headerlink" href="#looking-at-the-confidence-of-our-predictions" title="Permalink to this headline">¶</a></h2>
+<h2>Looking at the Confidence of our Predictions<a class="headerlink" href="#looking-at-the-confidence-of-our-predictions" title="Permalink to this headline">¶</a></h2>
 <p>Our model (and most machine learning models) give as output “logits” these are the ‘raw’ prediction. Often we then use a softmax or similar funciton to turn these into a probabiliy distribution. We often just take the argmax of this probabiliy to choose a label i.e. pick the label which the model is most ‘confident’ about.</p>
 <p>We might want to use the values associated with these probabilites in some way to determine whether to accept a label. For example if our model gives the following confidences:</p>
 <ul class="simple">
@@ -1006,7 +1007,7 @@ weighted avg       0.99      0.99      0.99       451
 <p>We can see if we pick these higher thresholds, our model does much better. This comes at the expense of coverage. Working out whether you prefer an accurate model or a model that labels all of your data depends in a large part to how you are using your models predictions. You may decide for example to get humans to annotate the examples your model struggled with. If you are working at a very large scale and the alternative is no labels for genre you might still prefer a noisy label compared to no label at all.</p>
 </div>
 <div class="section" id="other-factors-that-impact-model-performance">
-<h2>Other factors that impact model performance?<a class="headerlink" href="#other-factors-that-impact-model-performance" title="Permalink to this headline">¶</a></h2>
+<h2>Other Factors That Impact Model Performance?<a class="headerlink" href="#other-factors-that-impact-model-performance" title="Permalink to this headline">¶</a></h2>
 <p>There may be other types of title where our model is wrong more often. We can draw on our intuitions to some extent here but one things that can be very helpful is to have annotated some of the data yourself. If you completely outsource the process of creating training you might not have seen enough examples of the data to have any sense of what it looks like. In the process of creating the test data we noticed some titles are very short and others very long. If a title is very short it has less information and it’s possible our model will struggle. Let’s see if this is the case</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1116,8 +1117,8 @@ weighted avg       0.99      0.99      0.99       451
 </div>
 <p>We can see here that when the model predicts fiction the mean length of the title when the model was incorrect is <code class="docutils literal notranslate"><span class="pre">~92</span></code>, when a fiction prediction is correct the man length of the title <code class="docutils literal notranslate"><span class="pre">~50</span></code>. This suggests that maybe our model actually gets thrown off by longer fiction book titles. We see the opposite with non-fiction where our model seems to correctly prediction non-fiction titles when these titles are longer.</p>
 </div>
-<div class="section" id="looking-at-some-examples">
-<h2>Looking at some examples<a class="headerlink" href="#looking-at-some-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="looking-at-examples">
+<h2>Looking at Examples<a class="headerlink" href="#looking-at-examples" title="Permalink to this headline">¶</a></h2>
 <p>We can look at some examples of titles to get a better intuition for how our model is behaving. Let’s start with incorrect predictions, where the model was confident. We’ll look at 10 of the most confident wrong examples:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1227,7 +1228,7 @@ fiction 0.5597714
 </div>
 </div>
 <div class="section" id="things-we-might-notice">
-<h3>Things we might notice<a class="headerlink" href="#things-we-might-notice" title="Permalink to this headline">¶</a></h3>
+<h3>Things we Might Notice<a class="headerlink" href="#things-we-might-notice" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>There might be some examples which are incorrectly labeled or are very hard to tell</p></li>
 <li><p>There might be particular title phrases such as <code class="docutils literal notranslate"><span class="pre">[With</span> <span class="pre">Illustrations]</span></code> that might throw our model off</p></li>
@@ -1289,7 +1290,7 @@ fiction 0.5597714
     <a class='right-next' id="next-link" href="04_snorkel.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">How to create more training data without more annotating</p>
+        <p class="prev-next-title">Creating More Training Data Without More Annotating</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
@@ -1301,9 +1302,9 @@ fiction 0.5597714
     <div class="container">
       <p>
         
-          By Daniel van Strien<br/>
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
       </p>
     </div>
   </footer>

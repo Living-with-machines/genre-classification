@@ -40,6 +40,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -104,7 +105,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="zooniverse.html">
-   Overview of the project: classifying British Library books by genre
+   Overview of the Project: Classifying British Library Books By Genre
   </a>
  </li>
  <li class="toctree-l1">
@@ -165,7 +166,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_error_analysis.html">
-   Assessing where our model is going wrong
+   Assessing Where our Model is Going Wrong
   </a>
  </li>
 </ul>
@@ -177,7 +178,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04_snorkel.html">
-   How to create more training data without more annotating
+   Creating More Training Data Without More Annotating
   </a>
  </li>
  <li class="toctree-l1">
@@ -192,7 +193,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04b_transformer.html">
-   Using a transformer based model
+   Using a Transformer Based Model
   </a>
  </li>
 </ul>
@@ -365,9 +366,9 @@
 <p>Inference is the process of making new predictions on unseen data. There are different approaches to carrying out inference which will depend on purpose of the model and how it will be used. Two main approaches to doing inference are:</p>
 <ul class="simple">
 <li><p>‘real-time’ single item predictions i.e. calling an API to predict a single example</p></li>
-<li><p>batch inference i.e. running inference against a larger volume of data</p></li>
+<li><p>‘batch inference’ i.e. running inference against a larger volume of data</p></li>
 </ul>
-<p>Since we have a set of data we want to augment with additional machine generated labels we will use the second batch inference approach. Because we are only likely to run this batch prediction process occasionally, for example if we create a better performing model, we won’t spend much time worrying about how quick the inference process is.</p>
+<p>Since we have a set of data we want to augment with additional machine generated labels we will use the second, batch inference, approach. Because we are only likely to run this batch prediction process occasionally, for example if we create a better performing model, we won’t spend much time worrying about how quick the inference process is.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install <span class="nv">fastai</span><span class="o">==</span><span class="m">2</span>.5.2
@@ -460,7 +461,7 @@ Successfully installed fastai-2.5.2 fastcore-1.3.27 fastdownload-0.0.5
 </div>
 </div>
 <p>If you don’t have a saved model you can grab one by uncomenting this cell</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget -O <span class="m">20210928</span>-model.pkl https://zenodo.org/record/5245175/files/20210928-model.pkl?download<span class="o">=</span><span class="m">1</span>
 </pre></div>
@@ -511,18 +512,6 @@ Saving to: ‘20210928-model.pkl’
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;Non-fiction&#39;, tensor(1), tensor([0.4674, 0.5326]))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Lord of the Rings&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;Non-fiction&#39;, tensor(1), tensor([0.4055, 0.5945]))
 </pre></div>
 </div>
 </div>
@@ -917,9 +906,9 @@ Wall time: 17min
     <div class="container">
       <p>
         
-          By Daniel van Strien<br/>
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
       </p>
     </div>
   </footer>

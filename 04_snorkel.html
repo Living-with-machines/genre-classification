@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How to create more training data without more annotating &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    <title>Creating More Training Data Without More Annotating &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -40,6 +40,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -52,7 +53,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Using our newly expanded data" href="04_using_our_new_data.html" />
-    <link rel="prev" title="Assessing where our model is going wrong" href="02_error_analysis.html" />
+    <link rel="prev" title="Assessing Where our Model is Going Wrong" href="02_error_analysis.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -104,7 +105,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="zooniverse.html">
-   Overview of the project: classifying British Library books by genre
+   Overview of the Project: Classifying British Library Books By Genre
   </a>
  </li>
  <li class="toctree-l1">
@@ -165,7 +166,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_error_analysis.html">
-   Assessing where our model is going wrong
+   Assessing Where our Model is Going Wrong
   </a>
  </li>
 </ul>
@@ -177,7 +178,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   How to create more training data without more annotating
+   Creating More Training Data Without More Annotating
   </a>
  </li>
  <li class="toctree-l1">
@@ -192,7 +193,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04b_transformer.html">
-   Using a transformer based model
+   Using a Transformer Based Model
   </a>
  </li>
 </ul>
@@ -329,17 +330,17 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#combining-domain-expertise-and-machine-learning">
-   Combining domain expertise and machine learning
+   Combining Domain Expertise and Machine Learning
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#programmatically-generating-training-data">
-   Programmatically generating training data
+   Programmatically Generating Training Data
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generating-new-genre-training-data-for-bl-books">
-     Generating new genre training data for BL books
+    <a class="reference internal nav-link" href="#generating-new-genre-training-data">
+     Generating New Genre Training Data
     </a>
    </li>
   </ul>
@@ -350,20 +351,20 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-makes-a-good-labeling-function">
-   What makes a good labeling function?
+  <a class="reference internal nav-link" href="#what-makes-a-good-labelling-function">
+   What Makes a Good Labelling Function?
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#important-word-indicators">
-     Important word indicators
+    <a class="reference internal nav-link" href="#important-words">
+     Important Words?
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#creating-our-labelling-functions">
-   Creating our labelling functions
+   Creating our Labelling Functions
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -373,19 +374,19 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#precision-vs-recall-what-value-to-use-for-our-threshold">
-     Precision vs recall: What value to use for our threshold?
+     Precision vs Recall: What Value to use for our Threshold?
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#add-some-more-keywords">
-     Add some more keywords
+    <a class="reference internal nav-link" href="#add-keywords">
+     Add Keywords
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#leveraging-other-models">
-   Leveraging other models
+   Leveraging Other Models
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -465,20 +466,20 @@
         
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="how-to-create-more-training-data-without-more-annotating">
-<h1>How to create more training data without more annotating<a class="headerlink" href="#how-to-create-more-training-data-without-more-annotating" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="creating-more-training-data-without-more-annotating">
+<h1>Creating More Training Data Without More Annotating<a class="headerlink" href="#creating-more-training-data-without-more-annotating" title="Permalink to this headline">¶</a></h1>
 <p>We previously listed ‘annotating’ more data as one way of improving our model. Since supervised learning requires data, having more data <em>may</em> be <em>potentially</em> helpful for improving our model.</p>
 <p>One obvious downside of this is that collecting more training data is time consuming and may not always be very practical. In a GLAM setting we may want to use machine learning to do a task which we wouldn’t otherwise have time to do. If we have to spend a lot of time creating our training data, the machine learning approach may also become impractical in terms of resources.</p>
 <div class="section" id="combining-domain-expertise-and-machine-learning">
-<h2>Combining domain expertise and machine learning<a class="headerlink" href="#combining-domain-expertise-and-machine-learning" title="Permalink to this headline">¶</a></h2>
+<h2>Combining Domain Expertise and Machine Learning<a class="headerlink" href="#combining-domain-expertise-and-machine-learning" title="Permalink to this headline">¶</a></h2>
 <p>The time taken to create training data is one weakness of machine learning for practical tasks. Another potential frustration domain experts may have is that their knowledge isn’t always incorporated into the machine learning process. For our use case of trying to identify the genre of a book we may already have a sense of some possible ways in which we could identify whether a book was fiction or non-fiction. For example we may already know that titles for non-fiction books tend to be longer than fiction book titles (cf. ‘An account of the mining villages of Wales’ vs ‘Oliver Twist’). If we create our training data in the usual way by labeling examples of our data with the correct label we might not be able to incorporate this domain knowledge very easily. This might be okay in some cases but we might be able to save time and get better results by trying to leverage what we already know (or can access via domain experts).</p>
 </div>
 <div class="section" id="programmatically-generating-training-data">
-<h2>Programmatically generating training data<a class="headerlink" href="#programmatically-generating-training-data" title="Permalink to this headline">¶</a></h2>
+<h2>Programmatically Generating Training Data<a class="headerlink" href="#programmatically-generating-training-data" title="Permalink to this headline">¶</a></h2>
 <p>One way in which we could do this is by writing a <code class="docutils literal notranslate"><span class="pre">labelling</span> <span class="pre">function</span></code> to label titles as being either fiction or non-fiction based on the length of the title - i.e. without any annotation by hand. However, a weakness of this approach is that it deals with averages which might not always be correct. Some non-fiction book titles will be shorter than our threshold, and vice-versa for fiction books. If we could simply determine genre based on the average length of titles, we could have skipped this whole machine learning process and be done already.</p>
 <p>So our problem is that we have some sense of functions we could use to label our data, but these functions are likely to be wrong some of the time. In this notebook we’ll explore how we can use a Python library <code class="docutils literal notranslate"><span class="pre">Snorkel</span></code> to deal with this challenge and try and create additional annotations without doing any annotating by hand.</p>
-<div class="section" id="generating-new-genre-training-data-for-bl-books">
-<h3>Generating new genre training data for BL books<a class="headerlink" href="#generating-new-genre-training-data-for-bl-books" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="generating-new-genre-training-data">
+<h3>Generating New Genre Training Data<a class="headerlink" href="#generating-new-genre-training-data" title="Permalink to this headline">¶</a></h3>
 <p>How will we try to approach this in our particular situation? As a reminder of our broad task, we have a collection of metadata related to the Microsoft Digitised Books collection. The ‘genre’ field isn’t yet fully populated. We have previously used a subset of this data to train a machine learning model.</p>
 <p>What we want to do is to try and write some labelling functions that will add more labels to the full metadata dataset, so that we can give our models more examples to learn from. If we are able to do this we’ll hopefully be able to improve the performance of our model from our previous attempts.</p>
 <p>We’ll start by doing some installation of our libraries we’ll be using in this notebook.</p>
@@ -771,11 +772,11 @@ Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-
 <p>If you want to dig into decorators further this <a class="reference external" href="https://realpython.com/primer-on-python-decorators/">article</a> on <a class="reference external" href="https://realpython.com/">Real Python</a> provides a nice introduction, or, if prefer to watch a video this <a class="reference external" href="https://youtu.be/FsAPt_9Bf3U">youtube tutorial</a> gives a nice overview too.</p>
 <p>We can see here that the labeling function makes use of the idea that people often include links in spam comments i.e. “plz checkout my etsy store at http:….”. Obviously this won’t be correct all the time but fortunately Snorkel has some ways to deal with this.</p>
 </div>
-<div class="section" id="what-makes-a-good-labeling-function">
-<h2>What makes a good labeling function?<a class="headerlink" href="#what-makes-a-good-labeling-function" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-makes-a-good-labelling-function">
+<h2>What Makes a Good Labelling Function?<a class="headerlink" href="#what-makes-a-good-labelling-function" title="Permalink to this headline">¶</a></h2>
 <p>One question we might already have is “what makes a good labeling function?”. The short, annoying, answer is that it depends on context. We often have intutions about things that might work because we know the domain or have picked up ideas from working with some of the data already. In our particular example of distinguishing fiction from non-fiction books we may think that some words are likely to indicate whether a book is fiction or non-fiction. We’ll start by exploring this.</p>
-<div class="section" id="important-word-indicators">
-<h3>Important word indicators<a class="headerlink" href="#important-word-indicators" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="important-words">
+<h3>Important Words?<a class="headerlink" href="#important-words" title="Permalink to this headline">¶</a></h3>
 <p>A fairly naive approach to trying to labeling a title as ‘fiction’ or ‘non-fiction’ would be to use some keywords. Let’s start by finding the most common 50 words. We can use the <code class="docutils literal notranslate"><span class="pre">Counter</span></code> class from the delightful <a class="reference external" href="https://docs.python.org/3.3/library/collections.html#module-collections"><code class="docutils literal notranslate"><span class="pre">collections</span></code></a> module to do this.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1046,7 +1047,7 @@ Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-
 </div>
 </div>
 <div class="section" id="creating-our-labelling-functions">
-<h2>Creating our labelling functions<a class="headerlink" href="#creating-our-labelling-functions" title="Permalink to this headline">¶</a></h2>
+<h2>Creating our Labelling Functions<a class="headerlink" href="#creating-our-labelling-functions" title="Permalink to this headline">¶</a></h2>
 <p>We’ll start by setting some constants for our labels.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1251,7 +1252,7 @@ Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-
 </div></div></div>
 </div>
 <div class="section" id="precision-vs-recall-what-value-to-use-for-our-threshold">
-<h3>Precision vs recall: What value to use for our threshold?<a class="headerlink" href="#precision-vs-recall-what-value-to-use-for-our-threshold" title="Permalink to this headline">¶</a></h3>
+<h3>Precision vs Recall: What Value to use for our Threshold?<a class="headerlink" href="#precision-vs-recall-what-value-to-use-for-our-threshold" title="Permalink to this headline">¶</a></h3>
 <p>We can see various values for mean, min etc. What would be a reasonable value to use for our threshold for a labeling function which labeled a title as ‘non-fiction’? This partly comes down to whether we want high coverage (or recall) or high precision. If we choose a threshold that is higher we will label fewer examples, but they will be more likely to be correct.</p>
 <p>For example, if we use the max value for the length of a non-fiction title <code class="docutils literal notranslate"><span class="pre">469</span></code> most titles will be much shorter than this, so our function will ‘abstain’ from applying a label, and we would only label a very small number of examples from our data. However, we also won’t have many (or any) wrongly-labeled examples since the max value for fiction here is <code class="docutils literal notranslate"><span class="pre">288</span></code>. We need to balance these two aims of coverage and precision. Since we are writing more than one labeling function we probably want to tend towards writing more precise labeling functions rather than aiming for high coverage if this is likely to introduce wrongly labeled examples.</p>
 <div class="admonition note">
@@ -1339,8 +1340,8 @@ Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-
 </div>
 <p>We can see our coverage is still fairly low but at the moment we don’t have any conflicts. We can keep tweaking our length threshold but for now we’ll try a different approach to our labeling function.</p>
 </div>
-<div class="section" id="add-some-more-keywords">
-<h3>Add some more keywords<a class="headerlink" href="#add-some-more-keywords" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="add-keywords">
+<h3>Add Keywords<a class="headerlink" href="#add-keywords" title="Permalink to this headline">¶</a></h3>
 <p>We already have a labeling function that uses the keyword ‘novel’ to identify likely fiction books. Since we often want to use keywords the Snorkel tutorial suggests a way we can do this more easily using <a class="reference external" href="https://www.snorkel.org/use-cases/01-spam-tutorial#a-keyword-lfs">keyword lookups</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1375,7 +1376,7 @@ Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-
 </div>
 </div>
 <div class="section" id="leveraging-other-models">
-<h2>Leveraging other models<a class="headerlink" href="#leveraging-other-models" title="Permalink to this headline">¶</a></h2>
+<h2>Leveraging Other Models<a class="headerlink" href="#leveraging-other-models" title="Permalink to this headline">¶</a></h2>
 <p>So far we have leveraged some domain knowledge/exploration and our existing labeled data to create our labeling functions. However, we could also utilise other resources to help us label our data. Since we’re working with text we should be able to benefit from some existing NLP models to label our data. Snorkel supports this in a few different ways.</p>
 <p>spaCy is a popular nlp library which supports a range of different models and nlp tasks. Here we’re particuarly interested in some of the named entity models supported by spaCy.</p>
 <p>To work with this library we can use Snorkel’s <code class="docutils literal notranslate"><span class="pre">SpacyPreProcessor</span></code>. <code class="docutils literal notranslate"><span class="pre">Preprocessors</span></code> are used in Snorkel to do some preprocessing (hence the name) which is required for our labeling functions. These can be particularly useful if the processing takes some time and might be reused across differnet labelling functions. Let’s take a look at an example</p>
@@ -1744,7 +1745,7 @@ Saving to: ‘20210928-model.pkl’
 </div>
 </div>
 <p>We now have some new columns containing the probabilities for our labels from our previously created model.</p>
-<p>We saw in the previous <a class="reference internal" href="02_error_analysis.html"><span class="doc std std-doc">Assessing where our model is going wrong</span></a> section that by only using predictions where our model was confident, we could get better results i.e. we only accept suggestions from our model where it is very confident. For example, we could accept a prediction only if it is above 95% confidence.</p>
+<p>We saw in the previous <a class="reference internal" href="02_error_analysis.html"><span class="doc std std-doc">Assessing Where our Model is Going Wrong</span></a> section that by only using predictions where our model was confident, we could get better results i.e. we only accept suggestions from our model where it is very confident. For example, we could accept a prediction only if it is above 95% confidence.</p>
 <p>We’ll use this in our labelling function to set a threshold at which we accept the previous models predictions. If the model is unsure we don’t use it’s prediction. This will mean less of our data ends up labelled because some predictions aren’t used. However, we will hopefully get <em>better</em> predictions because we only use those where our model is confident.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3412,7 +3413,7 @@ Name: snorkel_genre, dtype: int64
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Assessing where our model is going wrong</p>
+            <p class="prev-next-title">Assessing Where our Model is Going Wrong</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="04_using_our_new_data.html" title="next page">
@@ -3430,9 +3431,9 @@ Name: snorkel_genre, dtype: int64
     <div class="container">
       <p>
         
-          By Daniel van Strien<br/>
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
       </p>
     </div>
   </footer>

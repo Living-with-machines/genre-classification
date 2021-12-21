@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Using a transformer based model &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
+    <title>Using a Transformer Based Model &#8212; Classifying 19th Century British Library books using Crowdsourcing and Machine Learning</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -40,6 +40,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -104,7 +105,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="zooniverse.html">
-   Overview of the project: classifying British Library books by genre
+   Overview of the Project: Classifying British Library Books By Genre
   </a>
  </li>
  <li class="toctree-l1">
@@ -165,7 +166,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02_error_analysis.html">
-   Assessing where our model is going wrong
+   Assessing Where our Model is Going Wrong
   </a>
  </li>
 </ul>
@@ -177,7 +178,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04_snorkel.html">
-   How to create more training data without more annotating
+   Creating More Training Data Without More Annotating
   </a>
  </li>
  <li class="toctree-l1">
@@ -192,7 +193,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Using a transformer based model
+   Using a Transformer Based Model
   </a>
  </li>
 </ul>
@@ -358,35 +359,35 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loading-our-snorkel-training-data">
-   Loading our snorkel training data
+  <a class="reference internal nav-link" href="#loading-our-training-data">
+   Loading our Training Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#preparing-our-data">
-   Preparing our data
+   Preparing our Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#creating-our-learner">
-   Creating our learner
+   Creating our Learner
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#training-our-model">
-   Training our model
+   Training our Model
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#testing-our-model">
-     Testing our model
+     Testing our Model
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sharing-our-model-stage-1">
-   Sharing our model (stage 1)
+   Sharing our Model (stage 1)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -406,7 +407,7 @@
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="using-a-transformer-based-model">
-<h1>Using a transformer based model<a class="headerlink" href="#using-a-transformer-based-model" title="Permalink to this headline">¶</a></h1>
+<h1>Using a Transformer Based Model<a class="headerlink" href="#using-a-transformer-based-model" title="Permalink to this headline">¶</a></h1>
 <p>We now have a larger dataset to work with. We previously said we wouldn’t immediately jump to changing the model architecture we’re using to improve our results but now we have some work on exploring our previous models errors and increasing the size of our training data we might want to see if working with a different type of model architecture improves our performance.</p>
 <div class="section" id="transformers">
 <h2>Transformers<a class="headerlink" href="#transformers" title="Permalink to this headline">¶</a></h2>
@@ -576,8 +577,8 @@ Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3
 </div>
 </div>
 </div>
-<div class="section" id="loading-our-snorkel-training-data">
-<h2>Loading our snorkel training data<a class="headerlink" href="#loading-our-snorkel-training-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="loading-our-training-data">
+<h2>Loading our Training Data<a class="headerlink" href="#loading-our-training-data" title="Permalink to this headline">¶</a></h2>
 <p>We’ll load the data we created previously using our labelling functions/snorkel.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -585,16 +586,10 @@ Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/IPython/core/interactiveshell.py:2718: DtypeWarning: Columns (17) have mixed types.Specify dtype option on import or set low_memory=False.
-  interactivity=interactivity, compiler=compiler, result=result)
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 <div class="section" id="preparing-our-data">
-<h2>Preparing our data<a class="headerlink" href="#preparing-our-data" title="Permalink to this headline">¶</a></h2>
+<h2>Preparing our Data<a class="headerlink" href="#preparing-our-data" title="Permalink to this headline">¶</a></h2>
 <p>Some of this will look fairly familiar from the previous but there is a little bit more ‘housekeeping’ to do now. We’ll briefly explain what is happening in this different stages.</p>
 <p>First we create a variable which just stores the number of labels we could have. This is a bit redundant here since we know it’s two but we might not always remember how many labels we have.</p>
 <div class="cell docutils container">
@@ -691,7 +686,7 @@ Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3
 </div>
 </div>
 <div class="section" id="creating-our-learner">
-<h2>Creating our learner<a class="headerlink" href="#creating-our-learner" title="Permalink to this headline">¶</a></h2>
+<h2>Creating our Learner<a class="headerlink" href="#creating-our-learner" title="Permalink to this headline">¶</a></h2>
 <p>We now create a fastai learner. This is a bit more verbose than previously because we specify an optimizer and don’t use the <code class="docutils literal notranslate"><span class="pre">text_classifier_learner</span></code> convenience function but directly use a fastai <code class="docutils literal notranslate"><span class="pre">Learner</span></code> class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -729,7 +724,7 @@ Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3
 </div>
 </div>
 <div class="section" id="training-our-model">
-<h2>Training our model<a class="headerlink" href="#training-our-model" title="Permalink to this headline">¶</a></h2>
+<h2>Training our Model<a class="headerlink" href="#training-our-model" title="Permalink to this headline">¶</a></h2>
 <p>We are now ready to train our model. We again set a high number of epochs but as we did before we set a callback to stop training if we don’t see any improvement. We are fairly ‘aggressive’ here with how long we accept for the model to not improve since transformers can take some time to converge and we might stop too early if we set our ‘patience’ value too low.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
@@ -1225,7 +1220,7 @@ No improvement since epoch 22: early stopping
 </div>
 </div>
 <div class="section" id="testing-our-model">
-<h3>Testing our model<a class="headerlink" href="#testing-our-model" title="Permalink to this headline">¶</a></h3>
+<h3>Testing our Model<a class="headerlink" href="#testing-our-model" title="Permalink to this headline">¶</a></h3>
 <p>As before we want to see how our model does on unseen test data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1285,7 +1280,7 @@ weighted avg       0.95      0.95      0.95       850
 </div>
 </div>
 <div class="section" id="sharing-our-model-stage-1">
-<h2>Sharing our model (stage 1)<a class="headerlink" href="#sharing-our-model-stage-1" title="Permalink to this headline">¶</a></h2>
+<h2>Sharing our Model (stage 1)<a class="headerlink" href="#sharing-our-model-stage-1" title="Permalink to this headline">¶</a></h2>
 <p>We now have a model that is doing fairly well. Although we constructed this model for our particular task and data, it’s still possible that others will benefit from this model so we might want to consider uploading it to the 🤗 model hub. Let’s start by poking around inside the <code class="docutils literal notranslate"><span class="pre">model</span></code> object.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1398,7 +1393,7 @@ Git LFS initialized.
 </div>
 </div>
 </div>
-<p>We also put in some basic data for Git</p>
+<p>We also put in some basic data for Git, replace these values with the ones that are relevant to you.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>git config --global user.email EMAIL
@@ -1496,9 +1491,9 @@ Git LFS initialized.
     <div class="container">
       <p>
         
-          By Daniel van Strien<br/>
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
       </p>
     </div>
   </footer>
