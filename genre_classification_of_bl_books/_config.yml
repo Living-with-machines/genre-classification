@@ -6,8 +6,8 @@
 #######################################################################################
 # Book settings
 title: Classifying 19th Century British Library books using Crowdsourcing and Machine Learning # The title of the book. Will be placed in the left navbar.
-author: Daniel van Strien
-copyright: "2021" # Copyright year to be placed in the footer
+author: Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen
+copyright: "2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge." # Copyright year to be placed in the footer
 logo: logo.jpg # A path to the book logo
 execute:
   execute_notebooks: "off"
@@ -17,3 +17,6 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 latex:
   latex_engine: lualatex
+html:
+  comments:
+    hypothesis: true
