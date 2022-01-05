@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -280,7 +280,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -298,7 +298,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+        <div class="d-none d-md-block col-md-2 bd-toc show">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -350,200 +350,7 @@
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>Introduction</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
-                <div>
-                    <h2> Contents </h2>
-                </div>
-                <nav aria-label="Page">
-                    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#aims">
-   Aims
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-is-covered-tl-dr">
-   What is Covered? (tl;dr)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#prerequisites">
-   Prerequisites
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#non-prerequisites">
-     Non Prerequisites
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-run-the-code">
-   How to Run the Code?
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#using-google-colab">
-     Using Google Colab
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-give-feedback">
-   How to Give Feedback?
-  </a>
- </li>
-</ul>
-
-                </nav>
-            </div>
-            
-              <div>
-                
-  <div class="tex2jax_ignore mathjax_ignore section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Machine Learning is of increasing interest to people working in and with Gallery, Library, Archive and Museum (GLAM) collections.</p>
-<p>A particular area of interest for GLAM institutions is using machine learning to produce metadata. Growing amounts of digitised material offer both the possibility, desire, and potential necessity of using machine learning methods to create metadata.</p>
-<p>There may also be a desire to use Machine learning to produce more niche or bespoke <a class="reference external" href="https://en.wikipedia.org/wiki/Faceted_search">facets</a> for filtering collections. The metadata GLAMs currently hold for their collections don’t always match the interests of the users of collections, and machine learning may make the process of creating these new facets more feasible. Benjamin Lee in the <a class="reference external" href="https://news-navigator.labs.loc.gov/">Newspaper Navigator</a> project offers an example of this type of faceted search through Machine Learning. Ben’s <a class="reference external" href="https://news-navigator.labs.loc.gov/search">search app</a> allows users to create new facets for searching the collection using machine learning.</p>
-<p><img alt="Screenshot of the search app" src="_images/newspaper_search.png" /></p>
-<div class="sidebar">
-<p class="sidebar-title">Audience for the tutorial</p>
-<p>Whilst a lot of the focus of the material is on GLAM data and a machine learning workflow in the context of a GLAM institution, the material in this ‘book’ is hopefully also of interest to other audiences wanting to use machine learning to do research or help with other processes. In particular, we think this content will be of interest to:</p>
-<ul class="simple">
-<li><p>digital humanities researchers</p></li>
-<li><p>digital historians</p></li>
-<li><p>literary scholars wanting to apply computational methods</p></li>
-</ul>
-</div>
-<p>Working with extensive collections of digitised materials often requires new metadata to help ‘slice’ a collection. This Jupyterbook contains a series of Jupyter notebooks that show some of the possible steps in creating a machine learning model for doing what we have called crude ‘genre classification’. The ‘metadata’ our machine learning model produces is a label indicating whether a particular book title is ‘fiction’ or ‘non-fiction’.  In the next section, we explain this task and the data we use in more detail.</p>
-<div class="section" id="aims">
-<h2>Aims<a class="headerlink" href="#aims" title="Permalink to this headline">¶</a></h2>
-<p>This <a class="reference external" href="https://jupyterbook.org/">Jupyter Book</a> has a few main aims:</p>
-<ul class="simple">
-<li><p>to (partially) document the steps taken to produce new metadata for the <a class="reference internal" href="glossary.html#term-Microsoft-Digitised-Books"><span class="xref std std-term">Microsoft Digitised Books</span></a> collection with predicted genre labels. Whilst we would in no way claim that this is a fully reproducible pipeline for creating our genre classification models, we hope it does cover all of the significant steps in the process we used.</p></li>
-<li><p>to give some background on the motivations and the requirements machine learning model should meet</p></li>
-<li><p>to give an overview of a ‘pragmatic’ approach to this task</p></li>
-</ul>
-<p>We are keen that this ‘book’ offers a resource for others to pursue similar projects. We try and focus on the broader considerations of using machine learning with GLAM data beyond the process of creating a model. In particular, there is a focus on the steps before and after training the model.</p>
-</div>
-<div class="section" id="what-is-covered-tl-dr">
-<h2>What is Covered? (tl;dr)<a class="headerlink" href="#what-is-covered-tl-dr" title="Permalink to this headline">¶</a></h2>
-<p>You can find a complete content outline in the left sidebar of the Jupyterbook. We’ve pulled out some of the topics covered to help you jump into a specific section of interest.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="text-align:left head"><p>Chapter(s)</p></th>
-<th class="text-align:left head"><p>Topics covered</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-align:left"><p><a class="reference internal" href="sample_inspector_i.html"><span class="doc std std-doc">Sample Inspector (Part I)</span></a> <br> <a class="reference internal" href="sample_inspector_ii.html"><span class="doc std std-doc">Sample Inspector (Part II)</span></a></p></td>
-<td class="text-align:left"><p>Looks at how well digitised books represent the wider universe of books held by the British Library. It also explores the training data compared to the full digitised collection of books.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p><a class="reference internal" href="02_error_analysis.html"><span class="doc std std-doc">Assessing Where our Model is Going Wrong</span></a></p></td>
-<td class="text-align:left"><p>Explores some possible ways in which we can assess where a model is making mistakes, and in particular, where these errors might be systematic. This section also explores some possible ways you can assess whether to use a subset of a models predictions</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:left"><p><a class="reference internal" href="04_snorkel.html"><span class="doc std std-doc">Creating More Training Data Without More Annotating</span></a></p></td>
-<td class="text-align:left"><p>Looks at how we can use domain knowledge and labelling functions to create training data without having to hand annotate data.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p><a class="reference internal" href="05_share_outputs.html"><span class="doc std std-doc">Sharing our work</span></a></p></td>
-<td class="text-align:left"><p>Explores possible considerations around sharing models and other components of a machine learning pipeline with others.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
-<p>While this <a class="reference external" href="https://jupyterbook.org/">Jupyter Book</a> aims to serve as a tutorial of sorts, it does not strive to be entirely comprehensive. In particular, we won’t teach you the Python programming language, which we use to develop our models. We also assume some familiarity with the overall process of creating a machine learning model.</p>
-<p>However, our aim in this ‘book’ is also to provide an overview of the steps involved.  Sections of this book include code. However, we accompany these sections with text explanations of what we’re doing and why so following all the code isn’t necessary.</p>
-<p>If you do want to follow everything related to the Python code in these notebooks, it would be good to have some familiarity with:</p>
-<ul class="simple">
-<li><p>the syntax of the Python programming language</p></li>
-<li><p>how to use pip to install external packages</p></li>
-<li><p>how to import Python external packages</p></li>
-</ul>
-<p>We hope that this background isn’t required to follow the overall logic of tackling this problem.</p>
-<div class="section" id="non-prerequisites">
-<h3>Non Prerequisites<a class="headerlink" href="#non-prerequisites" title="Permalink to this headline">¶</a></h3>
-<p>Machine learning has a reputation for requiring extensive computational resources, particularly when training models. There is also an unfortunate trend of some gatekeeping around using these methods. This gatekeeping is sometimes justified by claiming that anyone using machine learning must also be conversant with - and have access to - extensive cloud compute resources.</p>
-<p>One constraint set on this work is limiting the type of resources we used for this work. Whilst the Living with Machines project is spending large amounts of money on cloud computing, this work did not leverage this and instead relied on Google Colab (more on this below). Avoiding cloud computing was done to try and demonstrate that developing practical ML models doesn’t require a large compute budget (something many GLAM institutions won’t have).</p>
-</div>
-</div>
-<div class="section" id="how-to-run-the-code">
-<h2>How to Run the Code?<a class="headerlink" href="#how-to-run-the-code" title="Permalink to this headline">¶</a></h2>
-<p>You can choose to read through the notebook in this book via the Jupyterbook interface, or you may want to run it interactively so you can inspect the outputs and change the code. The notebooks are all intended to be ‘stand alone’, i.e. all of the input data files are downloaded for each notebook, so you don’t need to run the notebook in order on the same file system.</p>
-<div class="section" id="using-google-colab">
-<h3>Using Google Colab<a class="headerlink" href="#using-google-colab" title="Permalink to this headline">¶</a></h3>
-<p>Jupyterbook provides a launch button which you can choose to open a notebook in Google Colab or Binder Hub. <a class="reference external" href="https://colab.research.google.com/">Colab</a> is a hosted notebook service provided by Google.</p>
-<a class="reference internal image-reference" href="_images/launcher_icon.png"><img alt="Jupyterbook launcher icon" class="align-right" src="_images/launcher_icon.png" style="width: 400px;" /></a>
-<p>We recommend for the majority of these notebooks using Colab since Colab notebooks also offer a GPU version. Clicking on the rocket icon will show you two launch options, one for Binder and one for Colab. Once you have clicked on the Colab notebook, you should have a version of the notebook section you are looking at opened inside Colab.</p>
-<p>For the notebooks which involve training deep learning models, you should ensure you have GPU acceleration for your Colab notebook. You can activate this by navigating to the <code class="docutils literal notranslate"><span class="pre">Runtime</span></code> dropdown menu in Colab and selecting <code class="docutils literal notranslate"><span class="pre">change</span> <span class="pre">runtime</span> <span class="pre">type</span></code>.</p>
-<a class="reference internal image-reference" href="_images/runtime.png"><img alt="Screenshot of Colab runtime dropdown menu options" class="align-center" src="_images/runtime.png" style="width: 400px;" /></a>
-<p>Once you have done this, you should select <code class="docutils literal notranslate"><span class="pre">GPU</span></code> under the hardware acceleration options.</p>
-<a class="reference internal image-reference" href="_images/gpu_runtime.png"><img alt="Screenshot of Colab acceleration options menu" class="align-center" src="_images/gpu_runtime.png" style="width: 400px;" /></a>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Because we are using <a class="reference external" href="https://jupyterbook.org">Jupyterbook</a> to render this material, you may see some markdown syntax in the notebooks which you might not be familiar with. This is used by Jupyterbooks to generate content differently but doesn’t impact how the notebook runs.</p>
-</div>
-<p>If you haven’t run across Colab before this video gives a very quick introduction to the platform.</p>
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/inN8seMm7UI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-</div>
-<div class="section" id="how-to-give-feedback">
-<h2>How to Give Feedback?<a class="headerlink" href="#how-to-give-feedback" title="Permalink to this headline">¶</a></h2>
-<p>This series of notebooks is a work in progress, and we will update and add to this material over time. As discussed earlier, we aim to share the steps we took in this project. Although we have tried to keep an external audience in mind, we may have taken things for granted that might be obvious to us but not to someone coming to this material/project with fresh eyes.</p>
-<p>We would love feedback on areas where things are unclear (or where we could do better). The easiest way to provide this feedback is to <a class="reference external" href="https://github.com/Living-with-machines/genre-classification/issues/new">open an issue</a> on the GitHub repository for this book.</p>
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-</div>
-
-    <script type="text/x-thebe-config">
-    {
-        requestKernel: true,
-        binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
-        },
-        codeMirrorConfig: {
-            theme: "abcdef",
-            mode: "python"
-        },
-        kernelOptions: {
-            kernelName: "python3",
-            path: "./."
-        },
-        predefinedOutput: true
-    }
-    </script>
-    <script>kernelName = 'python3'</script>
-
-              </div>
-              
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
+    <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -694,13 +501,15 @@
         </div>
     </div>
     <footer class="footer">
-  <p>
-    
-      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-    
-        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-  </p>
-</footer>
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+        
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+      </p>
+    </div>
+  </footer>
 </main>
 
 

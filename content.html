@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -279,7 +279,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -297,55 +297,12 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+        <div class="d-none d-md-block col-md-2 bd-toc show">
             
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>Content in Jupyter Book</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
-            </div>
-            
-              <div>
-                
-  <div class="tex2jax_ignore mathjax_ignore section" id="content-in-jupyter-book">
-<h1>Content in Jupyter Book<a class="headerlink" href="#content-in-jupyter-book" title="Permalink to this headline">¶</a></h1>
-<p>There are many ways to write content in Jupyter Book. This short section
-covers a few tips for how to do so.</p>
-</div>
-
-    <script type="text/x-thebe-config">
-    {
-        requestKernel: true,
-        binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
-        },
-        codeMirrorConfig: {
-            theme: "abcdef",
-            mode: "python"
-        },
-        kernelOptions: {
-            kernelName: "python3",
-            path: "./."
-        },
-        predefinedOutput: true
-    }
-    </script>
-    <script>kernelName = 'python3'</script>
-
-              </div>
-              
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
+    <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -386,13 +343,15 @@ covers a few tips for how to do so.</p>
         </div>
     </div>
     <footer class="footer">
-  <p>
-    
-      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-    
-        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-  </p>
-</footer>
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+        
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+      </p>
+    </div>
+  </footer>
 </main>
 
 

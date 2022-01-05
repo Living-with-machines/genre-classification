@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -281,7 +281,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -299,7 +299,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+        <div class="d-none d-md-block col-md-2 bd-toc show">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -372,222 +372,7 @@
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>Sharing our work</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
-                <div>
-                    <h2> Contents </h2>
-                </div>
-                <nav aria-label="Page">
-                    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sharing-our-model">
-   Sharing our model?
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#where-to-share">
-     Where to share?
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#model-hub">
-       🤗 model hub
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#possible-limitations">
-       Possible limitations
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-cards">
-   Model cards
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sharing-our-data">
-   Sharing our data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#datasheets-for-datasets">
-     Datasheets for datasets
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#glam-specific-considerations">
-       GLAM specific considerations?
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#demo-apps">
-   Demo apps
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#more-to-come">
-     More to come…
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-                </nav>
-            </div>
-            
-              <div>
-                
-  <div class="tex2jax_ignore mathjax_ignore section" id="sharing-our-work">
-<h1>Sharing our work<a class="headerlink" href="#sharing-our-work" title="Permalink to this headline">¶</a></h1>
-<p>We have now gone through the process of creating a model that performs fairly well for our task. Although we originally created this model for our own needs, it is possible that others might benefit from our work. It therefore makes sense to share it so others can adapt or build on the model. Another reason we might want to share the things we used to build our model is so that others can interrogate our approach and model.</p>
-<div class="section" id="sharing-our-model">
-<h2>Sharing our model?<a class="headerlink" href="#sharing-our-model" title="Permalink to this headline">¶</a></h2>
-<p>We’ll start by discussing how we can share our model. What does it mean to share our model? When we train our model we essentially have a few different components that fit together:</p>
-<ul class="simple">
-<li><p>the architecture for our model, the number of layers etc.</p></li>
-<li><p>the model weights (trainable and non-trainable parameters)</p></li>
-<li><p>the training process, hyperparameters, learning rate etc.</p></li>
-</ul>
-<p>When we share the artefact of our work we mainly care about the first two components. For someone else to be able use our model we’ll usually need to think about how to share the first two components. In our work so far we’ve mainly used ‘of the shelf’ model architectures, namely <a class="reference external" href="https://docs.fast.ai/text.models.awdlstm.html"><code class="docutils literal notranslate"><span class="pre">AWD_LSTM</span></code></a> for our <code class="docutils literal notranslate"><span class="pre">fastai</span></code> model and <a class="reference external" href="https://huggingface.co/transformers/model_doc/distilbert.html"><code class="docutils literal notranslate"><span class="pre">DistilBERT</span></code></a> for our huggingface model. This means we could in theory just point people to those architectures and share the model weights with them. In practice most machine learning frameworks have some way of making the process of saving, and loading, all the necessary components of our model in an easier way. We won’t dig too much into the specifics of this here since it becomes too framework specific. Instead we’ll focus on more general considerations around the process of sharing a model.</p>
-<div class="section" id="where-to-share">
-<h3>Where to share?<a class="headerlink" href="#where-to-share" title="Permalink to this headline">¶</a></h3>
-<p>There are various options for <em>where</em> we can share our model with other people. The criteria for where to share your model will depend on a number of factors including the type of model you are sharing, the context in which it was developed and requirements your institutions (or funder) might have.</p>
-<p>For this work we used two (sort of three) places we share our data:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://zenodo.org/">Zenodo</a></p></li>
-<li><p><a class="reference external" href="https://bl.iro.bl.uk/">British Library repository</a></p></li>
-<li><p><a class="reference external" href="https://huggingface.co/models">Hugging Face Hub</a></p></li>
-</ul>
-<p>The first of these two are research repositories, one ‘generic’ and one for British Library staff. These repositories are a common way of sharing research outputs including papers, code, and datasets. Whilst some repositories have a particular focus many will accept machine learning models. Some advantages these repositories can offer for sharing your model include:</p>
-<ul class="simple">
-<li><p>being able to intergrate into an existing ecosystem alongside other outputs you produce</p></li>
-<li><p>getting a persistent identifier for your model (such as a <a class="reference external" href="https://doi.org/">DOI</a>)</p></li>
-<li><p>long-term preservation of your model (most research repositories have fairly ambitious preservation timelines i.e. 10+ years)</p></li>
-</ul>
-<p>Putting your model into one of these repositories offers a good option for making the model available long term. One of the models we developed (the first fastai model) can be found on Zenodo.</p>
-<p>This badge <a class="reference external" href="https://doi.org/10.5281/zenodo.5245175"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.5245175.svg" /></a>
-takes us to the landing page for the model. We can also see that we have a file we can now download which contains our model:</p>
-<p><img alt="Zenodo download link screenshot " src="_images/zenodo_download.png" /></p>
-<p>This is a good start on making it possible to access your model but there are other steps we may consider to make it easier for people to <em>use</em> your model.</p>
-<div class="section" id="model-hub">
-<h4>🤗 model hub<a class="headerlink" href="#model-hub" title="Permalink to this headline">¶</a></h4>
-<p>We have already touched on the 🤗 model hub in a previous <a class="reference internal" href="04b_transformer.html"><span class="doc std std-doc">chapter</span></a>. Whilst putting our model on Zenodo or another research repository makes your model available people may still not know how to use your model. For the model we built we tried to make this a bit easier by giving some instructions:</p>
-<p><img alt="Screen shot of zenodo usage instructions" src="_images/zendo_usage.png" /></p>
-<p>Whilst this is a useful start it still requires some knowledge from the user about how to install the <code class="docutils literal notranslate"><span class="pre">fastai</span></code> library and set up an environment for running the code. If our goal with sharing our models, particularly to a broader audience of GLAM staff this isn’t ideal. One other limitation with this approach is that people have no way of ‘trying before the buy’ i.e. playing around with the model to get an intuition  for how it works, and importantly, what limitations it has. For example, if someone was considering using or adapting this genre detection model, they might want to try testing it with their own book titles to see if it makes sensible predictions. We could address this in other ways as we’ll discuss below in the section <a class="reference internal" href="#content-references-demo-apps"><span class="std std-ref">Demo apps</span></a>.  However, being able to give people an easy way to <em>use</em> your model is where the 🤗 model hub shines.</p>
-<p>For a start, we can see that the huggingface model we created can now be tried directly in the hub:</p>
-<p><img alt="Screenshot from the huggingface hub with example prediction box" src="_images/hub_example.png" /></p>
-<p>This makes it easier for someone to quickly try a few inputs to see if they get sensible answers back.</p>
-<p>We also get a few other benefits from sharing our model in the 🤗 hub:</p>
-<p><img alt="Screenshot showing how to use model in transformers in huggingface hub" src="_images/hub_transformer_use.png" /></p>
-<p>This is similar to what we manually created in our Zenodo example but we got this example code for ‘free’ since the hub knows what our model is i.e. that it is a transformer model. If it was trained with another framework supported by the hub such as <a class="reference external" href="https://spacy.io/">Spacy</a>, we would get different example code here.</p>
-<p>One final benefit we’ll touch on is the ability to access the models via an API:</p>
-<p><img alt="Deployment screenshot" src="_images/hub_deploy.png" /></p>
-<p>This allows anyone (with some usage limits) to call an API to make predictions using our model. If you are trying to use a model in a production setting this could be very useful and remove some of the complexity of hosting the model yourself. It also means that someone could use our model with another programming language. Whilst Python is a fairly popular language in the GLAM sector there are also many institution’s making use of Java, Ruby etc. Having an API to use means people without Python, or machine learning knowledge, can more easily use our models. There are obviously some potential downsides to this. When we call an API to tell us the current temperature in Paris, France, we sort of take for granted that the result is probably right. In our case though we might want people to be a little bit more sceptical of our API. We’ll touch on possible mitigation’s to this concern shortly.</p>
-</div>
-<div class="section" id="possible-limitations">
-<h4>Possible limitations<a class="headerlink" href="#possible-limitations" title="Permalink to this headline">¶</a></h4>
-<p>There are a few concerns you might have about putting models in the 🤗 hub, particularly from a GLAM context. Two major possible concerns include:</p>
-<ul class="simple">
-<li><p>long-term sustainability</p></li>
-<li><p>persistent identifiers</p></li>
-</ul>
-<p>Probably the most pragmatic way to alleviate some of these fears is to follow the <code class="docutils literal notranslate"><span class="pre">LOCKSS</span></code> (Lots of Copies Keep Stuff Safe) principle and keep a copy of your model in a research repository. This could be automated or done manually depending on your particular needs. It is also possible that both of these areas will be addressed further by the platform.</p>
-</div>
-</div>
-</div>
-<div class="section" id="model-cards">
-<h2>Model cards<a class="headerlink" href="#model-cards" title="Permalink to this headline">¶</a></h2>
-<p>We’ve discussed some of the necessary steps to sharing our model. However, if we stop at the point of sharing model files/weights we aren’t being super helpful. What are the model weights? Essentially a bunch of numbers. If this is all we share without any context it’s hard for any one else who hasn’t been involved in the process of developing the model to know:</p>
-<ul class="simple">
-<li><p>what the model does?</p></li>
-<li><p>how to use it?</p></li>
-<li><p>what the possible labels are?</p></li>
-<li><p>is the model any good?</p></li>
-<li><p>when does the model not work well?</p></li>
-<li><p>what training data was used?</p></li>
-</ul>
-<p>This is a non-exhaustive list of things people may want to know. This information becomes even more important if our model is going to be used to make decisions or inform decisions that impact humans. In our particular case we are predicting the genre of 19th-Century books. This is maybe not as high stakes as a model approving or rejecting insurance claims but it may still have an impact on people depending on how the model is used. For example, if the model is used to help with discovery, books which are mislabelled might be less discoverable. If the mistakes are model are not random i.e. they are systematic in some way, this might mean some types of books be made less discoverable. For example, we have been concerned throughout this process with the impact of language on our model. If our model sucks at predicting non English book titles it is important people know this.</p>
-<p>This is what a model card aims to help address. The Model Cards for Model Reporting <span id="id1">[<a class="reference internal" href="references.html#id13">10</a>]</span> paper offers a framework for approaching this task. The paper gives some structure to addressing things people may want, and more likely <em>should</em> know, about our model. We have attempted to try and follow this structure in documenting our models. Whether we have done a good job is open to debate, however, we think that <em>attempting</em> to complete these model cards when sharing models.</p>
-<p><img alt="Screenshot of a model card" src="_images/model_card.png" /></p>
-</div>
-<div class="section" id="sharing-our-data">
-<h2>Sharing our data<a class="headerlink" href="#sharing-our-data" title="Permalink to this headline">¶</a></h2>
-<p>Similar to how we shared our model using the 🤗 hub we can also share our training data on this hub. There are some nice advantages to this:</p>
-<ul class="simple">
-<li><p>we make our data discoverable in a ecosystem where many people are looking for datasets already</p></li>
-<li><p>we can give access to our dataset in one line of code. This can also help ‘abstract’ any nuances about pre-processing etc for the data.</p></li>
-<li><p>we are strongly encouraged to properly document our dataset (more on this below)</p></li>
-</ul>
-<p><img alt="A screenshot of the genre classification dataset on the 🤗 hub" src="_images/hf_data_hub.png" /></p>
-<p>This dataset can be found is available as <a class="reference external" href="https://huggingface.co/datasets/blbooksgenre">blbooksgenre</a> on the 🤗 hub.</p>
-<div class="section" id="datasheets-for-datasets">
-<h3>Datasheets for datasets<a class="headerlink" href="#datasheets-for-datasets" title="Permalink to this headline">¶</a></h3>
-<p>We’ve agonised about our data a fair bit in the development of this model. It seems sensible then that we should also share the data we used to train our model. Whilst our training data is a bit more directly interpretable in comparison to our model (which in some sense is a bunch of numbers), there are still many things that our data won’t convey directly. For this reason it is important to also document our data. <em>Datasheets for Datasets</em> <span id="id2">[<a class="reference internal" href="references.html#id14">11</a>]</span> provides a framework to help us do this documentation.</p>
-<p>Completing this datasheet isn’t always easy, especially when the data you are working with has a complex provenance, as is often the case with GLAM collections. However, shifting from documenting individual items at the catalogue level, to documenting collections at scale will require different approaches and <em>Datasheets for Datasets</em> offers a useful starting point for tackling this challenge.</p>
-<p>This video provides more background to the motivations and aims of datasheets.</p>
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/639588440?h=a28bc8a741" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-<p><a href="https://vimeo.com/639588440">Datasheets for Datasets</a> from <a href="https://vimeo.com/user4730653">CACM</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
-<div class="section" id="glam-specific-considerations">
-<h4>GLAM specific considerations?<a class="headerlink" href="#glam-specific-considerations" title="Permalink to this headline">¶</a></h4>
-<p>We have shown some <em>possible</em> approaches to sharing our work. Most of this has been fairly generic i.e. we didn’t focus a huge amount on anything GLAM specific. Many of the things we said about making things more accessible would be relevant to many domains which want to make use of machine learning i.e. a biologist wanting to use a machine learning model might have similar challenges to a librarian. However, there may be some things which are GLAM specific particularly around GLAM data.</p>
-<p>We don’t offer much in the way of suggestions here. Model cards and datasheets both offer a very useful foundation. It probably makes sense to build on this work and go through the work of trying to document GLAM collections for use in machine learning. Working through this process will hopefully begin to reveal some common needs or extensions that might be required for GLAM data. i.e. there may need to be more background on selection biases for digitised collections, or an explanation of metadata standards which might be familiar to GLAM staff but not to people working in NLP.</p>
-<p>This is hopefully an area that will continue to develop as part of initiatives like <a class="reference external" href="https://sites.google.com/view/ai4lam">ai4lam</a>.</p>
-</div>
-</div>
-</div>
-<div class="section" id="demo-apps">
-<span id="content-references-demo-apps"></span><h2>Demo apps<a class="headerlink" href="#demo-apps" title="Permalink to this headline">¶</a></h2>
-<p>One other way in which we can make our models more useful for others is to create an application which allows people to use the model without having to go through a lot of steps to get the model setup. This might sound like a lot of work but there are a number of tools that make this easier to do. Two of these are <a class="reference external" href="https://www.gradio.app/">Gradio</a> and <a class="reference external" href="https://streamlit.io/">Streamlit</a>.</p>
-<p>We created a simple demo app for the fastai model we trained in an earlier section: <a class="reference internal" href="01_BL_fiction_non_fiction.html"><span class="doc std std-doc">Training our first book genre classification model</span></a>. This demo app is primarily intended to offer some ways of exploring the model.</p>
-<p><img alt="Screenshot of the demo app" src="_images/fastai_gradio.png" /></p>
-<div class="section" id="more-to-come">
-<h3>More to come…<a class="headerlink" href="#more-to-come" title="Permalink to this headline">¶</a></h3>
-<p>There are other potential demo apps related to this work which we might create after the release of this ‘book’.</p>
-</div>
-</div>
-</div>
-
-    <script type="text/x-thebe-config">
-    {
-        requestKernel: true,
-        binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
-        },
-        codeMirrorConfig: {
-            theme: "abcdef",
-            mode: "python"
-        },
-        kernelOptions: {
-            kernelName: "python3",
-            path: "./."
-        },
-        predefinedOutput: true
-    }
-    </script>
-    <script>kernelName = 'python3'</script>
-
-              </div>
-              
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
+    <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -746,13 +531,15 @@ takes us to the landing page for the model. We can also see that we have a file 
         </div>
     </div>
     <footer class="footer">
-  <p>
-    
-      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-    
-        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-  </p>
-</footer>
+    <div class="container">
+      <p>
+        
+          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+        
+            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+      </p>
+    </div>
+  </footer>
 </main>
 
 
