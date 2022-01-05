@@ -6,7 +6,7 @@ parts:
       - file: zooniverse
       - file: genre_classification
       - file: 00_crude_genre
-  - caption: EDA
+  - caption: Exploratory Data Analysis
     chapters:
       - file: sample_inspector_i
       - file: sample_inspector_ii
