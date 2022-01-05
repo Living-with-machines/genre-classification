@@ -1180,10 +1180,9 @@ Name: annotator_genre, dtype: float64
 <p>A language model can be used as a starting point for many tasks. Language models are models which, in broad terms, learn the probabilities of word occurrence. There are various ways in which language models can be trained but increasingly they are trained in an unsupervised manner i.e. they are trained from unlabeled data. A example of a task a language model be given is to predict the next work in a sentence for example:</p>
 <p>the cat sat on the ____</p>
 <p>As a model gets better at performing this task it develops a representation of language which can be useful for other downstream tasks.</p>
-<p>For our starting point we will follow the ‘ulmfit’ (Universal Language Model Fine Tuning) approach.</p>
-<p><img alt="Illustration of the ulmfit approach" src="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png" /></p>
-<p>As we can see from the illustration we’ll start with a language model which has been trained on a general language modelling task, in this case on English wikipedia articles. We’ll then ‘fine-tune’ this model on all of our title data (our target domain). Through this process our language model should get better at ‘understanding’ what the book titles in our corpus looks like. In a later stage we will then use our fine tuned language model to create a classifier.</p>
-<p><img alt="Fine tuning a language model" src="https://github.com/Living-with-machines/bl-books-genre-prediction/blob/tutorial-draft/genre_classification_of_bl_books/figs/fine_tune_lm.png?raw=1" /></p>
+<p>For our starting point we will follow the ‘ULMFIT’ (Universal Language Model Fine Tuning) approach.</p>
+<a class="bg-primary mb-1 reference internal image-reference" href="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png"><img alt="aIllustration of the ulmfit approach" class="bg-primary mb-1 align-center" src="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png" style="width: 500px;" /></a>
+<p>As we can see from the illustration we’ll start with a language model which has been trained on a general language modeling task, in this case on English Wikipedia articles. We’ll then ‘fine-tune’ this model on all of our title data (our target domain). Through this process our language model should get better at ‘understanding’ what the book titles in our corpus looks like. In a later stage we will then use our fine tuned language model to create a classifier.</p>
 <p>We can use all of our data for language modeling so we create a new DataFrame which contains all of the metadata:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1524,7 +1523,7 @@ Better model found at epoch 4 with perplexity value: 37.30109405517578.
 <div class="output text_html"></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SuggestedLRs(valley=0.0002290867705596611)
 </pre></div>
 </div>
-<img alt="_images/01_BL_fiction_non_fiction_71_2.png" src="_images/01_BL_fiction_non_fiction_71_2.png" />
+<img alt="_images/01_BL_fiction_non_fiction_70_2.png" src="_images/01_BL_fiction_non_fiction_70_2.png" />
 </div>
 </div>
 <p>We can pass a slice at the learning rate. This will use something called a ‘discriminative’ learning rate. This means that the lower layers of our model will have a lower learning rate, and the later layers will have a higher learning rate. The intution here is that the lower layers might contain more ‘general’ features which we don’t want to update as agressively whilst the later layers are more task specific.</p>
@@ -1890,7 +1889,7 @@ TK_UP (xxup) is used to indicate the next word is written in all caps in the ori
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_100_1.png" src="_images/01_BL_fiction_non_fiction_100_1.png" />
+<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_99_1.png" src="_images/01_BL_fiction_non_fiction_99_1.png" />
 </div>
 </div>
 </div>
@@ -2185,7 +2184,7 @@ TK_UP (xxup) is used to indicate the next word is written in all caps in the ori
 </table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.5171399367413458.
 </pre></div>
 </div>
-<img alt="_images/01_BL_fiction_non_fiction_102_2.png" src="_images/01_BL_fiction_non_fiction_102_2.png" />
+<img alt="_images/01_BL_fiction_non_fiction_101_2.png" src="_images/01_BL_fiction_non_fiction_101_2.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 1 with f1_score value: 0.6009619380038229.
 Better model found at epoch 2 with f1_score value: 0.7867257283625517.
 Better model found at epoch 3 with f1_score value: 0.8505155901731697.
@@ -2234,7 +2233,7 @@ No improvement since epoch 11: early stopping
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_107_1.png" src="_images/01_BL_fiction_non_fiction_107_1.png" />
+<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_106_1.png" src="_images/01_BL_fiction_non_fiction_106_1.png" />
 </div>
 </div>
 <p>Again we use a slightly YOLO approach to training and train for 40 epochs. We do make sure to save our best model and stop early if we don’t improve.</p>
@@ -2446,7 +2445,7 @@ No improvement since epoch 11: early stopping
 </table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.91408547008547.
 </pre></div>
 </div>
-<img alt="_images/01_BL_fiction_non_fiction_109_2.png" src="_images/01_BL_fiction_non_fiction_109_2.png" />
+<img alt="_images/01_BL_fiction_non_fiction_108_2.png" src="_images/01_BL_fiction_non_fiction_108_2.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: reducing lr to 2.4287370138544e-05
 Better model found at epoch 6 with f1_score value: 0.916337627889352.
 Epoch 10: reducing lr to 4.775283508704886e-05
@@ -3393,10 +3392,9 @@ Name: annotator_genre, dtype: float64
 <p>A language model can be used as a starting point for many tasks. Language models are models which, in broad terms, learn the probabilities of word occurrence. There are various ways in which language models can be trained but increasingly they are trained in an unsupervised manner i.e. they are trained from unlabeled data. A example of a task a language model be given is to predict the next work in a sentence for example:</p>
 <p>the cat sat on the ____</p>
 <p>As a model gets better at performing this task it develops a representation of language which can be useful for other downstream tasks.</p>
-<p>For our starting point we will follow the ‘ulmfit’ (Universal Language Model Fine Tuning) approach.</p>
-<p><img alt="Illustration of the ulmfit approach" src="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png" /></p>
-<p>As we can see from the illustration we’ll start with a language model which has been trained on a general language modelling task, in this case on English wikipedia articles. We’ll then ‘fine-tune’ this model on all of our title data (our target domain). Through this process our language model should get better at ‘understanding’ what the book titles in our corpus looks like. In a later stage we will then use our fine tuned language model to create a classifier.</p>
-<p><img alt="Fine tuning a language model" src="https://github.com/Living-with-machines/bl-books-genre-prediction/blob/tutorial-draft/genre_classification_of_bl_books/figs/fine_tune_lm.png?raw=1" /></p>
+<p>For our starting point we will follow the ‘ULMFIT’ (Universal Language Model Fine Tuning) approach.</p>
+<a class="bg-primary mb-1 reference internal image-reference" href="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png"><img alt="aIllustration of the ulmfit approach" class="bg-primary mb-1 align-center" src="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png" style="width: 500px;" /></a>
+<p>As we can see from the illustration we’ll start with a language model which has been trained on a general language modeling task, in this case on English Wikipedia articles. We’ll then ‘fine-tune’ this model on all of our title data (our target domain). Through this process our language model should get better at ‘understanding’ what the book titles in our corpus looks like. In a later stage we will then use our fine tuned language model to create a classifier.</p>
 <p>We can use all of our data for language modeling so we create a new DataFrame which contains all of the metadata:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3737,7 +3735,7 @@ Better model found at epoch 4 with perplexity value: 37.30109405517578.
 <div class="output text_html"></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SuggestedLRs(valley=0.0002290867705596611)
 </pre></div>
 </div>
-<img alt="_images/01_BL_fiction_non_fiction_71_2.png" src="_images/01_BL_fiction_non_fiction_71_2.png" />
+<img alt="_images/01_BL_fiction_non_fiction_70_2.png" src="_images/01_BL_fiction_non_fiction_70_2.png" />
 </div>
 </div>
 <p>We can pass a slice at the learning rate. This will use something called a ‘discriminative’ learning rate. This means that the lower layers of our model will have a lower learning rate, and the later layers will have a higher learning rate. The intution here is that the lower layers might contain more ‘general’ features which we don’t want to update as agressively whilst the later layers are more task specific.</p>
@@ -4103,7 +4101,7 @@ TK_UP (xxup) is used to indicate the next word is written in all caps in the ori
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_100_1.png" src="_images/01_BL_fiction_non_fiction_100_1.png" />
+<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_99_1.png" src="_images/01_BL_fiction_non_fiction_99_1.png" />
 </div>
 </div>
 </div>
@@ -4398,7 +4396,7 @@ TK_UP (xxup) is used to indicate the next word is written in all caps in the ori
 </table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.5171399367413458.
 </pre></div>
 </div>
-<img alt="_images/01_BL_fiction_non_fiction_102_2.png" src="_images/01_BL_fiction_non_fiction_102_2.png" />
+<img alt="_images/01_BL_fiction_non_fiction_101_2.png" src="_images/01_BL_fiction_non_fiction_101_2.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 1 with f1_score value: 0.6009619380038229.
 Better model found at epoch 2 with f1_score value: 0.7867257283625517.
 Better model found at epoch 3 with f1_score value: 0.8505155901731697.
@@ -4447,7 +4445,7 @@ No improvement since epoch 11: early stopping
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_107_1.png" src="_images/01_BL_fiction_non_fiction_107_1.png" />
+<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_106_1.png" src="_images/01_BL_fiction_non_fiction_106_1.png" />
 </div>
 </div>
 <p>Again we use a slightly YOLO approach to training and train for 40 epochs. We do make sure to save our best model and stop early if we don’t improve.</p>
@@ -4659,7 +4657,7 @@ No improvement since epoch 11: early stopping
 </table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.91408547008547.
 </pre></div>
 </div>
-<img alt="_images/01_BL_fiction_non_fiction_109_2.png" src="_images/01_BL_fiction_non_fiction_109_2.png" />
+<img alt="_images/01_BL_fiction_non_fiction_108_2.png" src="_images/01_BL_fiction_non_fiction_108_2.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: reducing lr to 2.4287370138544e-05
 Better model found at epoch 6 with f1_score value: 0.916337627889352.
 Epoch 10: reducing lr to 4.775283508704886e-05
