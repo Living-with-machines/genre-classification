@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -121,7 +121,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  EDA
+  Exploratory Data Analysis
  </span>
 </p>
 <ul class="nav bd-sidenav">
@@ -281,7 +281,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -299,7 +299,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -329,7 +329,119 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Overview of the Project: Classifying British Library Books By Genre</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crowdsourcing-metadata-from-british-library-staff">
+   Crowdsourcing Metadata from British Library staff
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zooniverse-task-setup">
+     Zooniverse Task Setup
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#living-with-machines">
+   Living with Machines
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="overview-of-the-project-classifying-british-library-books-by-genre">
+<h1>Overview of the Project: Classifying British Library Books By Genre<a class="headerlink" href="#overview-of-the-project-classifying-british-library-books-by-genre" title="Permalink to this headline">¶</a></h1>
+<p>Starting in 2005, the British Library (BL) worked in partnership with Microsoft to digitise a selection of out-of-copyright 18th and 19th century texts. This collection was subsequently made openly available in a number of formats, across a number of platforms. Throughout this document, the collection will be referred to as “<a class="reference internal" href="glossary.html#term-Microsoft-Digitised-Books"><span class="xref std std-term">Microsoft Digitised Books</span></a>”.</p>
+<p>The collection covers ~49,455 titles (~65,227 volumes) published between 1789 and 1914.</p>
+<p>The metadata for these books is of variable quality and is not comprehensive. <a class="reference external" href="https://www.bl.uk/projects/british-library-labs">British Library Labs</a> would like to be able to release subsets of the collection – all poetry, or all publications from a particular country, for example – as datasets for research. However, lack of good quality metadata means that this is not yet possible.</p>
+<div class="section" id="crowdsourcing-metadata-from-british-library-staff">
+<h2>Crowdsourcing Metadata from British Library staff<a class="headerlink" href="#crowdsourcing-metadata-from-british-library-staff" title="Permalink to this headline">¶</a></h2>
+<p>In order to revise and enrich existing metadata, a <a class="reference internal" href="glossary.html#term-crowdsourcing"><span class="xref std std-term">crowdsourcing</span></a> project was setup on the <a class="reference external" href="https://www.zooniverse.org/">Zooniverse</a> platform by Victoria Morris (a member of the BL’s <a class="reference external" href="https://www.bl.uk/collection-metadata/strategy-and-standards">Metadata Standards</a>). The aim of this project was to enhance records for Microsoft Digitised Books by providing information about:</p>
+<ul class="simple">
+<li><p>Country and place of publication</p></li>
+<li><p>Date of publication</p></li>
+<li><p>Edition</p></li>
+<li><p>Language(s) of content</p></li>
+<li><p>Literary form (fiction or non-fiction)</p></li>
+<li><p>Genre (for fiction items)</p></li>
+<li><p>Subject</p></li>
+</ul>
+<p>The scope of the term “literary form” was specific to this project: “fiction” was interpreted broadly as “creative writing”, thus would include poetry and drama. This might not be the same definition of “fiction” as would be appropriate in other context, particularly if identifying narrower or ‘micro’ genres.</p>
+<div class="section" id="zooniverse-task-setup">
+<h3>Zooniverse Task Setup<a class="headerlink" href="#zooniverse-task-setup" title="Permalink to this headline">¶</a></h3>
+<p>Title pages for Microsoft Digitised Books were loaded to an interface built using the Zooniverse platform. The interface allowed users to view the title page, and to record bibliographic metadata for the fields specified above. For practical expediency, books were separated into the following batches:</p>
+<ul class="simple">
+<li><p>Books written in the English language</p></li>
+<li><p>Books written in French and German</p></li>
+<li><p>Books written in other languages</p></li>
+<li><p>Books for which the language of content is not known</p></li>
+</ul>
+<p>We will return to this language breakdown in later sections of the book.</p>
+<p>When a user accessed the Zooniverse project, they were able to select the language of the books that they would like to annotate. Once a language had been selected, they were presented with the title page of a book, and  were asked to provide the following metadata elements for that book:</p>
+<ul class="simple">
+<li><p>Language; language of summaries/abstracts; language of original (for translations)</p></li>
+<li><p>Publisher</p></li>
+<li><p>Place and country of publication</p></li>
+<li><p>Date of publication</p></li>
+<li><p>Edition</p></li>
+<li><p>Form/genre (choice of FAST headings)</p></li>
+<li><p>Subject (choice FAST headings)</p></li>
+</ul>
+<p>These metadata elements were chosen because: (a) they were often missing from the records, and (b) it should be possible for participant to either transcribe or infer the relevant information from the title page. Participants were also provided with a link to the full text in case they felt it necessary to refer to the complete resource.</p>
+<p>The annotations were exported from the Zooniverse platform. Some processing was done to make this exported format easier to work with. We don’t provide the ‘raw’ Zooniverse export data since it contains personal data but you can find the notebook for processing the zooniverse data here #TODO add link once repository moved.</p>
+</div>
+</div>
+<div class="section" id="living-with-machines">
+<h2>Living with Machines<a class="headerlink" href="#living-with-machines" title="Permalink to this headline">¶</a></h2>
+<p>The Living with Machines project has been working with the Microsoft Digitised Books. In order to facilitate computational analysis of this collection ‘at scale’, it was felt it would be useful to be able to facet the collection by genre.</p>
+<p>Whilst a detailed breakdown by genre (see for example the <a class="reference external" href="https://www.loc.gov/standards/valuelist/marcgt.html">MARC Genre Term List</a>) might be desirable, even a high-level binary classification of texts as  being either <em>fiction</em> or <em>non-fiction</em> would allow for a more nuanced ability to work with books at scale, especially since we might expect both the content and language of these two broad genres to be quite different.</p>
+<p>Although the Zooniverse crowdsourcing data was not originally collected with this task in mind, it did include genre classifications which we believed could be useful for developing a machine learning model to break down the full collection into genre-based subsets. The majority of this Jupyter Book outlines the steps taken in more detail. If you want to skip ahead to this you can jump to the next chapter. Alternatively, the next section gives a bit of background to this interest in genre from the perspectives of GLAM and History/Digital Humanities.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -428,15 +540,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-        
-            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+    
+        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+  </p>
+</footer>
 </main>
 
 

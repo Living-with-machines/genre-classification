@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -121,7 +121,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  EDA
+  Exploratory Data Analysis
  </span>
 </p>
 <ul class="current nav bd-sidenav">
@@ -281,7 +281,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -321,7 +321,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -339,7 +339,570 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Sample Inspector (Part II)</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fin">
+   Fin.
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="sample-inspector-part-ii">
+<h1>Sample Inspector (Part II)<a class="headerlink" href="#sample-inspector-part-ii" title="Permalink to this headline">¶</a></h1>
+<p>This notebook compares BL books to the genre annotations. We’d like to know if the annotated sample deviates from the digital collection and look at aspects that <em>should</em> remains stable across both datasets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># in case pandas refuses to open the Excel spreadsheet uncomment this line below</span>
+<span class="c1">#!pip3 install openpyxl==3.0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, we load the metadata of the BL books collection.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_blb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://bl.iro.bl.uk/downloads/e1be1324-8b1a-4712-96a7-783ac209ddef?locale=en&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;BL record ID&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+    <span class="n">parse_dates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">metadata_blb</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BL record ID</th>
+      <th>Type of resource</th>
+      <th>Name</th>
+      <th>Dates associated with name</th>
+      <th>Type of name</th>
+      <th>Role</th>
+      <th>All names</th>
+      <th>Title</th>
+      <th>Variant titles</th>
+      <th>Series title</th>
+      <th>Number within series</th>
+      <th>Country of publication</th>
+      <th>Place of publication</th>
+      <th>Publisher</th>
+      <th>Date of publication</th>
+      <th>Edition</th>
+      <th>Physical description</th>
+      <th>Dewey classification</th>
+      <th>BL shelfmark</th>
+      <th>Topics</th>
+      <th>Genre</th>
+      <th>Languages</th>
+      <th>Notes</th>
+      <th>BL record ID for physical resource</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>014602826</td>
+      <td>Monograph</td>
+      <td>Yearsley, Ann</td>
+      <td>1753-1806</td>
+      <td>person</td>
+      <td>NaN</td>
+      <td>More, Hannah, 1745-1833 [person] ; Yearsley, A...</td>
+      <td>Poems on several occasions [With a prefatory l...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>England</td>
+      <td>London</td>
+      <td>NaN</td>
+      <td>1786</td>
+      <td>Fourth edition MANUSCRIPT note</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Digital Store 11644.d.32</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>3996603</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>014602830</td>
+      <td>Monograph</td>
+      <td>A, T.</td>
+      <td>NaN</td>
+      <td>person</td>
+      <td>NaN</td>
+      <td>Oldham, John, 1653-1683 [person] ; A, T. [person]</td>
+      <td>A Satyr against Vertue. (A poem: supposed to b...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>England</td>
+      <td>London</td>
+      <td>NaN</td>
+      <td>1679</td>
+      <td>NaN</td>
+      <td>15 pages (4°)</td>
+      <td>NaN</td>
+      <td>Digital Store 11602.ee.10. (2.)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>1143</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>014602831</td>
+      <td>Monograph</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>The Aeronaut, a poem; founded almost entirely,...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Ireland</td>
+      <td>Dublin</td>
+      <td>Richard Milliken</td>
+      <td>1816</td>
+      <td>NaN</td>
+      <td>17 pages (8°)</td>
+      <td>NaN</td>
+      <td>Digital Store 992.i.12. (3.)</td>
+      <td>Dublin (Ireland)</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>22782</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>A simple test for comparing the sample to the BL Books metadata is computing the probabilities of the title’s first character. This distribution should look similar for both datasets. Below we create a function <code class="docutils literal notranslate"><span class="pre">first_alpha_char</span></code> that returns the first character of a string. If none could be found, it returns a hashtag.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">first_alpha_char</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;returns the first lowercased alphatical character of a string&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()])</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;#&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">.apply()</span></code> we can extract to first character from the <code class="docutils literal notranslate"><span class="pre">title</span></code> column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_blb</span><span class="p">[</span><span class="s2">&quot;first_alpha_char&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_blb</span><span class="o">.</span><span class="n">Title</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">first_alpha_char</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we use <code class="docutils literal notranslate"><span class="pre">Counter()</span></code> to count all elements in the <code class="docutils literal notranslate"><span class="pre">first_alpha_char</span></code> column and turn the counts into probabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">char_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span>
+    <span class="n">metadata_blb</span><span class="p">[</span><span class="n">metadata_blb</span><span class="p">[</span><span class="s2">&quot;first_alpha_char&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">first_alpha_char</span>
+<span class="p">)</span>
+<span class="n">char_probs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">char_count</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">char_count</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">char_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">char_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9762074210&gt;
+</pre></div>
+</div>
+<img alt="_images/sample_inspector_ii_12_1.png" src="_images/sample_inspector_ii_12_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">char_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">char_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))[</span><span class="s2">&quot;a&quot;</span><span class="p">:</span><span class="s2">&quot;z&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f976202f610&gt;
+</pre></div>
+</div>
+<img alt="_images/sample_inspector_ii_13_1.png" src="_images/sample_inspector_ii_13_1.png" />
+</div>
+</div>
+<p>Next, we apply the same procedure to the annotated sample. We’ll start by loading the annotated sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://bl.iro.bl.uk/downloads/36c7cd20-c8a7-4495-acbe-469b9132c6b1?locale=en&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;BL record ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">annotations</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/IPython/core/interactiveshell.py:2718: DtypeWarning: Columns (17,35,37) have mixed types.Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BL record ID</th>
+      <th>Type of resource</th>
+      <th>Name</th>
+      <th>Dates associated with name</th>
+      <th>Type of name</th>
+      <th>Role</th>
+      <th>All names</th>
+      <th>Title</th>
+      <th>Variant titles</th>
+      <th>Series title</th>
+      <th>Number within series</th>
+      <th>Country of publication</th>
+      <th>Place of publication</th>
+      <th>Publisher</th>
+      <th>Date of publication</th>
+      <th>Edition</th>
+      <th>Physical description</th>
+      <th>Dewey classification</th>
+      <th>BL shelfmark</th>
+      <th>Topics</th>
+      <th>Genre</th>
+      <th>Languages</th>
+      <th>Notes</th>
+      <th>BL record ID for physical resource</th>
+      <th>classification_id</th>
+      <th>user_id</th>
+      <th>created_at</th>
+      <th>subject_ids</th>
+      <th>annotator_date_pub</th>
+      <th>annotator_normalised_date_pub</th>
+      <th>annotator_edition_statement</th>
+      <th>annotator_genre</th>
+      <th>annotator_FAST_genre_terms</th>
+      <th>annotator_FAST_subject_terms</th>
+      <th>annotator_comments</th>
+      <th>annotator_main_language</th>
+      <th>annotator_other_languages_summaries</th>
+      <th>annotator_summaries_language</th>
+      <th>annotator_translation</th>
+      <th>annotator_original_language</th>
+      <th>annotator_publisher</th>
+      <th>annotator_place_pub</th>
+      <th>annotator_country</th>
+      <th>annotator_title</th>
+      <th>Link to digitised book</th>
+      <th>annotated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>014602826</td>
+      <td>Monograph</td>
+      <td>Yearsley, Ann</td>
+      <td>1753-1806</td>
+      <td>person</td>
+      <td>NaN</td>
+      <td>More, Hannah, 1745-1833 [person] ; Yearsley, A...</td>
+      <td>Poems on several occasions [With a prefatory l...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>England</td>
+      <td>London</td>
+      <td>NaN</td>
+      <td>1786</td>
+      <td>Fourth edition MANUSCRIPT note</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Digital Store 11644.d.32</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>3996603</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This dataset includes both annotated data and non-annotated data. Since we only want the annotated data, we can filter these out using the <code class="docutils literal notranslate"><span class="pre">annotated</span></code> column which contains a flag to indicate if the data has been annotated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">[</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;annotated&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because of the way in which the annotations were collected we have some duplicates. There are different ways in which we can deal with these duplicates but here we will just drop the duplicates for the <code class="docutils literal notranslate"><span class="pre">Title</span></code> column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span> <span class="o">=</span> <span class="n">annotations</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">&quot;Title&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;first_alpha_char&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotations</span><span class="o">.</span><span class="n">Title</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">first_alpha_char</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">char_count_anno</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span>
+    <span class="n">annotations</span><span class="p">[</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;first_alpha_char&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">first_alpha_char</span>
+<span class="p">)</span>
+<span class="n">char_probs_anno</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">char_count_anno</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">char_count_anno</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">char_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">char_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">char_probs_anno</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">char_probs_anno</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f975fa5ffd0&gt;
+</pre></div>
+</div>
+<img alt="_images/sample_inspector_ii_22_1.png" src="_images/sample_inspector_ii_22_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;annotator_main_language&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([nan, &#39;lat\nger&#39;, &#39;gmh\nlat\nger&#39;, &#39;ger&#39;, &#39;ger\ngmh\nlat&#39;,
+       &#39;ger\nfre&#39;, &#39;eng&#39;, &#39;lat\ngmh\nger&#39;, &#39;ger\neng&#39;, &#39;ger\nlat&#39;,
+       &#39;lat\nfre&#39;, &#39;dut\nfre\nspa&#39;, &#39;fre\nger&#39;, &#39;ger\nfrs\nlat&#39;,
+       &#39;ger\ngmh&#39;, &#39;lat\ndut\nfrm\nfre&#39;, &#39;ger\nspa&#39;, &#39;eng\nfre&#39;],
+      dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;english&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;annotator_main_language&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;eng&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lastly, we can compare the distribution over time to see if the sample is biased towards are certain period.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_blb</span> <span class="o">=</span> <span class="n">metadata_blb</span><span class="p">[</span><span class="n">metadata_blb</span><span class="p">[</span><span class="s2">&quot;Date of publication&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_blb</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_blb</span><span class="p">[</span><span class="s2">&quot;Date of publication&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">metadata_blb</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">year_probs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">year_counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">year_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">year_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">year_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))[</span><span class="s2">&quot;1800&quot;</span><span class="p">:</span><span class="s2">&quot;1900&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f975fa47990&gt;
+</pre></div>
+</div>
+<img alt="_images/sample_inspector_ii_28_1.png" src="_images/sample_inspector_ii_28_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year_counts_anno</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;annotator_normalised_date_pub&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">year_probs_anno</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">year_counts_anno</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">year_counts_anno</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Below, we made a small function to manipulate the date of publication field by extracting the year (if available) and returning it as an integer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_int</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;return year is integer&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="kc">False</span>
+
+
+<span class="n">year_probs_anno</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">year_probs_anno</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">get_int</span><span class="p">(</span><span class="n">k</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">year_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">year_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))[</span><span class="s2">&quot;1800&quot;</span><span class="p">:</span><span class="s2">&quot;1900&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">year_probs_anno</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">year_probs_anno</span><span class="o">.</span><span class="n">keys</span><span class="p">()))[</span><span class="s2">&quot;1800&quot;</span><span class="p">:</span><span class="s2">&quot;1900&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f97678859d0&gt;
+</pre></div>
+</div>
+<img alt="_images/sample_inspector_ii_32_1.png" src="_images/sample_inspector_ii_32_1.png" />
+</div>
+</div>
+<div class="section" id="fin">
+<h2>Fin.<a class="headerlink" href="#fin" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -901,15 +1464,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-        
-            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+    
+        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+  </p>
+</footer>
 </main>
 
 

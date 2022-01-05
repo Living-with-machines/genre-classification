@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -121,7 +121,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  EDA
+  Exploratory Data Analysis
  </span>
 </p>
 <ul class="nav bd-sidenav">
@@ -281,7 +281,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -299,7 +299,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -336,7 +336,112 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Crude Genre Classification</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#our-approach">
+   Our approach
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-do-we-classify">
+     What do we classify?
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#why-not-use-the-full-text-of-the-book">
+       Why not use the full text of the book?
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#why-not-use-a-knowledgebase">
+       Why not use a knowledgebase?
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="crude-genre-classification">
+<h1>Crude Genre Classification<a class="headerlink" href="#crude-genre-classification" title="Permalink to this headline">¶</a></h1>
+<p>We saw in the previous chapter that there have been various approaches to metadata generation using machine learning methods. We also saw that one of the potential labels we had available to us to use was a ‘genre’ label which labelled a book <code class="docutils literal notranslate"><span class="pre">fiction</span></code> or <code class="docutils literal notranslate"><span class="pre">non-fiction</span></code>. We also had more granular labels from the FAST terms. However we decided to focus on initially trying to build a classifier which would put all books into one of these two categories.</p>
+<p>This collapsing of all books into two genres will displease some but it offers some advantages:</p>
+<ul class="simple">
+<li><p>it keeps the task relatively simple, this allows us to focus on improving the data and model rather than having to define a more complex machine learning approach</p></li>
+<li><p>we have ready to use metrics for evaluating our approach</p></li>
+<li><p>we have ‘crude’ enough categories that we may be able to computationally generate some of our training data</p></li>
+</ul>
+<p>Beyond these more pragmatic reasons we should also remember what our original aim was - to help us split a large corpus of books into different categories. Being able to select only fiction or non-fiction books from a collection is already massively helpful for many other tasks we might want to do with the collection.</p>
+<div class="section" id="our-approach">
+<h2>Our approach<a class="headerlink" href="#our-approach" title="Permalink to this headline">¶</a></h2>
+<p>Whilst we discus this more  as we move through the tutorial, it may be useful to have an overview of what we’re trying to achieve and why:</p>
+<ul class="simple">
+<li><p>We have a set of digitised book which have some metadata attached, but often the field for genre is not populated.</p></li>
+<li><p>We also have a subset of this data that has annotations for genre produced via an internal crowdsourcing task.</p></li>
+<li><p>We want to train a machine learning model on this annotated data.</p></li>
+<li><p>We then want to apply this machine learning model to the whole collection of books so we have genre labels for all the books.</p></li>
+</ul>
+<div class="section" id="what-do-we-classify">
+<h3>What do we classify?<a class="headerlink" href="#what-do-we-classify" title="Permalink to this headline">¶</a></h3>
+<p>Whilst the above gives an overview of what we want to achieve we still have an open question of how we do it. The books we are working with have various metadata attached. Our training data has a bunch of this metadata along with a label for <code class="docutils literal notranslate"><span class="pre">fiction</span></code> or <code class="docutils literal notranslate"><span class="pre">non-fiction</span></code>.</p>
+<p>We could potentially use all of this as input for our model to use when making it’s prediction. This is something we tried as we were outlining our approach but we settled on using only the title of the book as input for the model.</p>
+<div class="section" id="why-not-use-the-full-text-of-the-book">
+<h4>Why not use the full text of the book?<a class="headerlink" href="#why-not-use-the-full-text-of-the-book" title="Permalink to this headline">¶</a></h4>
+<p>We could potentially have used the full text of the book. However, we decided not to do this for a number of reasons. Firstly, the full text is often far too long to be used for most models we’d work with. We’d therefore have to decide which parts of the book to use. Some books will contain blank pages or illustration’s with no text. We might theefore end up requiring fairly complex rules to work out which pages to use. Our model would also be a lot more computationally demanding. Whilst we may have some problems with classifying books from their title, the cost of doing this will be much less than user a large amount of book text.</p>
+<p>Another reason we might want to use the title only is that we can more safely assume other people with a similar goal, of classifying the genre of a book, will also have this available to them. As a result the mode <em>might</em> be sligtly more reusable or adaptable. We’ll get back to this in more detail in a <span class="xref myst">following chapter</span>.</p>
+</div>
+<div class="section" id="why-not-use-a-knowledgebase">
+<h4>Why not use a knowledgebase?<a class="headerlink" href="#why-not-use-a-knowledgebase" title="Permalink to this headline">¶</a></h4>
+<p>Another reasonable objection to our approach is to ask why we need to use machine learning at all? There are other catalogues that might contain the information we need. Whilst this might be true for some titles, others may be unique to the collection we’re working with. Another challenge of using a knowledgebase is that we will likely also have to do some work to resolve the possible matches for any titles we lookup. Whilst this isn’t insurmountable it does mean that this approach won’t necessarily be a huge amount more straightforward than our machine learning approach using the title of the book. A potential avenue for extending the approach we use here would be to combine a machine learning and knowledgebase approach to this problem but that is beyond what we’ll cover in this tutorial (at least for the initial version).</p>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -421,15 +526,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-        
-            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+    
+        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+  </p>
+</footer>
 </main>
 
 

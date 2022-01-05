@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -121,7 +121,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  EDA
+  Exploratory Data Analysis
  </span>
 </p>
 <ul class="nav bd-sidenav">
@@ -281,7 +281,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -321,7 +321,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -374,7 +374,582 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Using our new Hugging Face model</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-our-required-packages">
+   Install our required packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-our-model-and-tokenizer">
+   Loading our Model and Tokenizer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#viewing-predictions">
+   Viewing Predictions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#getting-the-data-we-want-to-augment">
+   Getting the data we want to augment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#datasets">
+   🤗 datasets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inference">
+   Inference
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#saving-our-updated-metadata">
+   Saving our updated metadata
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="using-our-new-hugging-face-model">
+<h1>Using our new Hugging Face model<a class="headerlink" href="#using-our-new-hugging-face-model" title="Permalink to this headline">¶</a></h1>
+<p>Now we have our new Hugging Face model available on the model hub we can use it as we would any other model on the hub 😀</p>
+<div class="section" id="install-our-required-packages">
+<h2>Install our required packages<a class="headerlink" href="#install-our-required-packages" title="Permalink to this headline">¶</a></h2>
+<p>First we install our required packages.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install git+https://github.com/huggingface/transformers
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting git+https://github.com/huggingface/transformers
+  Cloning https://github.com/huggingface/transformers to /tmp/pip-req-build-drup2ss7
+  Running command git clone -q https://github.com/huggingface/transformers /tmp/pip-req-build-drup2ss7
+  Installing build dependencies ... ?25l?25hdone
+  Getting requirements to build wheel ... ?25l?25hdone
+    Preparing wheel metadata ... ?25l?25hdone
+Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (4.62.3)
+Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (4.8.2)
+Collecting tokenizers&lt;0.11,&gt;=0.10.1
+  Downloading tokenizers-0.10.3-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (3.3 MB)
+     |████████████████████████████████| 3.3 MB 12.9 MB/s 
+?25hRequirement already satisfied: packaging&gt;=20.0 in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (21.3)
+Collecting huggingface-hub&lt;1.0,&gt;=0.1.0
+  Downloading huggingface_hub-0.2.1-py3-none-any.whl (61 kB)
+     |████████████████████████████████| 61 kB 573 kB/s 
+?25hRequirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (3.4.0)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (2019.12.20)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (2.23.0)
+Collecting pyyaml&gt;=5.1
+  Downloading PyYAML-6.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (596 kB)
+     |████████████████████████████████| 596 kB 60.7 MB/s 
+?25hRequirement already satisfied: numpy&gt;=1.17 in /usr/local/lib/python3.7/dist-packages (from transformers==4.15.0.dev0) (1.19.5)
+Collecting sacremoses
+  Downloading sacremoses-0.0.46-py3-none-any.whl (895 kB)
+     |████████████████████████████████| 895 kB 56.4 MB/s 
+?25hRequirement already satisfied: typing-extensions&gt;=3.7.4.3 in /usr/local/lib/python3.7/dist-packages (from huggingface-hub&lt;1.0,&gt;=0.1.0-&gt;transformers==4.15.0.dev0) (3.10.0.2)
+Requirement already satisfied: pyparsing!=3.0.5,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging&gt;=20.0-&gt;transformers==4.15.0.dev0) (3.0.6)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata-&gt;transformers==4.15.0.dev0) (3.6.0)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers==4.15.0.dev0) (2021.10.8)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers==4.15.0.dev0) (1.24.3)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers==4.15.0.dev0) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers==4.15.0.dev0) (3.0.4)
+Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers==4.15.0.dev0) (1.15.0)
+Requirement already satisfied: joblib in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers==4.15.0.dev0) (1.1.0)
+Requirement already satisfied: click in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers==4.15.0.dev0) (7.1.2)
+Building wheels for collected packages: transformers
+  Building wheel for transformers (PEP 517) ... ?25l?25hdone
+  Created wheel for transformers: filename=transformers-4.15.0.dev0-py3-none-any.whl size=3363835 sha256=a24943d58697e9444233dd50be9a5f8b24aefbd8b001457ac60bf9ebf7f405e2
+  Stored in directory: /tmp/pip-ephem-wheel-cache-6za5soy6/wheels/35/2e/a7/d819e3310040329f0f47e57c9e3e7a7338aa5e74c49acfe522
+Successfully built transformers
+Installing collected packages: pyyaml, tokenizers, sacremoses, huggingface-hub, transformers
+  Attempting uninstall: pyyaml
+    Found existing installation: PyYAML 3.13
+    Uninstalling PyYAML-3.13:
+      Successfully uninstalled PyYAML-3.13
+Successfully installed huggingface-hub-0.2.1 pyyaml-6.0 sacremoses-0.0.46 tokenizers-0.10.3 transformers-4.15.0.dev0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install datasets
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting datasets
+  Downloading datasets-1.16.1-py3-none-any.whl (298 kB)
+     |████████████████████████████████| 298 kB 12.5 MB/s eta 0:00:01
+?25hRequirement already satisfied: pandas in /usr/local/lib/python3.7/dist-packages (from datasets) (1.1.5)
+Collecting xxhash
+  Downloading xxhash-2.0.2-cp37-cp37m-manylinux2010_x86_64.whl (243 kB)
+     |████████████████████████████████| 243 kB 72.1 MB/s 
+?25hRequirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from datasets) (21.3)
+Requirement already satisfied: multiprocess in /usr/local/lib/python3.7/dist-packages (from datasets) (0.70.12.2)
+Requirement already satisfied: pyarrow!=4.0.0,&gt;=3.0.0 in /usr/local/lib/python3.7/dist-packages (from datasets) (3.0.0)
+Collecting fsspec[http]&gt;=2021.05.0
+  Downloading fsspec-2021.11.1-py3-none-any.whl (132 kB)
+     |████████████████████████████████| 132 kB 93.1 MB/s 
+?25hRequirement already satisfied: numpy&gt;=1.17 in /usr/local/lib/python3.7/dist-packages (from datasets) (1.19.5)
+Requirement already satisfied: requests&gt;=2.19.0 in /usr/local/lib/python3.7/dist-packages (from datasets) (2.23.0)
+Collecting aiohttp
+  Downloading aiohttp-3.8.1-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.1 MB)
+     |████████████████████████████████| 1.1 MB 84.2 MB/s 
+?25hRequirement already satisfied: huggingface-hub&lt;1.0.0,&gt;=0.1.0 in /usr/local/lib/python3.7/dist-packages (from datasets) (0.2.1)
+Requirement already satisfied: dill in /usr/local/lib/python3.7/dist-packages (from datasets) (0.3.4)
+Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.7/dist-packages (from datasets) (4.8.2)
+Requirement already satisfied: tqdm&gt;=4.62.1 in /usr/local/lib/python3.7/dist-packages (from datasets) (4.62.3)
+Requirement already satisfied: typing-extensions&gt;=3.7.4.3 in /usr/local/lib/python3.7/dist-packages (from huggingface-hub&lt;1.0.0,&gt;=0.1.0-&gt;datasets) (3.10.0.2)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.7/dist-packages (from huggingface-hub&lt;1.0.0,&gt;=0.1.0-&gt;datasets) (6.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from huggingface-hub&lt;1.0.0,&gt;=0.1.0-&gt;datasets) (3.4.0)
+Requirement already satisfied: pyparsing!=3.0.5,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging-&gt;datasets) (3.0.6)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.19.0-&gt;datasets) (2021.10.8)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.19.0-&gt;datasets) (3.0.4)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.19.0-&gt;datasets) (1.24.3)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.19.0-&gt;datasets) (2.10)
+Requirement already satisfied: charset-normalizer&lt;3.0,&gt;=2.0 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets) (2.0.8)
+Collecting asynctest==0.13.0
+  Downloading asynctest-0.13.0-py3-none-any.whl (26 kB)
+Requirement already satisfied: attrs&gt;=17.3.0 in /usr/local/lib/python3.7/dist-packages (from aiohttp-&gt;datasets) (21.2.0)
+Collecting frozenlist&gt;=1.1.1
+  Downloading frozenlist-1.2.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (192 kB)
+     |████████████████████████████████| 192 kB 90.7 MB/s 
+?25hCollecting multidict&lt;7.0,&gt;=4.5
+  Downloading multidict-5.2.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (160 kB)
+     |████████████████████████████████| 160 kB 89.5 MB/s 
+?25hCollecting async-timeout&lt;5.0,&gt;=4.0.0a3
+  Downloading async_timeout-4.0.2-py3-none-any.whl (5.8 kB)
+Collecting aiosignal&gt;=1.1.2
+  Downloading aiosignal-1.2.0-py3-none-any.whl (8.2 kB)
+Collecting yarl&lt;2.0,&gt;=1.0
+  Downloading yarl-1.7.2-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (271 kB)
+     |████████████████████████████████| 271 kB 82.3 MB/s 
+?25hRequirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata-&gt;datasets) (3.6.0)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas-&gt;datasets) (2018.9)
+Requirement already satisfied: python-dateutil&gt;=2.7.3 in /usr/local/lib/python3.7/dist-packages (from pandas-&gt;datasets) (2.8.2)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil&gt;=2.7.3-&gt;pandas-&gt;datasets) (1.15.0)
+Installing collected packages: multidict, frozenlist, yarl, asynctest, async-timeout, aiosignal, fsspec, aiohttp, xxhash, datasets
+Successfully installed aiohttp-3.8.1 aiosignal-1.2.0 async-timeout-4.0.2 asynctest-0.13.0 datasets-1.16.1 frozenlist-1.2.0 fsspec-2021.11.1 multidict-5.2.0 xxhash-2.0.2 yarl-1.7.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">,</span> <span class="n">pipeline</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="loading-our-model-and-tokenizer">
+<h2>Loading our Model and Tokenizer<a class="headerlink" href="#loading-our-model-and-tokenizer" title="Permalink to this headline">¶</a></h2>
+<p>We create a tokenizer and a model using the pre-trained model we created. We can use the handy <code class="docutils literal notranslate"><span class="pre">Auto..</span></code> methods for this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;BritishLibraryLabs/bl-books-genre&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;BritishLibraryLabs/bl-books-genre&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To make the process of doing inference straightforward we can use a <a class="reference external" href="https://huggingface.co/transformers/main_classes/pipelines.html"><code class="docutils literal notranslate"><span class="pre">pipeline</span></code></a>. These are intended to make the process of using models for inference easy for a wide range of tasks. We need to tell the pipeline what kind of task we’re doing and pass in our model and tokenizer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we have a GPU available we can set the device when creating the pipeline. We can double check this using the <code class="docutils literal notranslate"><span class="pre">device</span></code> attribute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">device</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device(type=&#39;cuda&#39;, index=0)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="viewing-predictions">
+<h2>Viewing Predictions<a class="headerlink" href="#viewing-predictions" title="Permalink to this headline">¶</a></h2>
+<p>Let’s try it out with some made up book titles</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;The Coal Fields of South Wales&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;label&#39;: &#39;Non-fiction&#39;, &#39;score&#39;: 0.9989659786224365}]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="p">(</span><span class="s2">&quot;Oliver Twist&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;label&#39;: &#39;Fiction&#39;, &#39;score&#39;: 0.9980145692825317}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we essentially have a function that takes some text and returns some predictions. We can now predict against our full dataset. Since we’re not going to be doing this over and over, we won’t worry too much about the performance of our approach.</p>
+</div>
+<div class="section" id="getting-the-data-we-want-to-augment">
+<h2>Getting the data we want to augment<a class="headerlink" href="#getting-the-data-we-want-to-augment" title="Permalink to this headline">¶</a></h2>
+<p>Our orignal goal was to augment data with additional genre labels. We can now grab that metadata to use for inference</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">csv_url</span> <span class="o">=</span> <span class="s2">&quot;https://bl.iro.bl.uk/downloads/e4bf0f74-2c64-4322-93c7-0dcc5e5246da?locale=en&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;BL record ID&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Type of resource&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BNB number&quot;</span><span class="p">:</span><span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ISBN&quot;</span><span class="p">:</span><span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Type of name&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Country of publication&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Place of publication&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Genre&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dewey classification&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BL record ID for physical resource&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">csv_url</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">,</span>
+    <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="datasets">
+<h2>🤗 datasets<a class="headerlink" href="#datasets" title="Permalink to this headline">¶</a></h2>
+<p>We’ll again use one of the libraries from the 🤗 ecoystem to help us make our prediction process <em>quite</em> efficient. We use a library called <code class="docutils literal notranslate"><span class="pre">datasets</span></code>. This library provides access to a huge number of existing datasets but we can also use it as way of processing datasets stored in other formats locally. We won’t go into the deep details of that library here. If you are interested the video below gives a great overview</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_BZearw7f0w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p>We begin by importing the library</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datasets</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As an inital step we remove any titles without a title in the metadata</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">Title</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For inference we only want a subset of the DataFrame. We grab two columns and copy them to a new dataframe.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Title&#39;</span><span class="p">,</span><span class="s1">&#39;BL record ID&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You might wonder why we include <code class="docutils literal notranslate"><span class="pre">BL</span> <span class="pre">record</span> <span class="pre">ID</span></code> when we don’t need this for prediction. We do this mainly because the datasets library expects a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> not a <code class="docutils literal notranslate"><span class="pre">Series</span></code> (which is what we’d get with a single column).</p>
+<p>Beyond this, it is often important when we use maching learning for these kinds of applications that we can link back our new augmented data to existing metadata. <code class="docutils literal notranslate"><span class="pre">BL</span> <span class="pre">record</span> <span class="pre">ID</span></code> can also serve this function since it’s a unique ID.</p>
+</div>
+<p>Our model has a maximum length it can take as input. We could deal with this in various ways but here we’ll take a slightly crude approach and just chop off any title text that extends beyond our models maximum length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_df</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_df</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">512</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We just do a quick check to make sure we have equal lenghts for our prediction DataFrame and our original DataFrame.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now create a <code class="docutils literal notranslate"><span class="pre">dataset.Dataset</span></code> using the <code class="docutils literal notranslate"><span class="pre">from_pandas</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">pred_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s take a look at what this looks like</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset({
+    features: [&#39;Title&#39;, &#39;BL record ID&#39;, &#39;text&#39;, &#39;__index_level_0__&#39;],
+    num_rows: 1752072
+})
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see here that we have the columns we passed in to our <code class="docutils literal notranslate"><span class="pre">dataset</span></code> and some information about the number of rows. If we want to check again we can assert the length of everything is the same.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Checking all of these lengths here might seem a bit silly since we’ve already seen what the lengths are but it can often be good to chuck the odd <code class="docutils literal notranslate"><span class="pre">assert</span></code> in our code. If we run this code in a script we won’t be able to visually check these things so easily. In that case having an <code class="docutils literal notranslate"><span class="pre">assert</span></code> statement acts as a ‘sort of test’ and will flag if something isn’t what we expect before we’ve spent hours training a model.</p>
+</div>
+</div>
+<div class="section" id="inference">
+<h2>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">¶</a></h2>
+<p>We’re now ready for inference. We’ll import one more Class for doing this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers.pipelines.base</span> <span class="kn">import</span> <span class="n">KeyDataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We set a fairly high batch size. You may have to reduce this if you have less GPU memory available.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">256</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now create a loop that will batch up our data and run it through our model. We then save the predictions in a new list.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_preds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">classifier</span><span class="p">(</span><span class="n">KeyDataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="s2">&quot;only_first&quot;</span><span class="p">):</span>
+    <span class="n">all_preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 45min 48s, sys: 5.65 s, total: 45min 54s
+Wall time: 42min 19s
+</pre></div>
+</div>
+</div>
+</div>
+<p>This will take a bit of time but in the grand scheme of things isn’t too long too wait. If we were running this model in a ‘live’ system and really cared about latency we might need to explore other approaches.</p>
+<p>Again we can check the lenth of our predictions to see if it looks okay</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">all_preds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1752072
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now just do a bit of tidying to get our labels into the format we want. We’ll start by checking what the predictions look like</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;label&#39;: &#39;Non-fiction&#39;, &#39;score&#39;: 0.518064022064209}
+</pre></div>
+</div>
+</div>
+</div>
+<p>We store these in a new column</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;raw_predictions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_preds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now grab the labels from our predictions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;predicted_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;raw_predictions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now store the probabilities</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;prob&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;raw_predictions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prob&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0          0.518064
+1          0.954458
+2          0.955602
+3          0.997447
+4          0.820073
+             ...   
+1752073    0.999866
+1752074    0.992083
+1752075    0.998614
+1752076    0.524758
+1752077    0.999718
+Name: prob, Length: 1752072, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_fiction_prob</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">==</span> <span class="s2">&quot;Fiction&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">prob</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">prob</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;fiction_probs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_fiction_prob</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;non_fiction_probs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fiction_probs&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;prob&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="saving-our-updated-metadata">
+<h2>Saving our updated metadata<a class="headerlink" href="#saving-our-updated-metadata" title="Permalink to this headline">¶</a></h2>
+<p>Now we can save our results to a csv file</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;bl_books_w_genre_transformer.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>We have now got to the point where was have a version of the Microsoft Books metadata with a bunch of additional metadata 🦾</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -913,15 +1488,13 @@ Name: prob, Length: 1752072, dtype: float64
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-        
-            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+    
+        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+  </p>
+</footer>
 </main>
 
 

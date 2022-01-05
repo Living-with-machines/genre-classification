@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -121,7 +121,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  EDA
+  Exploratory Data Analysis
  </span>
 </p>
 <ul class="nav bd-sidenav">
@@ -281,7 +281,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -321,7 +321,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -482,7 +482,2383 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Training our first book genre classification model</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Training our first book genre classification model
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fastai">
+     fastai
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-are-you-not-using-bert">
+     Why are you not using BERT?
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#exploring-our-data">
+       Exploring our data
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#genre-labels">
+       Genre labels
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-validation-and-test-splits">
+     Train, validation and test splits
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#data-leakage">
+       Data leakage 💦
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#groupshufflesplit">
+       GroupShuffleSplit
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-about-our-test-data">
+     What about our test data?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#one-simple-trick-the-magic-of-transfer-learning">
+   One simple trick: the ✨magic✨ of transfer learning
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-transfer-learning">
+     What is transfer learning?
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fine-tuning-a-language-model-on-book-titles">
+     🔧 Fine tuning a language model on book titles 🔧
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-data-into-fastai">
+   Loading data into fastai
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#look-at-language-model-predictions">
+     Look at language model predictions
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-our-classifier">
+     Training our classifier
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xxbos-xxmaj">
+     xxbos, xxmaj ???
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#yolo-training">
+     YOLO training
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#look-at-our-results">
+       Look at our results
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#how-are-we-doing-by-label">
+         How are we doing by label?
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-on-new-data">
+     Testing on new data 😬
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#data-drift">
+       Data drift 😅
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#language">
+         Language
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#time-period">
+         Time period
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#hard-examples">
+         Hard examples
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#saving-model">
+     Saving model
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conclusion-and-next-steps">
+     Conclusion and next steps
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="training-our-first-book-genre-classification-model">
+<h1>Training our first book genre classification model<a class="headerlink" href="#training-our-first-book-genre-classification-model" title="Permalink to this headline">¶</a></h1>
+<p>Now that we have done some initial exploration of the annotated dataset we’ll turn to the process of creating our first model. Since we are taking a pragmatic approach we want to try and get stuck into our problem fairly quickly. Often we learn a lot about our task and data by trying to train a model. This can make it useful to try and train a model fairly early on to sense check our approach. For example, if we are collecting new training data, it makes sense to try and train a model as soon as we have some data to check if:</p>
+<ul class="simple">
+<li><p>our model is able to learn anything from the data</p></li>
+<li><p>our annoations are in a format we can use</p></li>
+<li><p>there is anything we need to consider when collecting further annotations.</p></li>
+</ul>
+<p>This notebook covers the process of training a text classifier to predict whether a book title refers to a ‘fiction’ or ‘non-fiction’ book based on the annotation data discussed previously.</p>
+<p>In this notebook we focus on a fairly basic overview of how to approach this topic. The following chapters/notebooks will build on this introduction to cover some other more niche topics and approaches.</p>
+<div class="section" id="fastai">
+<h2>fastai<a class="headerlink" href="#fastai" title="Permalink to this headline">¶</a></h2>
+<p>For this notebook we will use the <code class="docutils literal notranslate"><span class="pre">fastai</span></code> deep learning library <span id="id1">[<a class="reference internal" href="references.html#id5">5</a>]</span> for training our model. We won’t provide a full introduction to the library but will try and explain what we’re doing as we’re going along. The <code class="docutils literal notranslate"><span class="pre">fastai</span></code> library offers a ‘layered API’ which includes a high level API that we can use to quickly develop our model. This will allow us to focus on quick development of our model and developing our overall approach as opposed to writing a lot of code.</p>
+<p>We start by installing the fastai library</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install <span class="nv">fastai</span><span class="o">==</span><span class="m">2</span>.5.2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: fastai==2.5.2 in /usr/local/lib/python3.7/dist-packages (2.5.2)
+Requirement already satisfied: scipy in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.4.1)
+Requirement already satisfied: pandas in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.1.5)
+Requirement already satisfied: fastprogress&gt;=0.2.4 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.0.0)
+Requirement already satisfied: spacy&lt;4 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (2.2.4)
+Requirement already satisfied: torchvision&gt;=0.8.2 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (0.10.1)
+Requirement already satisfied: fastdownload&lt;2,&gt;=0.0.5 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (0.0.5)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (3.13)
+Requirement already satisfied: pip in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (21.1.3)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.0.1)
+Requirement already satisfied: fastcore&lt;1.4,&gt;=1.3.8 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.3.27)
+Requirement already satisfied: pillow&gt;6.0.0 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (7.1.2)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (2.23.0)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (21.3)
+Requirement already satisfied: torch&lt;1.10,&gt;=1.7.0 in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (1.9.1)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.7/dist-packages (from fastai==2.5.2) (3.2.2)
+Requirement already satisfied: numpy in /usr/local/lib/python3.7/dist-packages (from fastprogress&gt;=0.2.4-&gt;fastai==2.5.2) (1.19.5)
+Requirement already satisfied: thinc==7.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (7.4.0)
+Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (2.0.6)
+Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (3.0.6)
+Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.0.6)
+Requirement already satisfied: catalogue&lt;1.1.0,&gt;=0.0.7 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.0.0)
+Requirement already satisfied: blis&lt;0.5.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (0.4.1)
+Requirement already satisfied: tqdm&lt;5.0.0,&gt;=4.38.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (4.62.3)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (57.4.0)
+Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (0.8.2)
+Requirement already satisfied: srsly&lt;1.1.0,&gt;=1.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.0.5)
+Requirement already satisfied: plac&lt;1.2.0,&gt;=0.9.6 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;4-&gt;fastai==2.5.2) (1.1.3)
+Requirement already satisfied: importlib-metadata&gt;=0.20 in /usr/local/lib/python3.7/dist-packages (from catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai==2.5.2) (4.8.2)
+Requirement already satisfied: typing-extensions&gt;=3.6.4 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai==2.5.2) (3.10.0.2)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy&lt;4-&gt;fastai==2.5.2) (3.6.0)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (1.24.3)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (3.0.4)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;fastai==2.5.2) (2021.10.8)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (0.11.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (1.3.2)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (2.8.2)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib-&gt;fastai==2.5.2) (3.0.6)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil&gt;=2.1-&gt;matplotlib-&gt;fastai==2.5.2) (1.15.0)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas-&gt;fastai==2.5.2) (2018.9)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.7/dist-packages (from scikit-learn-&gt;fastai==2.5.2) (3.0.0)
+Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-packages (from scikit-learn-&gt;fastai==2.5.2) (1.1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ve installed fastai we can import it. The version used for this notebook is shown for reference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fastai</span>
+
+<span class="n">fastai</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2.5.2&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We are going to be working with text so we import the text module from the fastai library.</p>
+<p>Since we are going to be working with CSVs and doing some tidying of data we also import pandas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fastai.text.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="why-are-you-not-using-bert">
+<h2>Why are you not using BERT?<a class="headerlink" href="#why-are-you-not-using-bert" title="Permalink to this headline">¶</a></h2>
+<a class="bg-primary mb-1 reference internal image-reference" href="https://www.codemotion.com/magazine/wp-content/uploads/2020/05/bert-google-1200x675.png"><img alt="angry picture of Bert" class="bg-primary mb-1 align-right" src="https://www.codemotion.com/magazine/wp-content/uploads/2020/05/bert-google-1200x675.png" style="width: 400px;" /></a>
+<p>If you have had much exposure to developments in NLP or deep learning you will likely have heard of BERT or other Transformer based models. BERT is an approach to training language models first outlined in <em>BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</em> <span id="id2">[<a class="reference internal" href="references.html#id15">6</a>]</span>.</p>
+<p>Transformer based Language models have demonstrated strong performance across a range of tasks. We may still want to entertain using other approaches to NLP. This includes our old friend the LSTM.</p>
+<p>There are a few reasons we choose to start with a slightly less trendy model:</p>
+<ul class="simple">
+<li><p>it allow us to focus on the broad process of using transfer learning to start with</p></li>
+<li><p>it allows for more focus on the ‘data part’ of the process of creating a machine learning model. This is less exciting to many people but arguably in a GLAM setting should be a major/main focus.</p></li>
+</ul>
+<p>For those we want a Transformer based approached a later notebook does do this…</p>
+<div class="section" id="exploring-our-data">
+<h3>Exploring our data<a class="headerlink" href="#exploring-our-data" title="Permalink to this headline">¶</a></h3>
+<p>We’ll briefly take a look at our data, starting by loading it. We specify <em>some</em> of the Pandas datatypes. We make sure <code class="docutils literal notranslate"><span class="pre">BL</span> <span class="pre">record</span> <span class="pre">ID</span></code> is loaded as a string so it doesn’t chop of leading zeros i.e. <code class="docutils literal notranslate"><span class="pre">00001</span></code> isn’t turned into <code class="docutils literal notranslate"><span class="pre">1</span></code>. We also use the <code class="docutils literal notranslate"><span class="pre">category</span></code> type for values which might be duplicated a bit since this will save a bit of memory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">csv_data_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://bl.iro.bl.uk/downloads/36c7cd20-c8a7-4495-acbe-469b9132c6b1?locale=en&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;BL record ID&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Type of resource&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Type of name&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Country of publication&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Place of publication&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Genre&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dewey classification&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BL record ID for physical resource&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;annotator_main_language&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;annotator_summaries_language&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_data_url</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s take a quick peek at what the data looks like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BL record ID</th>
+      <th>Type of resource</th>
+      <th>Name</th>
+      <th>Dates associated with name</th>
+      <th>Type of name</th>
+      <th>Role</th>
+      <th>All names</th>
+      <th>Title</th>
+      <th>Variant titles</th>
+      <th>Series title</th>
+      <th>Number within series</th>
+      <th>Country of publication</th>
+      <th>Place of publication</th>
+      <th>Publisher</th>
+      <th>Date of publication</th>
+      <th>Edition</th>
+      <th>Physical description</th>
+      <th>Dewey classification</th>
+      <th>BL shelfmark</th>
+      <th>Topics</th>
+      <th>Genre</th>
+      <th>Languages</th>
+      <th>Notes</th>
+      <th>BL record ID for physical resource</th>
+      <th>classification_id</th>
+      <th>user_id</th>
+      <th>created_at</th>
+      <th>subject_ids</th>
+      <th>annotator_date_pub</th>
+      <th>annotator_normalised_date_pub</th>
+      <th>annotator_edition_statement</th>
+      <th>annotator_genre</th>
+      <th>annotator_FAST_genre_terms</th>
+      <th>annotator_FAST_subject_terms</th>
+      <th>annotator_comments</th>
+      <th>annotator_main_language</th>
+      <th>annotator_other_languages_summaries</th>
+      <th>annotator_summaries_language</th>
+      <th>annotator_translation</th>
+      <th>annotator_original_language</th>
+      <th>annotator_publisher</th>
+      <th>annotator_place_pub</th>
+      <th>annotator_country</th>
+      <th>annotator_title</th>
+      <th>Link to digitised book</th>
+      <th>annotated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>014602826</td>
+      <td>Monograph</td>
+      <td>Yearsley, Ann</td>
+      <td>1753-1806</td>
+      <td>person</td>
+      <td>NaN</td>
+      <td>More, Hannah, 1745-1833 [person] ; Yearsley, Ann, 1753-1806 [person]</td>
+      <td>Poems on several occasions [With a prefatory letter by Hannah More.]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>England</td>
+      <td>London</td>
+      <td>NaN</td>
+      <td>1786</td>
+      <td>Fourth edition MANUSCRIPT note</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>Digital Store 11644.d.32</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>003996603</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can also see what columns we have in our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;BL record ID&#39;, &#39;Type of resource&#39;, &#39;Name&#39;,
+       &#39;Dates associated with name&#39;, &#39;Type of name&#39;, &#39;Role&#39;, &#39;All names&#39;,
+       &#39;Title&#39;, &#39;Variant titles&#39;, &#39;Series title&#39;, &#39;Number within series&#39;,
+       &#39;Country of publication&#39;, &#39;Place of publication&#39;, &#39;Publisher&#39;,
+       &#39;Date of publication&#39;, &#39;Edition&#39;, &#39;Physical description&#39;,
+       &#39;Dewey classification&#39;, &#39;BL shelfmark&#39;, &#39;Topics&#39;, &#39;Genre&#39;, &#39;Languages&#39;,
+       &#39;Notes&#39;, &#39;BL record ID for physical resource&#39;, &#39;classification_id&#39;,
+       &#39;user_id&#39;, &#39;created_at&#39;, &#39;subject_ids&#39;, &#39;annotator_date_pub&#39;,
+       &#39;annotator_normalised_date_pub&#39;, &#39;annotator_edition_statement&#39;,
+       &#39;annotator_genre&#39;, &#39;annotator_FAST_genre_terms&#39;,
+       &#39;annotator_FAST_subject_terms&#39;, &#39;annotator_comments&#39;,
+       &#39;annotator_main_language&#39;, &#39;annotator_other_languages_summaries&#39;,
+       &#39;annotator_summaries_language&#39;, &#39;annotator_translation&#39;,
+       &#39;annotator_original_language&#39;, &#39;annotator_publisher&#39;,
+       &#39;annotator_place_pub&#39;, &#39;annotator_country&#39;, &#39;annotator_title&#39;,
+       &#39;Link to digitised book&#39;, &#39;annotated&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see a field <code class="docutils literal notranslate"><span class="pre">annotated</span></code> this indicates whether the columns has been annotated. Since we want only annotated data to start with lets filter on this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;annotated&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s also look at a few of the columns to look at what kind of text is stored there. We’re likely to use the title as input for our genre classification model</p>
+</div>
+<div class="section" id="genre-labels">
+<h3>Genre labels<a class="headerlink" href="#genre-labels" title="Permalink to this headline">¶</a></h3>
+<p>Since we’re going to try and detect genre lets take a quick look at what are labels look like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">annotator_genre</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Non-fiction                                       2847
+Fiction                                           1527
+The book contains both Fiction and Non-Fiction      18
+Can&#39;t tell                                           6
+Name: annotator_genre, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We have a few classes of genre that we’ll drop for now. We can do this the lazy way by dropping any valyes for genre which don’t appear at least a hundred times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;annotator_genre&quot;</span><span class="p">)[</span><span class="s2">&quot;annotator_genre&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ge</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now get a sense of the distribution of our labels</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;annotator_genre&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Non-fiction    0.650892
+Fiction        0.349108
+Name: annotator_genre, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see our data isn’t balanced. We have many more examples of non-fiction compared to fiction.</p>
+</div>
+</div>
+<div class="section" id="train-validation-and-test-splits">
+<h2>Train, validation and test splits<a class="headerlink" href="#train-validation-and-test-splits" title="Permalink to this headline">¶</a></h2>
+<p>For a supervised learning tasks like the one we’re doing here we need to make sure we have a validation set. This allows us to check that our model is learning general properties that help with a particular task rather than memorizing the training data. Creating a validation dataset is one way of doing this.</p>
+<p>We could split our data in a variety of different ways. The first, and often satisfactory approach is to randomly split the data. We take 30% of our data for validation and use the rest for training.</p>
+<blockquote>
+<div><p>Depending on the nature of your data, choosing a validation set can be the most important step <span id="id3">[<a class="reference internal" href="references.html#id12">7</a>]</span></p>
+</div></blockquote>
+<p>One reason random spits might not always work is that we can introduce data leakage across validation and training data. A common example of this is time series data. If the task involves predicting a future event you want to make sure you split your data by a time point. In this example we could split on a number of different things in the data; the language of the text, the date of publication, the place of publication etc.</p>
+<div class="section" id="data-leakage">
+<h3>Data leakage 💦<a class="headerlink" href="#data-leakage" title="Permalink to this headline">¶</a></h3>
+<p>As we have seen data leakage occurs when a model ‘sees’ data it shouldn’t. In our case there are various things we want to watch out for as a form of data leakage. We can try and be very ‘clever’ about idenfiying potential soruces of data leakage but one of the main things we want to watch out for is that we don’t duplicate a piece of data in training and validation sets. Since our model is supposed to predict from titles let’s see if any of these appear more than once.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1     789
+3     351
+5     346
+4     135
+2     111
+15      1
+10      1
+9       1
+6       1
+Name: Title, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see here that most of the titles only appear one time. This is probably what we’d expect but if we know a bit about this data, or 19th century publishing practices, digitiation processes etc we might have been suspicous to this possibility of titles appearing multiple times. For example the British Library probably has more than <a class="reference external" href="http://explore.bl.uk/primo_library/libweb/action/search.do?cs=frb&amp;ct=frb&amp;frbg=436868648&amp;fctN=facet_frbrgroupid&amp;fctV=436868648&amp;doc=BLL01016286578&amp;lastPag=&amp;lastPagIndx=1&amp;rfnGrp=frbr&amp;frbrSrt=rank&amp;frbrRecordsSource=Primo+Local&amp;frbrJtitleDisplay=&amp;frbrIssnDisplay=&amp;frbrEissnDisplay=&amp;frbrSourceidDisplay=BLL01&amp;rfnGrpCounter=1&amp;query=any%2Ccontains%2Coliver%20twist&amp;fn=search&amp;indx=1&amp;search_scope=LSCOP-ALL&amp;dscnt=0&amp;vl(2084770704UI0)=any&amp;scp.scps=scope%3A(BLCONTENT)&amp;fctV=books&amp;vid=BLVU1&amp;institution=BL&amp;ct=facet&amp;rfnGrp=1&amp;tab=local_tab&amp;fctN=facet_rtype&amp;fromDL=&amp;vl(freeText0)=oliver%20twist&amp;dstmp=1627396213982">one copy of Oliver Twist</a>. Although many of these editions will have slightly different titles some will overlap.</p>
+<p>If we don’t take this into account and randomly split out data into training and validation sets our model might get to ‘cheat’ since ‘Oliver Twist’ might appear as an example in the training data, and in the validation data. If our model has already ‘seen’ that ‘Oliver Twist’ is fiction we might be less sure that it has ‘learned’ anything more general about genre. Instead it may have memorized some of the examples. If this is the case our model might perform better on the validation data then it would otherwise. This might in turn mean we have disappointing results when we apply our model to new unseen data.</p>
+</div>
+<div class="section" id="groupshufflesplit">
+<h3>GroupShuffleSplit<a class="headerlink" href="#groupshufflesplit" title="Permalink to this headline">¶</a></h3>
+<p>How can we split our data into training and validation data taking into account this potential leakage of titles between our training and validation data? Helpfully the <span class="xref myst">sci-kit learn</span> library has support for various types of data splitting. In this case we’ll use <code class="docutils literal notranslate"><span class="pre">GroupShuffleSplit</span></code> which allows us to specify a groups to split on. This means members of those groups won’t appear both in both splits. We can use this to make sure non of the titles ‘leak’ across our training and validation data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GroupShuffleSplit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_inds</span><span class="p">,</span> <span class="n">valid_ins</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+    <span class="n">GroupShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">])</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span><span class="p">,</span> <span class="n">df_valid</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_inds</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">valid_ins</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3297, 1077)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span><span class="o">.</span><span class="n">annotator_genre</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Non-fiction    2149
+Fiction        1148
+Name: annotator_genre, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_valid</span><span class="o">.</span><span class="n">annotator_genre</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Non-fiction    0.648097
+Fiction        0.351903
+Name: annotator_genre, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can check if any of our titles still overlap</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">Title</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">df_valid</span><span class="o">.</span><span class="n">Title</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see we now have no titles that appear in both out training and validation data. We can shove our datafames into a new DataFrame and use a <code class="docutils literal notranslate"><span class="pre">is_valid</span></code> column to indicate which part of the data it belongs too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;is_valid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">df_valid</span><span class="p">[</span><span class="s2">&quot;is_valid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_train</span><span class="p">,</span> <span class="n">df_valid</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">annotator_genre</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Non-fiction    0.650892
+Fiction        0.349108
+Name: annotator_genre, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll save this for later use as a csv file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;train_valid.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="what-about-our-test-data">
+<h2>What about our test data?<a class="headerlink" href="#what-about-our-test-data" title="Permalink to this headline">¶</a></h2>
+<p>You might be wondering why we didn’t also create any test data. As part of the process of creating these notebooks/doing this genre prediction work, we created some new test data. This was generated by randomly sampling from the BL books metadata. This was done so we could be sure that the distribution of our test data matched the data we would be running our model against.</p>
+<p>We will work with this test data in the subsequent notebook/chapter and dig into some of the issues around test data in more detail there. Now we have our data ready we’ll move to the training part of the process.</p>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="one-simple-trick-the-magic-of-transfer-learning">
+<h1>One simple trick: the ✨magic✨ of transfer learning<a class="headerlink" href="#one-simple-trick-the-magic-of-transfer-learning" title="Permalink to this headline">¶</a></h1>
+<p>Arguably one of the most important developments in deep learning over the past decade has been the adoption of transfer learning. Transfer learning has allowed for deep learning approaches to be deployed to much smaller datasets with a reduced compute requirement. This opens up the potential of developing and applying deep learning to a much broader range of tasks.</p>
+<div class="section" id="what-is-transfer-learning">
+<h2>What is transfer learning?<a class="headerlink" href="#what-is-transfer-learning" title="Permalink to this headline">¶</a></h2>
+<p>Transfer learning is the process by which we apply a model which has been trained on one task on a new task. The intuition is that the model will have a ‘head start’ on the new task compared to starting from scratch. Often the pre-training task has much more data than we might have available. We can still take advantage of this by fine-tuning our model on our specific task. As an example we might have a model trained to predict the sentiment of movie reviews. We could potentially fine-tune this model on a smaller dataset of book reviews with sentiment labels. Although there will be differences in the language used, we would probably find a model trained on sentiment analysis on movies will still do better than starting from scratch with a new model.</p>
+<p>In our example we will utilize a particular type of pre-trained model as the starting point; a language model.</p>
+</div>
+<div class="section" id="fine-tuning-a-language-model-on-book-titles">
+<h2>🔧 Fine tuning a language model on book titles 🔧<a class="headerlink" href="#fine-tuning-a-language-model-on-book-titles" title="Permalink to this headline">¶</a></h2>
+<p>A language model can be used as a starting point for many tasks. Language models are models which, in broad terms, learn the probabilities of word occurrence. There are various ways in which language models can be trained but increasingly they are trained in an unsupervised manner i.e. they are trained from unlabeled data. A example of a task a language model be given is to predict the next work in a sentence for example:</p>
+<p>the cat sat on the ____</p>
+<p>As a model gets better at performing this task it develops a representation of language which can be useful for other downstream tasks.</p>
+<p>For our starting point we will follow the ‘ulmfit’ (Universal Language Model Fine Tuning) approach.</p>
+<p><img alt="Illustration of the ulmfit approach" src="https://www.novetta.com/wp-content/uploads/2019/02/ODSC-Blog.png" /></p>
+<p>As we can see from the illustration we’ll start with a language model which has been trained on a general language modelling task, in this case on English wikipedia articles. We’ll then ‘fine-tune’ this model on all of our title data (our target domain). Through this process our language model should get better at ‘understanding’ what the book titles in our corpus looks like. In a later stage we will then use our fine tuned language model to create a classifier.</p>
+<p><img alt="Fine tuning a language model" src="https://github.com/Living-with-machines/bl-books-genre-prediction/blob/tutorial-draft/genre_classification_of_bl_books/figs/fine_tune_lm.png?raw=1" /></p>
+<p>We can use all of our data for language modeling so we create a new DataFrame which contains all of the metadata:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_lang</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_data_url</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can take a look at what is included in this dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_lang</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BL record ID</th>
+      <th>Type of resource</th>
+      <th>Name</th>
+      <th>Dates associated with name</th>
+      <th>Type of name</th>
+      <th>Role</th>
+      <th>All names</th>
+      <th>Title</th>
+      <th>Variant titles</th>
+      <th>Series title</th>
+      <th>Number within series</th>
+      <th>Country of publication</th>
+      <th>Place of publication</th>
+      <th>Publisher</th>
+      <th>Date of publication</th>
+      <th>Edition</th>
+      <th>Physical description</th>
+      <th>Dewey classification</th>
+      <th>BL shelfmark</th>
+      <th>Topics</th>
+      <th>Genre</th>
+      <th>Languages</th>
+      <th>Notes</th>
+      <th>BL record ID for physical resource</th>
+      <th>classification_id</th>
+      <th>user_id</th>
+      <th>created_at</th>
+      <th>subject_ids</th>
+      <th>annotator_date_pub</th>
+      <th>annotator_normalised_date_pub</th>
+      <th>annotator_edition_statement</th>
+      <th>annotator_genre</th>
+      <th>annotator_FAST_genre_terms</th>
+      <th>annotator_FAST_subject_terms</th>
+      <th>annotator_comments</th>
+      <th>annotator_main_language</th>
+      <th>annotator_other_languages_summaries</th>
+      <th>annotator_summaries_language</th>
+      <th>annotator_translation</th>
+      <th>annotator_original_language</th>
+      <th>annotator_publisher</th>
+      <th>annotator_place_pub</th>
+      <th>annotator_country</th>
+      <th>annotator_title</th>
+      <th>Link to digitised book</th>
+      <th>annotated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>014602826</td>
+      <td>Monograph</td>
+      <td>Yearsley, Ann</td>
+      <td>1753-1806</td>
+      <td>person</td>
+      <td>NaN</td>
+      <td>More, Hannah, 1745-1833 [person] ; Yearsley, Ann, 1753-1806 [person]</td>
+      <td>Poems on several occasions [With a prefatory letter by Hannah More.]</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>England</td>
+      <td>London</td>
+      <td>NaN</td>
+      <td>1786</td>
+      <td>Fourth edition MANUSCRIPT note</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>Digital Store 11644.d.32</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>003996603</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>&lt;NA&gt;</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>look at a few example titles</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_lang</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">][:</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0                                                                     Poems on several occasions [With a prefatory letter by Hannah More.]
+1                     A Satyr against Vertue. (A poem: supposed to be spoken by a Town-Hector [By John Oldham. The preface signed: T. A.])
+2    The Aeronaut, a poem; founded almost entirely, upon a statement, printed in the newspapers, of a voyage from Dublin, in October, 1812
+3                                                                                          The Prince Albert, a poem [By Joseph Plimsoll.]
+Name: Title, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since we only care about the <code class="docutils literal notranslate"><span class="pre">Title</span></code> column we’ll take a subset of the DataFrame with only the <code class="docutils literal notranslate"><span class="pre">Title</span></code>. We include <code class="docutils literal notranslate"><span class="pre">BL</span> <span class="pre">Record</span> <span class="pre">ID</span></code> to keep our data as a DataFrame rather than a pandas Series. We do this because fastai is expecting a DataFrame for loading our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_lang</span> <span class="o">=</span> <span class="n">df_lang</span><span class="p">[[</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span> <span class="s2">&quot;BL record ID&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="loading-data-into-fastai">
+<h1>Loading data into fastai<a class="headerlink" href="#loading-data-into-fastai" title="Permalink to this headline">¶</a></h1>
+<p>We can now load our data into fastai. Note you might need to drop the batch size if you get a CUDA memory error.</p>
+<p>We create a dataloaders for language model data. This uses the full metadata for all the books we will eventually classify. Since we can train these in an unsupervised way we can make use of all of the data here. We can create forward and backwards language models. The backwards language model will do the same as the forwards language model but instead of predicting the next word, in a sentence it will be trained to predict the previous one. In this example we’ll just train the forward language model but we can often get good results by combining a forward and backwards model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">256</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_lm</span> <span class="o">=</span> <span class="n">TextDataLoaders</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span>
+    <span class="n">df_lang</span><span class="p">,</span> <span class="n">text_col</span><span class="o">=</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span> <span class="n">valid_pct</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span> <span class="n">is_lm</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/numpy/core/_asarray.py:83: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray
+  return array(a, dtype, copy=False, order=order)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can take a look at our data using the <code class="docutils literal notranslate"><span class="pre">show_batch</span></code> method. We can see that the second column <code class="docutils literal notranslate"><span class="pre">text_</span></code> is the same as the first column except the words are shifted along.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_lm</span><span class="o">.</span><span class="n">show_batch</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>text_</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>xxbos a xxmaj guide to xxmaj hampstead . xxmaj new and revised edition , etc xxbos xxmaj xxunk politicos ou historia dos xxunk xxunk politicos da provincia do xxmaj pará desde o anno de 1821 xxunk ' 1835 … xxmaj xxunk parte xxbos xxmaj hills and xxmaj plains : a very old story xxbos xxmaj histoire du comté de xxmaj dunois , de ses comtes et de sa capitale . xxmaj par</td>
+      <td>a xxmaj guide to xxmaj hampstead . xxmaj new and revised edition , etc xxbos xxmaj xxunk politicos ou historia dos xxunk xxunk politicos da provincia do xxmaj pará desde o anno de 1821 xxunk ' 1835 … xxmaj xxunk parte xxbos xxmaj hills and xxmaj plains : a very old story xxbos xxmaj histoire du comté de xxmaj dunois , de ses comtes et de sa capitale . xxmaj par xxup</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>the xxunk highwayman . xxmaj by the author of ' dick xxmaj clinton , ' ' ned xxmaj scarlet , ' etc xxbos xxmaj the xxmaj xxunk of the xxmaj shield ; or , the xxmaj adventures of xxmaj grenville xxmaj le xxmaj marchant during the franco - prussian xxmaj war … xxmaj with illustrations , etc xxbos xxmaj yorkshire in xxmaj olden xxmaj times . xxmaj edited by xxup w. xxmaj</td>
+      <td>xxunk highwayman . xxmaj by the author of ' dick xxmaj clinton , ' ' ned xxmaj scarlet , ' etc xxbos xxmaj the xxmaj xxunk of the xxmaj shield ; or , the xxmaj adventures of xxmaj grenville xxmaj le xxmaj marchant during the franco - prussian xxmaj war … xxmaj with illustrations , etc xxbos xxmaj yorkshire in xxmaj olden xxmaj times . xxmaj edited by xxup w. xxmaj andrews</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>xxunk . ' xxbos xxmaj prisoners of the xxmaj tower of xxmaj london . xxmaj being an account of some who at divers times lay captive within its walls … xxmaj with … illustrations xxbos xxmaj aegypten . xxmaj forschungen über xxmaj land und xxmaj volk während eines xxunk xxmaj aufenthalts , etc xxbos xxunk сборникъ , издаваемый xxunk xxunk xxunk xxunk подъ редакціею … а . с . xxunk . том</td>
+      <td>. ' xxbos xxmaj prisoners of the xxmaj tower of xxmaj london . xxmaj being an account of some who at divers times lay captive within its walls … xxmaj with … illustrations xxbos xxmaj aegypten . xxmaj forschungen über xxmaj land und xxmaj volk während eines xxunk xxmaj aufenthalts , etc xxbos xxunk сборникъ , издаваемый xxunk xxunk xxunk xxunk подъ редакціею … а . с . xxunk . том 1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>] xxbos xxmaj life 's xxmaj xxunk and other poems xxbos xxmaj notes on the xxmaj geology of the xxmaj hull , xxmaj barnsley , &amp; xxmaj west xxmaj riding xxmaj junction xxmaj railway and xxmaj dock xxbos xxmaj the xxmaj castle of xxmaj vincigliata [ with illustrations . ] xxbos xxmaj the xxmaj wives revenged ; a comic opera , in one act , etc [ based on ' les xxmaj</td>
+      <td>xxbos xxmaj life 's xxmaj xxunk and other poems xxbos xxmaj notes on the xxmaj geology of the xxmaj hull , xxmaj barnsley , &amp; xxmaj west xxmaj riding xxmaj junction xxmaj railway and xxmaj dock xxbos xxmaj the xxmaj castle of xxmaj vincigliata [ with illustrations . ] xxbos xxmaj the xxmaj wives revenged ; a comic opera , in one act , etc [ based on ' les xxmaj femmes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>] xxbos xxmaj xxunk . a poem xxbos xxmaj history of xxmaj xxunk , xxmaj xxunk , and xxmaj south xxmaj xxunk , xxmaj maine , from their first exploration , xxup a.d . 1605 ; with family genealogies , etc xxbos xxmaj ulysses , or scenes and studies in many lands xxbos xxmaj history of xxmaj scott xxmaj county , xxmaj iowa . xxmaj with … biographies of representative citizens .</td>
+      <td>xxbos xxmaj xxunk . a poem xxbos xxmaj history of xxmaj xxunk , xxmaj xxunk , and xxmaj south xxmaj xxunk , xxmaj maine , from their first exploration , xxup a.d . 1605 ; with family genealogies , etc xxbos xxmaj ulysses , or scenes and studies in many lands xxbos xxmaj history of xxmaj scott xxmaj county , xxmaj iowa . xxmaj with … biographies of representative citizens . xxmaj</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>tragedy of xxmaj ida xxmaj noble , etc [ a novel . ] xxbos xxmaj clark 's xxmaj guide and xxmaj history of xxmaj rye , to which is added its political history , interspersed with many pleasing &amp; interesting incidents xxbos xxmaj travels in xxmaj various xxmaj countries of xxmaj europe , xxmaj asia and xxmaj africa . ( pt . 1 . xxmaj russia , xxmaj tartary and xxmaj turkey.-pt</td>
+      <td>of xxmaj ida xxmaj noble , etc [ a novel . ] xxbos xxmaj clark 's xxmaj guide and xxmaj history of xxmaj rye , to which is added its political history , interspersed with many pleasing &amp; interesting incidents xxbos xxmaj travels in xxmaj various xxmaj countries of xxmaj europe , xxmaj asia and xxmaj africa . ( pt . 1 . xxmaj russia , xxmaj tartary and xxmaj turkey.-pt .</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>xxmaj life in xxmaj colonial xxmaj days . … xxmaj illustrated , etc xxbos ( j. xxup p. ) a xxmaj prince of xxmaj tyrone [ a tale . ] xxbos xxmaj drawn xxmaj blank . a novel xxbos xxmaj w. 's parochial directory for the counties of xxmaj fife and xxmaj xxunk , containing the names and addresses of gentry , and of persons in business , etc xxbos xxmaj the</td>
+      <td>life in xxmaj colonial xxmaj days . … xxmaj illustrated , etc xxbos ( j. xxup p. ) a xxmaj prince of xxmaj tyrone [ a tale . ] xxbos xxmaj drawn xxmaj blank . a novel xxbos xxmaj w. 's parochial directory for the counties of xxmaj fife and xxmaj xxunk , containing the names and addresses of gentry , and of persons in business , etc xxbos xxmaj the xxmaj</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>brave [ and other poems ] xxbos xxmaj selected xxmaj writings of xxmaj william xxmaj sharp . xxmaj uniform edition . xxmaj arranged by xxmaj mrs . xxmaj william xxmaj sharp . xxrep 3 i . xxmaj papers xxmaj critical &amp; xxmaj xxunk . pp . vii . xxunk xxbos xxmaj in xxmaj northern xxmaj spain … xxmaj with map and eighty - nine illustrations xxbos xxmaj les îles de xxmaj xxunk</td>
+      <td>[ and other poems ] xxbos xxmaj selected xxmaj writings of xxmaj william xxmaj sharp . xxmaj uniform edition . xxmaj arranged by xxmaj mrs . xxmaj william xxmaj sharp . xxrep 3 i . xxmaj papers xxmaj critical &amp; xxmaj xxunk . pp . vii . xxunk xxbos xxmaj in xxmaj northern xxmaj spain … xxmaj with map and eighty - nine illustrations xxbos xxmaj les îles de xxmaj xxunk ,</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>de xxmaj xxunk , suivie d'une notice sur les diverses communes du canton xxbos xxmaj the xxmaj xxunk d'afrique , and other tales [ or rather one other tale only , ' the xxmaj brig and the xxmaj xxunk ' ] xxbos xxmaj observations in the xxmaj east , chiefly in xxmaj egypt , xxmaj palestine , xxmaj syria , and xxmaj asia xxmaj minor xxbos xxmaj husband and xxmaj wife .</td>
+      <td>xxmaj xxunk , suivie d'une notice sur les diverses communes du canton xxbos xxmaj the xxmaj xxunk d'afrique , and other tales [ or rather one other tale only , ' the xxmaj brig and the xxmaj xxunk ' ] xxbos xxmaj observations in the xxmaj east , chiefly in xxmaj egypt , xxmaj palestine , xxmaj syria , and xxmaj asia xxmaj minor xxbos xxmaj husband and xxmaj wife . a</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>Now we have our data ready we create a <code class="docutils literal notranslate"><span class="pre">language_model_learner</span></code> this is a convenience function to quickly get a model setup for a language model task. To use this we need to pass in our data, the type of model we want to use and optionally some metric(s) to track. We will use <code class="docutils literal notranslate"><span class="pre">to_fp16()</span></code> to train our model using <a class="reference external" href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html">mixed precission</a>. This allows us to use less memory and train our model a little bit faster. This can be useful if you are working with limited GPU resources.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_learn_fwd</span> <span class="o">=</span> <span class="n">language_model_learner</span><span class="p">(</span><span class="n">data_lm</span><span class="p">,</span> <span class="n">AWD_LSTM</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">Perplexity</span><span class="p">())</span><span class="o">.</span><span class="n">to_fp16</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We are now ready to fit our model. Initially we fit the model for 5 epochs. We use a fastai callback to save our best performing model (using the lowest perplexity as our measure of ‘best’).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_learn_fwd</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span>
+    <span class="mi">5</span><span class="p">,</span> <span class="n">cbs</span><span class="o">=</span><span class="p">[</span><span class="n">SaveModelCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;perplexity&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">less</span><span class="p">)]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>perplexity</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>5.053834</td>
+      <td>4.514159</td>
+      <td>91.300728</td>
+      <td>01:08</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>4.627872</td>
+      <td>3.961763</td>
+      <td>52.549911</td>
+      <td>01:08</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>4.280094</td>
+      <td>3.714055</td>
+      <td>41.019817</td>
+      <td>01:08</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4.084582</td>
+      <td>3.631602</td>
+      <td>37.773266</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>3.997313</td>
+      <td>3.619023</td>
+      <td>37.301094</td>
+      <td>01:07</td>
+    </tr>
+  </tbody>
+</table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with perplexity value: 91.30072784423828.
+Better model found at epoch 1 with perplexity value: 52.54991149902344.
+Better model found at epoch 2 with perplexity value: 41.01981735229492.
+Better model found at epoch 3 with perplexity value: 37.77326583862305.
+Better model found at epoch 4 with perplexity value: 37.30109405517578.
+</pre></div>
+</div>
+</div>
+</div>
+<p>One of the suggestions made in the ULMFIT paper is to ‘gradually’ train the layers of our model. We can unfreeze all the layers and use another handy fastai method <code class="docutils literal notranslate"><span class="pre">lr_find</span></code> to get a sense of what a sensible learning rate might be.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_learn_fwd</span><span class="o">.</span><span class="n">unfreeze</span><span class="p">()</span>
+<span class="n">lm_learn_fwd</span><span class="o">.</span><span class="n">lr_find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SuggestedLRs(valley=0.0002290867705596611)
+</pre></div>
+</div>
+<img alt="_images/01_BL_fiction_non_fiction_71_2.png" src="_images/01_BL_fiction_non_fiction_71_2.png" />
+</div>
+</div>
+<p>We can pass a slice at the learning rate. This will use something called a ‘discriminative’ learning rate. This means that the lower layers of our model will have a lower learning rate, and the later layers will have a higher learning rate. The intution here is that the lower layers might contain more ‘general’ features which we don’t want to update as agressively whilst the later layers are more task specific.</p>
+<p>Again we train for 5 epochs and save our best performing model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_learn_fwd</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span>
+    <span class="mi">5</span><span class="p">,</span>
+    <span class="n">lr_max</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">5e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">),</span>
+    <span class="n">cbs</span><span class="o">=</span><span class="p">[</span><span class="n">SaveModelCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;perplexity&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">less</span><span class="p">)],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>perplexity</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>3.879096</td>
+      <td>3.449919</td>
+      <td>31.497826</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>3.715576</td>
+      <td>3.324599</td>
+      <td>27.787848</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3.587684</td>
+      <td>3.270434</td>
+      <td>26.322758</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3.543618</td>
+      <td>3.250468</td>
+      <td>25.802412</td>
+      <td>01:13</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>3.493116</td>
+      <td>3.246511</td>
+      <td>25.700520</td>
+      <td>01:13</td>
+    </tr>
+  </tbody>
+</table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with perplexity value: 31.497825622558594.
+Better model found at epoch 1 with perplexity value: 27.7878475189209.
+Better model found at epoch 2 with perplexity value: 26.322757720947266.
+Better model found at epoch 3 with perplexity value: 25.802412033081055.
+Better model found at epoch 4 with perplexity value: 25.700519561767578.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We could spend longer on this process but for now we’ll save our ‘encoder’. This ‘encoder’ will be used in our classification model (we’ll get to this shortly).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_learn_fwd</span><span class="o">.</span><span class="n">save_encoder</span><span class="p">(</span><span class="s2">&quot;ft_enc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="look-at-language-model-predictions">
+<h2>Look at language model predictions<a class="headerlink" href="#look-at-language-model-predictions" title="Permalink to this headline">¶</a></h2>
+<p>To get a sense of whether our Language Model has ‘learned’ anything useful we can ask it to make some predictions based on a prompt. We’ll create small function for doing this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lm_preds</span><span class="p">(</span><span class="n">text_promt</span><span class="p">,</span> <span class="n">N_WORDS</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">N_SENTENCES</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">lm_learn_fwd</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">text_promt</span><span class="p">,</span> <span class="n">N_WORDS</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_SENTENCES</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">preds</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;A history&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a history of France = a Union of the
+a history of the Isle of Wight The
+a history of the County of Iowa , with historical
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;Poems&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Poems The Castle Fire , and other
+Poems on Greece and Greece The
+Poems of Narrative Soul Heart in
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;verhaal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>verhaal miss Jane Austen : a novel
+verhaal katie della Physique de la Terre
+verhaal i Wake Up a Journey to
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;wiskunde&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>xxunk , a History of the Northern Irish
+xxunk &#39;s Molly Fly and other poems
+xxunk on Eve Park in Wales
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;Gedicht&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Xxunk Park . In the United States
+Xxunk in the East : a poem The
+Xxunk &#39;s Guide to India Visitors to
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;An analysis&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>An analysis of the French Revolution from the French
+An analysis of the Halifax County District Court
+An analysis of the Gulf , and the Gulf of
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;Living with Machines&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Living with Machines in Palestine . By W. Gordon
+Living with Machines : Life and Life in France ,
+Living with Machines : a history of London … and other stories
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;The Haunted&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Haunted House , a sketch of the home of
+The Haunted House in Paris , France , from
+The Haunted House , a Catholic Catholic church in
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm_preds</span><span class="p">(</span><span class="s2">&quot;London&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output text_html"></div><div class="output text_html"></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>London Road : a novel The Present
+London : a novel The Secret of
+London &#39;s Gold Coast The Flash
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that these aren’t completely weird predictions for titles (they aren’t all completely sensible either). It should be noted that the model we’re using here isn’t intended primarily as a text generation model like <a class="reference external" href="https://en.wikipedia.org/wiki/GPT-3">GPT3</a> so we shouldn’t evaluate it too much on it’s ability to generate sensible sounding text. We can now move on to training our classifier.</p>
+</div>
+<div class="section" id="training-our-classifier">
+<h2>Training our classifier<a class="headerlink" href="#training-our-classifier" title="Permalink to this headline">¶</a></h2>
+<p>So far we have now done the following steps;</p>
+<ul class="simple">
+<li><p>downloaded a pretrained language model (trained on Wikipedia)</p></li>
+<li><p>we have fine-tuned this model on our data i.e. the model has learned more about the language used in (mostly 19th Century) book titles</p></li>
+</ul>
+<p>We can now use this fine-tuned language model to train a text classification model that will take as input the title of a book and predict ‘non-fiction’ or ‘fiction’ as a label.</p>
+<p>We first need to create a dataloader for our classifications data. This will look very similar to our previous model.</p>
+<p>Again, we take a subset of our data that we need. This makes loading the data a bit faster.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span> <span class="s2">&quot;annotator_genre&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_class</span> <span class="o">=</span> <span class="n">TextDataLoaders</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>  <span class="c1"># the dataframe we&#39;re using as input</span>
+    <span class="n">text_col</span><span class="o">=</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span>  <span class="c1"># text column</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;annotator_genre&quot;</span><span class="p">,</span>  <span class="c1"># label column</span>
+    <span class="n">valid_col</span><span class="o">=</span><span class="s2">&quot;is_valid&quot;</span><span class="p">,</span>  <span class="c1"># the column used to indicate valid/training data</span>
+    <span class="n">text_vocab</span><span class="o">=</span><span class="n">data_lm</span><span class="o">.</span><span class="n">vocab</span><span class="p">,</span>  <span class="c1"># the vocab from our langauge model</span>
+    <span class="n">bs</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span>  <span class="c1"># batch size</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/numpy/core/_asarray.py:83: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray
+  return array(a, dtype, copy=False, order=order)
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see above that we use the same vocab as our language model. We do this to ensure that our classification vocab matches our language model vocab and its associated encoder.</p>
+<p>We can take a look at our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_class</span><span class="o">.</span><span class="n">show_batch</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>xxbos a xxmaj relation of a xxmaj voyage to xxmaj sagadahoc , now first printed from the original manuscript in the xxmaj lambeth xxmaj palace xxmaj library [ entitled : ' the xxmaj relation of a xxmaj voyage unto xxmaj new xxmaj england began from the xxmaj lizard ye first of xxmaj june 1607 . xxmaj by xxmaj captn . xxmaj popham in ye ship ye xxmaj gift . xxmaj captn . xxmaj gilbert in ye xxmaj mary and xxmaj john , ' etc . ] xxmaj edited with preface , notes and appendix by … xxup b. xxup f. xxmaj decosta [ with a paper annexed , entitled : ' the xxmaj two xxmaj hundred and seventy - third xxmaj anniversary of xxmaj sagadahoc . ' ]</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>xxbos a xxmaj relation of a xxmaj voyage to xxmaj sagadahoc , now first printed from the original manuscript in the xxmaj lambeth xxmaj palace xxmaj library [ entitled : ' the xxmaj relation of a xxmaj voyage unto xxmaj new xxmaj england began from the xxmaj lizard ye first of xxmaj june 1607 . xxmaj by xxmaj captn . xxmaj popham in ye ship ye xxmaj gift . xxmaj captn . xxmaj gilbert in ye xxmaj mary and xxmaj john , ' etc . ] xxmaj edited with preface , notes and appendix by … xxup b. xxup f. xxmaj decosta [ with a paper annexed , entitled : ' the xxmaj two xxmaj hundred and seventy - third xxmaj anniversary of xxmaj sagadahoc . ' ]</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>xxbos a xxmaj relation of a xxmaj voyage to xxmaj sagadahoc , now first printed from the original manuscript in the xxmaj lambeth xxmaj palace xxmaj library [ entitled : ' the xxmaj relation of a xxmaj voyage unto xxmaj new xxmaj england began from the xxmaj lizard ye first of xxmaj june 1607 . xxmaj by xxmaj captn . xxmaj popham in ye ship ye xxmaj gift . xxmaj captn . xxmaj gilbert in ye xxmaj mary and xxmaj john , ' etc . ] xxmaj edited with preface , notes and appendix by … xxup b. xxup f. xxmaj decosta [ with a paper annexed , entitled : ' the xxmaj two xxmaj hundred and seventy - third xxmaj anniversary of xxmaj sagadahoc . ' ]</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>xxbos a xxmaj tour through xxmaj italy , exhibiting a view of its xxmaj scenery , its xxmaj antiquities , and its xxmaj monuments ; particularly as they are objects of xxmaj classical xxmaj interest … with an account of the present state of its cities and towns and occasional observations on the recent spoliations of the xxmaj french . 3 vol . ( vol . xxrep 3 i . a xxmaj classical xxmaj tour through xxmaj italy and xxmaj sicily ; tending to illustrate some districts which have not been described by xxmaj mr . xxmaj eustace in his classical tour . xxmaj by xxmaj sir xxup r. xxmaj colt xxmaj hoare . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>xxbos a xxmaj tour through xxmaj italy , exhibiting a view of its xxmaj scenery , its xxmaj antiquities , and its xxmaj monuments ; particularly as they are objects of xxmaj classical xxmaj interest … with an account of the present state of its cities and towns and occasional observations on the recent spoliations of the xxmaj french . 3 vol . ( vol . xxrep 3 i . a xxmaj classical xxmaj tour through xxmaj italy and xxmaj sicily ; tending to illustrate some districts which have not been described by xxmaj mr . xxmaj eustace in his classical tour . xxmaj by xxmaj sir xxup r. xxmaj colt xxmaj hoare . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>xxbos a xxmaj tour through xxmaj italy , exhibiting a view of its xxmaj scenery , its xxmaj antiquities , and its xxmaj monuments ; particularly as they are objects of xxmaj classical xxmaj interest … with an account of the present state of its cities and towns and occasional observations on the recent spoliations of the xxmaj french . 3 vol . ( vol . xxrep 3 i . a xxmaj classical xxmaj tour through xxmaj italy and xxmaj sicily ; tending to illustrate some districts which have not been described by xxmaj mr . xxmaj eustace in his classical tour . xxmaj by xxmaj sir xxup r. xxmaj colt xxmaj hoare . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>xxbos a xxmaj tour through xxmaj italy , exhibiting a view of its xxmaj scenery , its xxmaj antiquities , and its xxmaj monuments ; particularly as they are objects of xxmaj classical xxmaj interest … with an account of the present state of its cities and towns and occasional observations on the recent spoliations of the xxmaj french . 3 vol . ( vol . xxrep 3 i . a xxmaj classical xxmaj tour through xxmaj italy and xxmaj sicily ; tending to illustrate some districts which have not been described by xxmaj mr . xxmaj eustace in his classical tour . xxmaj by xxmaj sir xxup r. xxmaj colt xxmaj hoare . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>xxbos a xxmaj tour through xxmaj italy , exhibiting a view of its xxmaj scenery , its xxmaj antiquities , and its xxmaj monuments ; particularly as they are objects of xxmaj classical xxmaj interest … with an account of the present state of its cities and towns and occasional observations on the recent spoliations of the xxmaj french . 3 vol . ( vol . xxrep 3 i . a xxmaj classical xxmaj tour through xxmaj italy and xxmaj sicily ; tending to illustrate some districts which have not been described by xxmaj mr . xxmaj eustace in his classical tour . xxmaj by xxmaj sir xxup r. xxmaj colt xxmaj hoare . )</td>
+      <td>Non-fiction</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>xxbos xxmaj travels to the xxmaj source of the xxmaj missouri xxmaj river and across the xxmaj american xxmaj continent to the xxmaj pacific xxmaj ocean , performed by order of the xxmaj government of the xxmaj united xxmaj states in the years 1804 , 1805 , and 1806 . xxmaj by xxmaj captains xxmaj lewis and xxmaj clarke . xxmaj published from the official report , and illustrated by … maps [ another edition of ' history of the xxmaj expedition under the command of xxmaj captains xxmaj lewis and xxmaj clarke , etc . ' xxmaj by xxmaj nicholas xxmaj biddle . xxmaj edited by xxup t. xxmaj reus . ]</td>
+      <td>Non-fiction</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="xxbos-xxmaj">
+<h2>xxbos, xxmaj ???<a class="headerlink" href="#xxbos-xxmaj" title="Permalink to this headline">¶</a></h2>
+<p>You’ll see above that our text includes <code class="docutils literal notranslate"><span class="pre">xxmaj</span></code>, <code class="docutils literal notranslate"><span class="pre">xxup</span></code> and other tokens we might not recognize. These are special tokens used by fastai to encode some information about the text. For example:</p>
+<blockquote>
+<div><p>TK_MAJ (xxmaj) is used to indicate the next word begins with a capital in the original text
+TK_UP (xxup) is used to indicate the next word is written in all caps in the original text</p>
+</div></blockquote>
+<p>We can add our own rules if we want. This might be useful for example if you are working with metadata or text which contains some kind of structured information.</p>
+<p>We’ll now create our classifier model. This is very similar to what we did before except we pass in two metrics this time and make sure to pass in the classification data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span> <span class="o">=</span> <span class="n">text_classifier_learner</span><span class="p">(</span>
+    <span class="n">data_class</span><span class="p">,</span> <span class="n">AWD_LSTM</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">F1Score</span><span class="p">(</span><span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to_fp16</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have a learner created we load the encoder we trained on our language data previously. This means our model will start from these weights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">load_encoder</span><span class="p">(</span><span class="s2">&quot;ft_enc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;fastai.text.learner.TextLearner at 0x7fe213f06f50&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can again use <code class="docutils literal notranslate"><span class="pre">lr_find</span></code> to suggest a learning rate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">suggested_lr</span> <span class="o">=</span> <span class="n">learn_class</span><span class="o">.</span><span class="n">lr_find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_100_1.png" src="_images/01_BL_fiction_non_fiction_100_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="yolo-training">
+<h2>YOLO training<a class="headerlink" href="#yolo-training" title="Permalink to this headline">¶</a></h2>
+<p>This time we will use the learning rate suggested by the <code class="docutils literal notranslate"><span class="pre">valley</span></code> method for suggesting a learning rate (there are <a class="reference external" href="https://www.novetta.com/2021/03/learning-rate/">others</a> we could use).</p>
+<p>We also train for much longer (100 epochs). We use a callback to keep track of best model (using the f1 score) and use another callback to stop when when we haven’t seen any improvement in some time. This helps automate the process a little bit for us.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span>
+    <span class="mi">100</span><span class="p">,</span>
+    <span class="n">lr_max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">suggested_lr</span><span class="o">.</span><span class="n">valley</span><span class="p">),</span>
+    <span class="n">cbs</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">ShowGraphCallback</span><span class="p">(),</span>
+        <span class="n">SaveModelCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">),</span>
+        <span class="n">EarlyStoppingCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>f1_score</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.665443</td>
+      <td>0.668866</td>
+      <td>0.525534</td>
+      <td>0.517140</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.606742</td>
+      <td>0.612578</td>
+      <td>0.602600</td>
+      <td>0.600962</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.569475</td>
+      <td>0.480823</td>
+      <td>0.791086</td>
+      <td>0.786726</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.537582</td>
+      <td>0.379936</td>
+      <td>0.857939</td>
+      <td>0.850516</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.511371</td>
+      <td>0.349232</td>
+      <td>0.873723</td>
+      <td>0.866713</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.487751</td>
+      <td>0.297151</td>
+      <td>0.900650</td>
+      <td>0.892650</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.461770</td>
+      <td>0.276135</td>
+      <td>0.909935</td>
+      <td>0.901799</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.440010</td>
+      <td>0.282361</td>
+      <td>0.896936</td>
+      <td>0.890024</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.421166</td>
+      <td>0.257838</td>
+      <td>0.914578</td>
+      <td>0.906915</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.403049</td>
+      <td>0.266430</td>
+      <td>0.900650</td>
+      <td>0.891030</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>0.387365</td>
+      <td>0.242402</td>
+      <td>0.916435</td>
+      <td>0.907949</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>0.370438</td>
+      <td>0.225843</td>
+      <td>0.927577</td>
+      <td>0.919507</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>0.356692</td>
+      <td>0.268245</td>
+      <td>0.888579</td>
+      <td>0.878156</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>0.343099</td>
+      <td>0.263526</td>
+      <td>0.910864</td>
+      <td>0.902755</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>0.330638</td>
+      <td>0.243795</td>
+      <td>0.908078</td>
+      <td>0.899299</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>0.318648</td>
+      <td>0.242319</td>
+      <td>0.916435</td>
+      <td>0.907949</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>0.308882</td>
+      <td>0.270425</td>
+      <td>0.904364</td>
+      <td>0.895355</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>0.293823</td>
+      <td>0.246900</td>
+      <td>0.907149</td>
+      <td>0.898464</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>0.281849</td>
+      <td>0.245489</td>
+      <td>0.906221</td>
+      <td>0.897015</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>0.268338</td>
+      <td>0.223876</td>
+      <td>0.899721</td>
+      <td>0.893155</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>0.258226</td>
+      <td>0.270615</td>
+      <td>0.888579</td>
+      <td>0.877567</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td>0.248101</td>
+      <td>0.228881</td>
+      <td>0.920149</td>
+      <td>0.911135</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td>0.236445</td>
+      <td>0.216323</td>
+      <td>0.917363</td>
+      <td>0.907605</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td>0.225656</td>
+      <td>0.260665</td>
+      <td>0.909935</td>
+      <td>0.899835</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>0.215337</td>
+      <td>0.222231</td>
+      <td>0.922006</td>
+      <td>0.913761</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>0.207813</td>
+      <td>0.265849</td>
+      <td>0.890436</td>
+      <td>0.881019</td>
+      <td>00:02</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>0.205258</td>
+      <td>0.249146</td>
+      <td>0.917363</td>
+      <td>0.909361</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td>0.199176</td>
+      <td>0.265447</td>
+      <td>0.886722</td>
+      <td>0.875829</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td>0.190215</td>
+      <td>0.235558</td>
+      <td>0.915506</td>
+      <td>0.906275</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>0.181851</td>
+      <td>0.314101</td>
+      <td>0.881151</td>
+      <td>0.869878</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td>0.177596</td>
+      <td>0.246425</td>
+      <td>0.919220</td>
+      <td>0.909923</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>31</td>
+      <td>0.171872</td>
+      <td>0.259610</td>
+      <td>0.920149</td>
+      <td>0.911252</td>
+      <td>00:03</td>
+    </tr>
+  </tbody>
+</table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.5171399367413458.
+</pre></div>
+</div>
+<img alt="_images/01_BL_fiction_non_fiction_102_2.png" src="_images/01_BL_fiction_non_fiction_102_2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 1 with f1_score value: 0.6009619380038229.
+Better model found at epoch 2 with f1_score value: 0.7867257283625517.
+Better model found at epoch 3 with f1_score value: 0.8505155901731697.
+Better model found at epoch 4 with f1_score value: 0.8667127725403123.
+Better model found at epoch 5 with f1_score value: 0.8926504411300307.
+Better model found at epoch 6 with f1_score value: 0.9017990673313098.
+Better model found at epoch 8 with f1_score value: 0.9069151334776335.
+Better model found at epoch 10 with f1_score value: 0.907948717948718.
+Better model found at epoch 11 with f1_score value: 0.9195073434721286.
+No improvement since epoch 11: early stopping
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can save our model progress along the way. This means if we mess up later and make the model worse we can go back to an early version.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stage-1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Path(&#39;models/stage-1.pth&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;stage-1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;fastai.text.learner.TextLearner at 0x7fe213f06f50&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Again we can ‘unfreeze’ the model to train all layers of the model. We’ll use <code class="docutils literal notranslate"><span class="pre">lr_find</span></code> to suggest a learning rate for when our model is unfrozen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">unfreeze</span><span class="p">()</span>
+<span class="n">suggested_lr</span> <span class="o">=</span> <span class="n">learn_class</span><span class="o">.</span><span class="n">lr_find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div><img alt="_images/01_BL_fiction_non_fiction_107_1.png" src="_images/01_BL_fiction_non_fiction_107_1.png" />
+</div>
+</div>
+<p>Again we use a slightly YOLO approach to training and train for 40 epochs. We do make sure to save our best model and stop early if we don’t improve.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span>
+    <span class="mi">40</span><span class="p">,</span>
+    <span class="n">lr_max</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">suggested_lr</span><span class="o">.</span><span class="n">valley</span><span class="p">)),</span>
+    <span class="n">cbs</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">ShowGraphCallback</span><span class="p">(),</span>
+        <span class="n">SaveModelCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">),</span>
+        <span class="n">ReduceLROnPlateau</span><span class="p">(</span><span class="n">patience</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">),</span>
+        <span class="n">EarlyStoppingCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>f1_score</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.295892</td>
+      <td>0.232815</td>
+      <td>0.922006</td>
+      <td>0.914085</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.294546</td>
+      <td>0.238351</td>
+      <td>0.913649</td>
+      <td>0.905402</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.289235</td>
+      <td>0.229033</td>
+      <td>0.920149</td>
+      <td>0.912149</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.283422</td>
+      <td>0.228210</td>
+      <td>0.920149</td>
+      <td>0.912149</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.283902</td>
+      <td>0.223157</td>
+      <td>0.916435</td>
+      <td>0.907718</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.279701</td>
+      <td>0.234657</td>
+      <td>0.919220</td>
+      <td>0.911398</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.273055</td>
+      <td>0.229389</td>
+      <td>0.923863</td>
+      <td>0.916338</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.264773</td>
+      <td>0.230474</td>
+      <td>0.918292</td>
+      <td>0.910216</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.258779</td>
+      <td>0.220282</td>
+      <td>0.919220</td>
+      <td>0.911182</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.250745</td>
+      <td>0.222746</td>
+      <td>0.922934</td>
+      <td>0.915265</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>0.239230</td>
+      <td>0.237207</td>
+      <td>0.922006</td>
+      <td>0.914608</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>0.228338</td>
+      <td>0.215520</td>
+      <td>0.924791</td>
+      <td>0.917804</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>0.217250</td>
+      <td>0.220057</td>
+      <td>0.917363</td>
+      <td>0.909579</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>0.208120</td>
+      <td>0.233237</td>
+      <td>0.909006</td>
+      <td>0.900844</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>0.202282</td>
+      <td>0.225658</td>
+      <td>0.922006</td>
+      <td>0.914192</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>0.193799</td>
+      <td>0.216018</td>
+      <td>0.914578</td>
+      <td>0.905786</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>0.183809</td>
+      <td>0.211258</td>
+      <td>0.917363</td>
+      <td>0.909361</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>0.175041</td>
+      <td>0.215968</td>
+      <td>0.920149</td>
+      <td>0.912149</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>0.166846</td>
+      <td>0.218272</td>
+      <td>0.917363</td>
+      <td>0.909686</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>0.159968</td>
+      <td>0.229567</td>
+      <td>0.918292</td>
+      <td>0.910858</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>0.152546</td>
+      <td>0.220330</td>
+      <td>0.914578</td>
+      <td>0.906475</td>
+      <td>00:03</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td>0.147370</td>
+      <td>0.230851</td>
+      <td>0.916435</td>
+      <td>0.909044</td>
+      <td>00:03</td>
+    </tr>
+  </tbody>
+</table></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Better model found at epoch 0 with f1_score value: 0.91408547008547.
+</pre></div>
+</div>
+<img alt="_images/01_BL_fiction_non_fiction_109_2.png" src="_images/01_BL_fiction_non_fiction_109_2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: reducing lr to 2.4287370138544e-05
+Better model found at epoch 6 with f1_score value: 0.916337627889352.
+Epoch 10: reducing lr to 4.775283508704886e-05
+Better model found at epoch 11 with f1_score value: 0.9178043083556245.
+Epoch 15: reducing lr to 4.341455859128301e-05
+Epoch 19: reducing lr to 3.607777952852039e-05
+No improvement since epoch 11: early stopping
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stage-2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Path(&#39;models/stage-2.pth&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="look-at-our-results">
+<h3>Look at our results<a class="headerlink" href="#look-at-our-results" title="Permalink to this headline">¶</a></h3>
+<p>We’ll now look at our results. We can use <code class="docutils literal notranslate"><span class="pre">get_preds</span></code> to return predictions. If we don’t pass anything to this method it will use the validation data. We store predictions in <code class="docutils literal notranslate"><span class="pre">y_pred</span></code>, we also get back our labels which we’ll store in <code class="docutils literal notranslate"><span class="pre">y_true</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span> <span class="o">=</span> <span class="n">learn_class</span><span class="o">.</span><span class="n">get_preds</span><span class="p">(</span><span class="n">with_decoded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div></div>
+</div>
+<p>We can use these predictions to get various metrics, for example using the metrics from scikit-learn.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.94176851186197
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will probably notice that this score is different from the score we got in our training. This is because we use a different variant of f1 score.</p>
+</div>
+<div class="section" id="how-are-we-doing-by-label">
+<h4>How are we doing by label?<a class="headerlink" href="#how-are-we-doing-by-label" title="Permalink to this headline">¶</a></h4>
+<p>Often we want to know our performance by label. We can use <code class="docutils literal notranslate"><span class="pre">classification</span> <span class="pre">report</span></code> to give us a breakdown. This can be very helpful because the overall metric can hide poor performance on a particular label.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">learn_class</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+     Fiction       0.90      0.89      0.89       384
+ Non-fiction       0.94      0.95      0.94       693
+
+    accuracy                           0.92      1077
+   macro avg       0.92      0.92      0.92      1077
+weighted avg       0.92      0.92      0.92      1077
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="testing-on-new-data">
+<h2>Testing on new data 😬<a class="headerlink" href="#testing-on-new-data" title="Permalink to this headline">¶</a></h2>
+<p>We may be quite confident in our predictions based on the above score but it’s often a good idea to be skeptical and about your performance metrics on the data we have for training.</p>
+<div class="section" id="data-drift">
+<h3>Data drift 😅<a class="headerlink" href="#data-drift" title="Permalink to this headline">¶</a></h3>
+<p>One potential challenge facing us when we want to apply machine learning to a particular collection is data drift. Data drift occurs when distribution of our training data differs from the distribution of the data we are predicting against. Or put in simpler terms the data we predict against doesn’t quite look the same as the data our model was trained on. This shift could be subtle or it could be quite drastic. In our particular case we could think about a number of things being particularly important differences.</p>
+<div class="section" id="language">
+<h4>Language<a class="headerlink" href="#language" title="Permalink to this headline">¶</a></h4>
+<p>From the discussion of generating the training data as part of the Zooniverse crowdsourcing task we know that there was a choice available to participants about the language the annotated. This means we can’t necessarily assume that the languages which appear in our training data will be distributed in the same way as in the data we predict on. If our model has mainly seen English, French and Dutch, examples in the training data it might do better on those languages. The model may even do okay on German examples because of some language similarities to Dutch, but we would probably not expect it to do well on Russian book titles. We might be happy to only have predictions work well for some languages but we need to be aware of the potential limitations for the model on other languages.</p>
+</div>
+<div class="section" id="time-period">
+<h4>Time period<a class="headerlink" href="#time-period" title="Permalink to this headline">¶</a></h4>
+<p>The time period covered by our data is both large, and skewed. This means if we randomly sample from the full dataset we will have less examples of book titles from earlier periods. This might mean our model performs less well on book titles from earlier periods. There are various ways we could try and deal with this, and how we try and deal with this possible issue depends on <em>what</em> we are trying to achieve. In the Living with Machines case, we mainly care about 19th Century books so if the model sucks at 16th Century book titles we probably don’t mind. If we want to use this model to update all catalogue records we definitely need to keep this in mind.</p>
+</div>
+<div class="section" id="hard-examples">
+<h4>Hard examples<a class="headerlink" href="#hard-examples" title="Permalink to this headline">¶</a></h4>
+<p>This is a bit of a meta one but essentially we might want to worry a little bit about whether some book titles are hard to classify as fiction or non-fiction (for our human annotators). Most annotation tools/tasks allow annotators to skip a task if they are unsure. This might result in our training data missing many ‘hard’ examples. Our model in turn will therefore be trained on ‘easier’ titles and not on ‘harder’ examples. When the model is making predictions it may do worse on these ‘hard’ examples.</p>
+<p>To help alleviate our anxiety we’ll quickly check our performance on some test data which was randomly sampled from our metadata. We’ll discuss this more in the next chapter/notebook. For now we’ll load this data in a CSV and use this to test our model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO update with final version of data</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;test_errors.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll grab the columns we want</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We get rid of any rows where we don’t have an annotation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;true_label&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[</span><span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">isin</span><span class="p">({</span><span class="s2">&quot;non_fiction&quot;</span><span class="p">,</span> <span class="s2">&quot;fiction&quot;</span><span class="p">})]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_data</span> <span class="o">=</span> <span class="n">learn_class</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">test_dl</span><span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;title&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">learn_class</span><span class="o">.</span><span class="n">get_preds</span><span class="p">(</span><span class="n">dl</span><span class="o">=</span><span class="n">test_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_labels</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">true_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now print out a classification report showing the result on our test data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="n">classification_report</span><span class="p">(</span>
+        <span class="n">true_labels</span><span class="p">,</span>
+        <span class="n">predictions</span><span class="p">,</span>
+        <span class="n">target_names</span><span class="o">=</span><span class="n">learn_class</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+     Fiction       0.83      0.94      0.88       296
+ Non-fiction       0.97      0.90      0.93       554
+
+    accuracy                           0.91       850
+   macro avg       0.90      0.92      0.91       850
+weighted avg       0.92      0.91      0.91       850
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;model_preds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;model_preds&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      1
+1      1
+2      0
+3      1
+4      1
+      ..
+994    0
+995    0
+996    0
+997    0
+998    1
+Name: model_preds, Length: 850, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Fiction&#39;, &#39;Non-fiction&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We want to explore how our model is working, and where systematic mistakes might be happening. To get ready for doing this we’ll prepare a CSV which contains both our model predictions and the corrected label. We’ll use this in a later notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;model_preds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;model_preds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;fiction&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;non_fiction&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;model-1-test-preds.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>true_label</th>
+      <th>model_preds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>['The Memorial History of the City of New York from its first settlement to the year, 1892. Edited by J. G. Wilson. [With illustrations.]']</td>
+      <td>non_fiction</td>
+      <td>non_fiction</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>['Историческая Хрестоматія по Русской исторіи ... Составлена Я. Г. Гуревичемъ и Б. А. Павловичемъ ... Изданіе второе ... дополненное Я. Гуревичемъ. Часть 1, 2']</td>
+      <td>non_fiction</td>
+      <td>non_fiction</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>['Colville of the Guards']</td>
+      <td>fiction</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>['A treatise on Inflammation. [With plates.]']</td>
+      <td>non_fiction</td>
+      <td>non_fiction</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>['Borys: ustęp z dziejów dwunastego wieku. (Odbitka z “Przewodnika naukowego i literackiego.”)']</td>
+      <td>non_fiction</td>
+      <td>non_fiction</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>994</th>
+      <td>["Sidney Cooper's Comic Pantomime, Dick Whittington and his Cat. Christmas, 1886-7"]</td>
+      <td>fiction</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>['Helga: a poem in seven Cantos. [With notes and an appendix.]']</td>
+      <td>fiction</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>['The Geological Observer']</td>
+      <td>non_fiction</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>['Lays of Far Cathay and others. A collection of original poems. By “Tung Chia.” Illustrations by H. H']</td>
+      <td>fiction</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>['Up the Amazon and Madeira Rivers, through Bolivia and Peru']</td>
+      <td>non_fiction</td>
+      <td>non_fiction</td>
+    </tr>
+  </tbody>
+</table>
+<p>850 rows × 3 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="saving-model">
+<h2>Saving model<a class="headerlink" href="#saving-model" title="Permalink to this headline">¶</a></h2>
+<p>We can save our model and it’s associated data loading steps easily using the fastai <code class="docutils literal notranslate"><span class="pre">export</span></code> method. This will allow us to re-use this model later if we want or to share it with others.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learn_class</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;20210928-model.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion-and-next-steps">
+<h2>Conclusion and next steps<a class="headerlink" href="#conclusion-and-next-steps" title="Permalink to this headline">¶</a></h2>
+<p>In the next section we will look into our model results in some more detail and see what we can do to improve our results further.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The main things we tried to show in this notebook:</p>
+<ul class="simple">
+<li><p>the process of creating a deep learning model for predicting if a book title is ‘fiction’ or ‘non-fiction’.</p></li>
+<li><p>the importance of creating good validation data when developing models.</p></li>
+<li><p>the potential for our models performance to be lower on new unseen data and why a test set can help identify this potential risk.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -2714,15 +5090,13 @@ Name: model_preds, Length: 850, dtype: int64
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
-        
-            &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Daniel van Strien, Giorgia Tolfo, Victoria Morris, Kaspar Beelen<br/>
+    
+        &copy; Copyright 2021 The Alan Turing Institute, British Library Board, Queen Mary University of London, University of Exeter, University of East Anglia and University of Cambridge..<br/>
+  </p>
+</footer>
 </main>
 
 
