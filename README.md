@@ -7,7 +7,7 @@
 **Note** This material is a work in progress. If you have any feedback or suggestions please [open an issue](https://github.com/Living-with-machines/genre-classification/issues/new).
 
 
-![https://living-with-machines.github.io/genre-classification/](https://user-images.githubusercontent.com/8995957/148814318-f87a3851-21de-45f2-8dfa-e7aec8a2a7dd.png)
+[<img src="https://user-images.githubusercontent.com/8995957/148814318-f87a3851-21de-45f2-8dfa-e7aec8a2a7dd.png">](https://living-with-machines.github.io/genre-classification/intro.html)
 
 
 There is a growing interest in using Machine Learning to automatically produce metadata for GLAM (Galleries, Libraries, Archives and Museums) collections. This repository contains the source material for a Jupyter book that moves through the steps of developing a machine learning model to classify book titles into 'crude' genres (fiction or non-fiction). In particular, we work with the British Library's ["Microsoft Digitised Books"](https://www.bl.uk/collection-guides/digitised-printed-books) collection to automatically generate metadata for ~49,455 titles. 
