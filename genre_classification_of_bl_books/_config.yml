@@ -19,6 +19,7 @@ latex:
   latex_engine: lualatex
 html:
   use_repository_button: true
+  use_issues_button: true
   comments:
     hypothesis: true
 
