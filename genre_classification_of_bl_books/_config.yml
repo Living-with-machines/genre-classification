@@ -21,3 +21,8 @@ html:
   use_repository_button: true
   comments:
     hypothesis: true
+
+repository:
+  url: "https://github.com/Living-with-machines/genre-classification" # The URL to your book's repository
+  path_to_book: "genre_classification_of_bl_books/"  # A path to your book's folder, relative to the repository root.
+  branch: main
