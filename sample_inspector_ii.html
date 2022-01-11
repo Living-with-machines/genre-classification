@@ -329,8 +329,43 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fin">
-   Fin.
+  <a class="reference internal nav-link" href="#data-processing">
+   Data processing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computing-the-title-s-first-character">
+   Computing the title’s first character.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-distribution-of-first-title-character">
+   Plotting distribution of first title character
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-to-the-annotated-data">
+   Comparing to the annotated data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-a-comparison-between-the-annotated-subset-and-full-collection">
+   Plotting a comparison between the annotated subset and full collection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-distribution-of-publication-date">
+   Compare distribution of publication date
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-publication-dates-across-the-annotated-and-full-collection">
+   Comparing publication dates across the annotated and full collection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -346,7 +381,7 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="sample-inspector-part-ii">
 <h1>Sample Inspector (Part II)<a class="headerlink" href="#sample-inspector-part-ii" title="Permalink to this headline">¶</a></h1>
-<p>This notebook compares BL books to the genre annotations. We’d like to know if the annotated sample deviates from the digital collection and look at aspects that <em>should</em> remains stable across both datasets.</p>
+<p>This notebook compares the Microsoft Digitised Books collection to the genre annotations. We’d like to know if the annotated sample deviates from the digital collection and look at aspects that <em>should</em> remains stable across both datasets.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -357,15 +392,9 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># in case pandas refuses to open the Excel spreadsheet uncomment this line below</span>
-<span class="c1">#!pip3 install openpyxl==3.0.0</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>First, we load the metadata of the BL books collection.</p>
+<div class="section" id="data-processing">
+<h2>Data processing<a class="headerlink" href="#data-processing" title="Permalink to this headline">¶</a></h2>
+<p>First, we load the metadata of the Microsoft Digitised Books collection.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_blb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
@@ -378,7 +407,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
+<div class="output text_html">
+  <div id="df-6eb5659b-f97d-4d2d-b789-82c19e9aa17d">
+    <div class="colab-df-container">
+      <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -506,9 +538,88 @@
     </tr>
   </tbody>
 </table>
-</div></div></div>
 </div>
-<p>A simple test for comparing the sample to the BL Books metadata is computing the probabilities of the title’s first character. This distribution should look similar for both datasets. Below we create a function <code class="docutils literal notranslate"><span class="pre">first_alpha_char</span></code> that returns the first character of a string. If none could be found, it returns a hashtag.</p>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-6eb5659b-f97d-4d2d-b789-82c19e9aa17d')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-6eb5659b-f97d-4d2d-b789-82c19e9aa17d button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-6eb5659b-f97d-4d2d-b789-82c19e9aa17d');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div></div>
+</div>
+</div>
+<div class="section" id="computing-the-title-s-first-character">
+<h2>Computing the title’s first character.<a class="headerlink" href="#computing-the-title-s-first-character" title="Permalink to this headline">¶</a></h2>
+<p>A simple test for comparing the sample to the Microsoft Digitised Books metadata is computing the probabilities of the title’s first character. This distribution should look similar for both datasets. Below we create a function <code class="docutils literal notranslate"><span class="pre">first_alpha_char</span></code> that returns the first character of a string. If none could be found, it returns a hashtag.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">first_alpha_char</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -542,6 +653,9 @@
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="plotting-distribution-of-first-title-character">
+<h2>Plotting distribution of first title character<a class="headerlink" href="#plotting-distribution-of-first-title-character" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">char_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">char_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
@@ -549,10 +663,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9762074210&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb9a0488f90&gt;
 </pre></div>
 </div>
-<img alt="_images/sample_inspector_ii_12_1.png" src="_images/sample_inspector_ii_12_1.png" />
+<img alt="_images/sample_inspector_ii_14_1.png" src="_images/sample_inspector_ii_14_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -562,13 +676,16 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f976202f610&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb997cb64d0&gt;
 </pre></div>
 </div>
-<img alt="_images/sample_inspector_ii_13_1.png" src="_images/sample_inspector_ii_13_1.png" />
+<img alt="_images/sample_inspector_ii_15_1.png" src="_images/sample_inspector_ii_15_1.png" />
 </div>
 </div>
 <p>Next, we apply the same procedure to the annotated sample. We’ll start by loading the annotated sample.</p>
+</div>
+<div class="section" id="comparing-to-the-annotated-data">
+<h2>Comparing to the annotated data<a class="headerlink" href="#comparing-to-the-annotated-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
@@ -584,7 +701,10 @@
   interactivity=interactivity, compiler=compiler, result=result)
 </pre></div>
 </div>
-<div class="output text_html"><div>
+<div class="output text_html">
+  <div id="df-a27beeb3-1ec1-49e4-90aa-a17ea9d3ba58">
+    <div class="colab-df-container">
+      <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -702,7 +822,83 @@
     </tr>
   </tbody>
 </table>
-</div></div></div>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-a27beeb3-1ec1-49e4-90aa-a17ea9d3ba58')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-a27beeb3-1ec1-49e4-90aa-a17ea9d3ba58 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-a27beeb3-1ec1-49e4-90aa-a17ea9d3ba58');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div></div>
 </div>
 <p>This dataset includes both annotated data and non-annotated data. Since we only want the annotated data, we can filter these out using the <code class="docutils literal notranslate"><span class="pre">annotated</span></code> column which contains a flag to indicate if the data has been annotated.</p>
 <div class="cell docutils container">
@@ -726,6 +922,16 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/ipykernel_launcher.py:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  &quot;&quot;&quot;Entry point for launching an IPython kernel.
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -739,6 +945,9 @@
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="plotting-a-comparison-between-the-annotated-subset-and-full-collection">
+<h2>Plotting a comparison between the annotated subset and full collection<a class="headerlink" href="#plotting-a-comparison-between-the-annotated-subset-and-full-collection" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">char_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">char_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
@@ -747,10 +956,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f975fa5ffd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb99572a3d0&gt;
 </pre></div>
 </div>
-<img alt="_images/sample_inspector_ii_22_1.png" src="_images/sample_inspector_ii_22_1.png" />
+<img alt="_images/sample_inspector_ii_26_1.png" src="_images/sample_inspector_ii_26_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -778,6 +987,9 @@
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="compare-distribution-of-publication-date">
+<h2>Compare distribution of publication date<a class="headerlink" href="#compare-distribution-of-publication-date" title="Permalink to this headline">¶</a></h2>
 <p>Lastly, we can compare the distribution over time to see if the sample is biased towards are certain period.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -802,10 +1014,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f975fa47990&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb995d465d0&gt;
 </pre></div>
 </div>
-<img alt="_images/sample_inspector_ii_28_1.png" src="_images/sample_inspector_ii_28_1.png" />
+<img alt="_images/sample_inspector_ii_33_1.png" src="_images/sample_inspector_ii_33_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -838,6 +1050,9 @@
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="comparing-publication-dates-across-the-annotated-and-full-collection">
+<h2>Comparing publication dates across the annotated and full collection<a class="headerlink" href="#comparing-publication-dates-across-the-annotated-and-full-collection" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">year_probs</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">year_probs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))[</span><span class="s2">&quot;1800&quot;</span><span class="p">:</span><span class="s2">&quot;1900&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
@@ -846,14 +1061,17 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f97678859d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb994dad710&gt;
 </pre></div>
 </div>
-<img alt="_images/sample_inspector_ii_32_1.png" src="_images/sample_inspector_ii_32_1.png" />
+<img alt="_images/sample_inspector_ii_38_1.png" src="_images/sample_inspector_ii_38_1.png" />
 </div>
 </div>
-<div class="section" id="fin">
-<h2>Fin.<a class="headerlink" href="#fin" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Whilst this wasn’t a super rigorous assessment of the potential differences and similarities between the collections, it does give us some sense of this.</p>
+<p>Because we are using our annotated data to train a model that we will then want to use on the whole collection (or at least a more significant part of the collection). We want to be careful about how both of these collections may differ. If there are substantial differences between the two, our model may perform well on our training data but badly on new data. This concept is something we’ll return to frequently in the remaining sections.</p>
 </div>
 </div>
 
