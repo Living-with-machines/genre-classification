@@ -12,7 +12,9 @@
 
 There is a growing interest in using Machine Learning to automatically produce metadata for GLAM (Galleries, Libraries, Archives and Museums) collections. This repository contains the source material for a Jupyter book that moves through the steps of developing a machine learning model to classify book titles into 'crude' genres (fiction or non-fiction). In particular, we work with the British Library's ["Microsoft Digitised Books"](https://www.bl.uk/collection-guides/digitised-printed-books) collection to automatically generate metadata for ~49,455 titles. 
 
-The [Jupyter Book](https://jupyterbook.org/) aims to give an overview of the broader pipeline involved in creating machine learning models, i.e. not just showing the model training process but steps before and after this. Topics covered in the material include: 
+The [Jupyter Book](https://jupyterbook.org/) aims to give an overview of the broader pipeline involved in creating machine learning models, i.e. not just showing the model training process but steps before and after this. 
+
+Topics covered include: 
 
 - exploring our training data against the entire corpus and assessing the 'representativeness' of our digitised collection
 - training an initial baseline model
@@ -35,3 +37,6 @@ As part of this work we also share:
 - the intial training data: https://doi.org/10.23636/BKHQ-0312 you can also find this in [🤗 datasets](https://huggingface.co/datasets/blbooksgenre)
 - the baseline model: https://zenodo.org/record/5245175 
 - the improved model: https://huggingface.co/BritishLibraryLabs/bl-books-genre 
+- two demos:
+  - one for the [v1 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier)
+  - one for the [v2 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier-v2)
