@@ -1,6 +1,6 @@
 # Overview of the Project: Classifying British Library Books By Genre
 
-Starting in 2005, the British Library (BL) worked in partnership with Microsoft to digitise a selection of out-of-copyright 18th and 19th century texts. This collection was subsequently made openly available in a number of formats, across a number of platforms. Throughout this document, the collection will be referred to as "{term}`Microsoft Digitised Books`".
+Starting in 2005, the British Library (BL) worked in partnership with Microsoft to digitise a selection of out-of-copyright 18th and 19th century texts. This collection was subsequently made openly available in a number of formats, across a number of platforms. Throughout this document, the collection will be referred to as "[Microsoft Digitised Books](https://www.bl.uk/collection-guides/digitised-printed-books)".
 
 The collection covers ~49,455 titles (~65,227 volumes) published between 1789 and 1914.
 
