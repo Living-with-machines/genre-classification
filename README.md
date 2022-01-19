@@ -40,3 +40,8 @@ As part of this work we also share:
 - two demos:
   - one for the [v1 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier)
   - one for the [v2 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier-v2)
+
+
+### Acknowledgment
+
+> This work was partially support by [Living with Machines](livingwithmachines.ac.uk/). This project, funded by the UK Research and Innovation (UKRI) Strategic Priority Fund, is a multidisciplinary collaboration delivered by the Arts and Humanities Research Council (AHRC), with The Alan Turing Institute, the British Library and the Universities of Cambridge, East Anglia, Exeter, and Queen Mary University of London.
