@@ -14,13 +14,13 @@ When we share the artefact of our work we mainly care about the first two compon
 
 ### Where to share?
 
-There are various options for *where* we can share our model with other people. The criteria for where to share your model will depend on a number of factors including the type of model you are sharing, the context in which it was developed and requirements your institutions (or funder) might have.
+There are various options for _where_ we can share our model with other people. The criteria for where to share your model will depend on a number of factors including the type of model you are sharing, the context in which it was developed and requirements your institutions (or funder) might have.
 
 For this work we used two (sort of three) places we share our data:
 
 - [Zenodo](https://zenodo.org/)
 - [British Library repository](https://bl.iro.bl.uk/)
-- [Hugging Face Hub](   https://huggingface.co/models)
+- [Hugging Face Hub](https://huggingface.co/models)
 
 The first of these two are research repositories, one 'generic' and one for British Library staff. These repositories are a common way of sharing research outputs including papers, code, and datasets. Whilst some repositories have a particular focus many will accept machine learning models. Some advantages these repositories can offer for sharing your model include:
 
@@ -35,7 +35,7 @@ takes us to the landing page for the model. We can also see that we have a file 
 
 ![Zenodo download link screenshot ](figs/zenodo_download.png)
 
-This is a good start on making it possible to access your model but there are other steps we may consider to make it easier for people to *use* your model.
+This is a good start on making it possible to access your model but there are other steps we may consider to make it easier for people to _use_ your model.
 
 #### 🤗 model hub
 
@@ -43,7 +43,7 @@ We have already touched on the 🤗 model hub in a previous [chapter](04b_transf
 
 ![Screen shot of zenodo usage instructions](figs/zendo_usage.png)
 
-Whilst this is a useful start it still requires some knowledge from the user about how to install the `fastai` library and set up an environment for running the code. If our goal with sharing our models, particularly to a broader audience of GLAM staff this isn't ideal. One other limitation with this approach is that people have no way of 'trying before the buy' i.e. playing around with the model to get an intuition  for how it works, and importantly, what limitations it has. For example, if someone was considering using or adapting this genre detection model, they might want to try testing it with their own book titles to see if it makes sensible predictions. We could address this in other ways as we'll discuss below in the section {ref}`content:references:demo-apps`.  However, being able to give people an easy way to *use* your model is where the 🤗 model hub shines.
+Whilst this is a useful start it still requires some knowledge from the user about how to install the `fastai` library and set up an environment for running the code. If our goal with sharing our models, particularly to a broader audience of GLAM staff this isn't ideal. One other limitation with this approach is that people have no way of 'trying before the buy' i.e. playing around with the model to get an intuition for how it works, and importantly, what limitations it has. For example, if someone was considering using or adapting this genre detection model, they might want to try testing it with their own book titles to see if it makes sensible predictions. We could address this in other ways as we'll discuss below in the section {ref}`content:references:demo-apps`. However, being able to give people an easy way to _use_ your model is where the 🤗 model hub shines.
 
 For a start, we can see that the huggingface model we created can now be tried directly in the hub:
 
@@ -85,7 +85,7 @@ We've discussed some of the necessary steps to sharing our model. However, if we
 
 This is a non-exhaustive list of things people may want to know. This information becomes even more important if our model is going to be used to make decisions or inform decisions that impact humans. In our particular case we are predicting the genre of 19th-Century books. This is maybe not as high stakes as a model approving or rejecting insurance claims but it may still have an impact on people depending on how the model is used. For example, if the model is used to help with discovery, books which are mislabelled might be less discoverable. If the mistakes are model are not random i.e. they are systematic in some way, this might mean some types of books be made less discoverable. For example, we have been concerned throughout this process with the impact of language on our model. If our model sucks at predicting non English book titles it is important people know this.
 
-This is what a model card aims to help address. The Model Cards for Model Reporting {cite:p}`mitchell2019` paper offers a framework for approaching this task. The paper gives some structure to addressing things people may want, and more likely *should* know, about our model. We have attempted to try and follow this structure in documenting our models. Whether we have done a good job is open to debate, however, we think that *attempting* to complete these model cards when sharing models.
+This is what a model card aims to help address. The Model Cards for Model Reporting {cite:p}`mitchell2019` paper offers a framework for approaching this task. The paper gives some structure to addressing things people may want, and more likely _should_ know, about our model. We have attempted to try and follow this structure in documenting our models. Whether we have done a good job is open to debate, however, we think that _attempting_ to complete these model cards when sharing models. You can read the model card for our model [here](https://huggingface.co/BritishLibraryLabs/bl-books-genre).
 
 ![Screenshot of a model card](figs/model_card.png)
 
@@ -103,9 +103,9 @@ This dataset can be found is available as [blbooksgenre](https://huggingface.co/
 
 ### Datasheets for datasets
 
-We've agonised about our data a fair bit in the development of this model. It seems sensible then that we should also share the data we used to train our model. Whilst our training data is a bit more directly interpretable in comparison to our model (which in some sense is a bunch of numbers), there are still many things that our data won't convey directly. For this reason it is important to also document our data. *Datasheets for Datasets* {cite:p}`gebru2020datasheets` provides a framework to help us do this documentation.
+We've agonised about our data a fair bit in the development of this model. It seems sensible then that we should also share the data we used to train our model. Whilst our training data is a bit more directly interpretable in comparison to our model (which in some sense is a bunch of numbers), there are still many things that our data won't convey directly. For this reason it is important to also document our data. _Datasheets for Datasets_ {cite:p}`gebru2020datasheets` provides a framework to help us do this documentation.
 
-Completing this datasheet isn't always easy, especially when the data you are working with has a complex provenance, as is often the case with GLAM collections. However, shifting from documenting individual items at the catalogue level, to documenting collections at scale will require different approaches and *Datasheets for Datasets* offers a useful starting point for tackling this challenge.
+Completing this datasheet isn't always easy, especially when the data you are working with has a complex provenance, as is often the case with GLAM collections. However, shifting from documenting individual items at the catalogue level, to documenting collections at scale will require different approaches and _Datasheets for Datasets_ offers a useful starting point for tackling this challenge.
 
 This video provides more background to the motivations and aims of datasheets.
 
@@ -114,13 +114,14 @@ This video provides more background to the motivations and aims of datasheets.
 
 #### GLAM specific considerations?
 
-We have shown some *possible* approaches to sharing our work. Most of this has been fairly generic i.e. we didn't focus a huge amount on anything GLAM specific. Many of the things we said about making things more accessible would be relevant to many domains which want to make use of machine learning i.e. a biologist wanting to use a machine learning model might have similar challenges to a librarian. However, there may be some things which are GLAM specific particularly around GLAM data.
+We have shown some _possible_ approaches to sharing our work. Most of this has been fairly generic i.e. we didn't focus a huge amount on anything GLAM specific. Many of the things we said about making things more accessible would be relevant to many domains which want to make use of machine learning i.e. a biologist wanting to use a machine learning model might have similar challenges to a librarian. However, there may be some things which are GLAM specific particularly around GLAM data.
 
 We don't offer much in the way of suggestions here. Model cards and datasheets both offer a very useful foundation. It probably makes sense to build on this work and go through the work of trying to document GLAM collections for use in machine learning. Working through this process will hopefully begin to reveal some common needs or extensions that might be required for GLAM data. i.e. there may need to be more background on selection biases for digitised collections, or an explanation of metadata standards which might be familiar to GLAM staff but not to people working in NLP.
 
 This is hopefully an area that will continue to develop as part of initiatives like [ai4lam](https://sites.google.com/view/ai4lam).
 
 (content:references:demo-apps)=
+
 ## Demo apps
 
 One other way in which we can make our models more useful for others is to create an application which allows people to use the model without having to go through a lot of steps to get the model setup. This might sound like a lot of work but there are a number of tools that make this easier to do. Two of these are [Gradio](https://www.gradio.app/) and [Streamlit](https://streamlit.io/).
@@ -129,6 +130,7 @@ We created a simple demo app for the fastai model we trained in an earlier secti
 
 ![Screenshot of the demo app](figs/fastai_gradio.png)
 
+We also created a [demo app](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier-v2) for our updated model.
 
 ### More to come...
 
