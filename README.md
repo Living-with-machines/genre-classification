@@ -40,7 +40,7 @@ As part of this work we also share:
 - two demos:
   - one for the [v1 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier)
   - one for the [v2 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier-v2)
-
+- [blog post](https://livingwithmachines.ac.uk/can-we-use-machine-learning-to-classify-whether-a-book-is-fiction-or-non-fiction-from-its-title/)
 
 ### Acknowledgment
 
