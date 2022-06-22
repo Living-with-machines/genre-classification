@@ -1,4 +1,4 @@
 jupyter-book==0.12.1
 matplotlib==3.5.2
-numpy==1.21.4
+numpy==1.22.0
 ghp-import==2.1.0
