@@ -35,7 +35,7 @@ While we aim to give an overview of the steps involved in training a machine lea
 As part of this work we also share:
 
 - the intial training data: https://doi.org/10.23636/BKHQ-0312 you can also find this in the [Hugging Face hub](https://huggingface.co/datasets/blbooksgenre)
-- the baseline model: https://zenodo.org/record/5245175 
+- the baseline model: On [Zenodo](https://zenodo.org/record/5245175) and on the [Hugging Face Hub](https://huggingface.co/BritishLibraryLabs/bl-books-genre-fastai)
 - the improved model: https://huggingface.co/BritishLibraryLabs/bl-books-genre 
 - two demos:
   - one for the [v1 model](https://huggingface.co/spaces/BritishLibraryLabs/British-Library-books-genre-classifier)
